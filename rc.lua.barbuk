@@ -46,9 +46,9 @@ end
 -- {{{ Variable definitions
 
 -- beautiful init
-beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/barbuk/theme.lua")
+beautiful.init(awful.util.getdir("config") .. "/themes/barbuk/theme.lua")
 
-scriptdir = awful.util.getdir("config") .. "/scripts/"
+scriptdir = os.getenv("HOME") .. "/.dotfiles/scripts/"
 
 -- common
 modkey     = "Mod4"
