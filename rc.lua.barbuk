@@ -589,12 +589,10 @@ root.keys(globalkeys)
 awful.rules.rules = {
     -- All clients will match this rule.
     { rule = { },
-      properties = { border_width = beautiful.border_width,
-                     border_color = beautiful.border_normal,
-                     focus = awful.client.focus.filter,
+      properties = { focus = awful.client.focus.filter,
                      keys = clientkeys,
                      buttons = clientbuttons,
-	                   size_hints_honor = false } },
+	                 size_hints_honor = false } },
     { rule = { class = "MPlayer" }, properties = { floating = true } },
     { rule = { instance = "plugin-container" }, properties = { tag = tags[1][1], floating = true, focus = yes } },
     { rule = { class = "Pidgin" }, properties = { tag = tags[1][1] } },
@@ -682,6 +680,7 @@ end)
 client.connect_signal("focus",
     function(c)
         if c.maximized_horizontal == true and c.maximized_vertical == true then
+            c.border_color = beautiful.border_normal
             c.border_width = 0
         elseif #awful.client.visible(mouse.screen) > 1 then
             c.border_width = beautiful.border_width
@@ -700,6 +699,10 @@ for s = 1, screen.count() do screen[s]:connect_signal("arrange",
         if #clients > 0 then
             for _, c in pairs(clients) do -- Floaters always have borders
                 if awful.client.floating.get(c) or layout == "floating" then
+                    c.border_width = beautiful.border_width
+                elseif #clients == 1 or layout == "max" then -- No borders with only one visible client
+                    c.border_width = 0
+                else
                     c.border_width = beautiful.border_width
                 end
             end
