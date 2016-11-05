@@ -9,7 +9,7 @@
 theme                               = {}
 
 theme.dir                           = os.getenv("HOME") .. "/.config/awesome/themes/barbuk"
-theme.wallpaper                     = theme.dir .. "/../barbuk/wall.jpg"
+theme.wallpaper                     = theme.dir .. "/../barbuk/archlinux.png"
 
 theme.font                          = "PragmataPro 7"
 theme.fg_normal                     = "#CACACA"
