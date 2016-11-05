@@ -12,17 +12,17 @@ theme.dir                           = os.getenv("HOME") .. "/.config/awesome/the
 theme.wallpaper                     = theme.dir .. "/../barbuk/wall.jpg"
 
 theme.font                          = "PragmataPro 7"
-theme.fg_normal                     = "#9E9E9E"
+theme.fg_normal                     = "#CACACA"
 theme.fg_focus                      = "#EBEBFF"
-theme.bg_normal                     = "#242424"
-theme.bg_focus                      = "#242424"
+theme.bg_normal                     = "#8955A2"
+theme.bg_focus                      = "#8955A2"
 theme.fg_urgent                     = "#000000"
 theme.bg_urgent                     = "#A37AB7"
 theme.border_width                  = 1
-theme.border_normal                 = "#242424"
+theme.border_normal                 = "#8955A2"
 theme.border_focus                  = "#A37AB7"
 theme.taglist_fg_focus              = "#EDEFFF"
-theme.taglist_bg_focus              = "#242424"
+theme.taglist_bg_focus              = "#8955A2"
 theme.menu_height                   = "16"
 theme.menu_width                    = "150"
 

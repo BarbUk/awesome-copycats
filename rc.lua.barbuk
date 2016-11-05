@@ -156,7 +156,7 @@ batwidget = lain.widgets.bat({
     settings = function()
         bat_header = " Bat "
         bat_p      = bat_now.perc .. " "
-        widget:set_markup(markup(gray, bat_header) .. bat_p)
+        widget:set_markup(markup(gray, bat_header) .. markup(white,bat_p))
     end
 })
 
@@ -166,7 +166,7 @@ myweather = lain.widgets.weather({
     settings = function()
         descr = weather_now["weather"][1]["description"]:lower()
         units = math.floor(weather_now["main"]["temp"])
-        widget:set_markup(markup("#eca4c4", " " .. descr .. " @ " .. units .. "°C "))
+        widget:set_markup(markup("#eca4c4", " " .. descr .. " @ " .. units .. "°C"))
     end
 })
 
@@ -180,15 +180,15 @@ netupinfo = lain.widgets.net({
             myweather.update()
         end
 
-        widget:set_markup(markup("#eAC82E", net_now.sent .. " "))
-        netdowninfo:set_markup(markup("#87af5f", net_now.received .. " "))
+        widget:set_markup(markup("#F4E59F", net_now.sent .. " "))
+        netdowninfo:set_markup(markup("#B3E383", net_now.received .. " "))
     end
 })
 
 -- CPU
 cpuwidget = lain.widgets.sysload({
     settings = function()
-        widget:set_markup(markup("#A17382", "load " .. load_1 .. " " .. load_5))
+        widget:set_markup(markup("#E5CBCB", "load " .. load_1 .. " " .. load_5))
     end
 })
 
