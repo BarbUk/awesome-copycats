@@ -34,7 +34,7 @@ Notable features
 - PNG wibox bar
 - Custom layouts
 - No borders when there's only one visible client
-- Menubar menu
+- Freedesktop.org compliant menu and desktop icons
 - Vi-like client focus
 - Non-empty tag browsing
 - Dynamic client borders (colors change along with processes status)
@@ -106,11 +106,15 @@ Only compatible with **stable** versions of Lua and Awesome (git/unstable versio
 
 Complements are provided by lain_: be sure to meet its dependencies_.
 
-Fonts are Terminus_ (Multicolor, Powerarrow Darker) and Tamsyn_ (other ones).
+Fonts are Terminus_ (Multicolor, Powerarrow Darker), Tamzen_ (Copland) and Tamsyn_ (other ones).
 
 Every theme has a colorscheme_.
 
 Blackburn and Dremora use Icons_: be sure to have bitmaps enabled if running under Debian_ or Ubuntu_.
+
+Default additional software used: ::
+
+    unclutter firefox scrot mpd mpc dmenu xsel
 
 .. _BY-NC-SA: http://creativecommons.org/licenses/by-nc-sa/4.0/
 .. _Awesome: http://github.com/awesomeWM/awesome
@@ -125,6 +129,7 @@ Blackburn and Dremora use Icons_: be sure to have bitmaps enabled if running und
 .. _lain: https://github.com/copycat-killer/lain
 .. _dependencies: https://github.com/copycat-killer/lain/wiki
 .. _Terminus: http://terminus-font.sourceforge.net/
+.. _Tamzen: https://github.com/sunaku/tamzen-font 
 .. _Tamsyn: http://www.fial.com/~scott/tamsyn-font/
 .. _colorscheme: https://github.com/copycat-killer/dots/tree/master/.colors
 .. _Icons: https://github.com/copycat-killer/dots/tree/master/.fonts
