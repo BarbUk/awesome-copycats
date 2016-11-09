@@ -96,11 +96,6 @@ if beautiful.wallpaper then
 end
 -- }}}
 
--- {{{ Menu
-mymainmenu = awful.menu.new({ items = require("menugen").build_menu(),
-                              theme = { height = 16, width = 130 }})
--- }}}
-
 -- {{{ Wibox
 markup = lain.util.markup
 white  = beautiful.fg_focus
@@ -313,7 +308,6 @@ end
 
 -- {{{ Mouse bindings
 root.buttons(awful.util.table.join(
-    awful.button({ }, 3, function () mymainmenu:toggle() end),
     awful.button({ }, 4, awful.tag.viewnext),
     awful.button({ }, 5, awful.tag.viewprev)
 ))
@@ -345,7 +339,6 @@ globalkeys = awful.util.table.join(
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
-
     -- By direction client focus
     awful.key({ modkey }, "j",
         function()
@@ -366,12 +359,6 @@ globalkeys = awful.util.table.join(
         function()
             awful.client.focus.bydirection("right")
             if client.focus then client.focus:raise() end
-        end),
-
-    -- Show Menu
-    awful.key({ modkey }, "w",
-        function ()
-            mymainmenu:show({ keygrabber = true })
         end),
 
     -- Show/Hide Wibox
@@ -591,6 +578,7 @@ awful.rules.rules = {
       properties = { focus = awful.client.focus.filter,
                      keys = clientkeys,
                      buttons = clientbuttons,
+                     raise = true,
 	                 size_hints_honor = false } },
     { rule = { class = "MPlayer" }, properties = { floating = true } },
     { rule = { class = "Kupfer.py" }, properties = { border_width = 0 } },
