@@ -497,7 +497,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "s", function () awful.util.spawn(gui_editor) end),
     awful.key({ modkey }, "g", function () awful.util.spawn(graphics) end),
     awful.key({ modkey }, "t",      function () awful.util.spawn( browser .. " --profile-directory=Default https://mail.google.com/mail/mu/mp/540/?mui=ca#tl/R%C3%A9ception", false ) end),
-    awful.key({ modkey }, "y",      function () awful.util.spawn( browser .. " --profile-directory='Profile 3'", false ) end),
+    awful.key({ modkey }, "y",      function () awful.util.spawn( browser .. " --profile-directory='Profile 3' https://mail.google.com/mail/u/0/#inbox https://mail.google.com/mail/u/1/#inbox", false ) end),
     awful.key({ modkey }, "d",      function () awful.util.spawn( "pcmanfm", false ) end),
     awful.key({ modkey }, "0",         function () awful.util.spawn( "/usr/bin/qrcodize", false ) end)
 )
