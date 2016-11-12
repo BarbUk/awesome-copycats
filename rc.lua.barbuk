@@ -9,6 +9,9 @@ local naughty   = require("naughty")
 local lain      = require("lain")
 -- }}}
 
+naughty.config.defaults.font        = "PragmataPro 16"
+naughty.config.defaults.icon_size   = 150
+
 -- {{{ Error handling
 if awesome.startup_errors then
     naughty.notify({ preset = naughty.config.presets.critical,
@@ -317,7 +320,7 @@ root.buttons(awful.util.table.join(
 globalkeys = awful.util.table.join(
     -- Take a screenshot
     -- https://github.com/copycat-killer/dots/blob/master/bin/screenshot
-    awful.key({ }, "Print", function () awful.util.spawn("maim -s ~/$(date +%F-%T).png") end),
+    awful.key({ }, "Print", function () os.execute("maim -s ~/screenshots/$(date +%F-%T).png") end),
 
     -- Tag browsing
     awful.key({ modkey }, "Left",   awful.tag.viewprev       ),
