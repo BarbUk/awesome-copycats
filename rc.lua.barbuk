@@ -106,7 +106,7 @@ gray   = beautiful.fg_normal
 
 -- Textclock
 mytextclock = awful.widget.textclock(markup.font("Tamsyn 3", " ") ..
-                                     markup(white, " %H:%M "))
+                                     markup(white, "%H:%M "))
 
 -- Calendar
 lain.widgets.calendar:attach(mytextclock, { fg = beautiful.fg_focus })
@@ -150,13 +150,40 @@ fshome = lain.widgets.fs({
 })
 
 -- Battery
-batwidget = lain.widgets.bat({
+baticon = wibox.widget.imagebox(beautiful.bat)
+batwidget = lain.widgets.contrib.tpbat({
     settings = function()
-        bat_header = " Bat "
-        bat_p      = bat_now.perc .. " "
+        bat_header = ""
+        bat_p      = bat_now.perc
         widget:set_markup(markup(gray, bat_header) .. markup(white,bat_p))
     end
 })
+
+volicon = wibox.widget.imagebox(beautiful.vol)
+volume = lain.widgets.pulsebar({width = 62, ticks = true, ticks_size = 4, step = "2%",
+settings = function()
+    if volume_now.muted == "yes" then
+        volicon:set_image(beautiful.vol_mute)
+    elseif volume_now.right == 0 then
+        volicon:set_image(beautiful.vol_no)
+    elseif volume_now.right <= 50 then
+        volicon:set_image(beautiful.vol_low)
+    else
+        volicon:set_image(beautiful.vol)
+    end
+end,
+colors =
+{
+    background = beautiful.bg_normal,
+    mute = red,
+    unmute = beautiful.fg_normal
+}})
+volmargin = wibox.layout.margin(volume.bar, 3, 3)
+volmargin:set_top(4)
+volmargin:set_bottom(4)
+volumewidget = wibox.widget.background(volmargin)
+volumewidget:set_bgimage(beautiful.vol_bg)
+
 
 -- Weather
 myweather = lain.widgets.weather({
@@ -295,7 +322,10 @@ for s = 1, screen.count() do
     right_layout:add(netupinfo)
     right_layout:add(cpuwidget)
     right_layout:add(fshome)
+    right_layout:add(baticon)
     right_layout:add(batwidget)
+    right_layout:add(volicon)
+    right_layout:add(volumewidget)
     right_layout:add(myweather)
     right_layout:add(mytextclock)
 
@@ -435,21 +465,33 @@ globalkeys = awful.util.table.join(
 -- Volume control
     awful.key({ }, "XF86AudioRaiseVolume", function ()
         awful.util.spawn("pamixer --increase 5 --allow-boost", false )
+        os.execute("sleep " .. tonumber(0.1))
+        volume.update()
     end),
     awful.key({ }, "XF86AudioLowerVolume", function ()
         awful.util.spawn("pamixer --decrease 5", false )
+        os.execute("sleep " .. tonumber(0.1))
+        volume.update()
     end),
     awful.key({ modkey }, "Prior", function ()
         awful.util.spawn("pamixer --increase 5 --allow-boost", false )
+        os.execute("sleep " .. tonumber(0.1))
+        volume.update()
     end),
     awful.key({ modkey }, "Next", function ()
         awful.util.spawn("pamixer --decrease 5", false )
+        os.execute("sleep " .. tonumber(0.1))
+        volume.update()
     end),
     awful.key({ }, "XF86AudioMute", function ()
         awful.util.spawn("pamixer --toggle-mute", false )
+        os.execute("sleep " .. tonumber(0.1))
+        volume.update()
     end),
     awful.key({ modkey }, "Pause", function ()
         awful.util.spawn("pamixer --toggle-mute", false )
+        os.execute("sleep " .. tonumber(0.1))
+        volume.update()
     end),
     awful.key({ }, "XF86Launch1", function ()
         os.execute(scriptdir .. "change_theme")
@@ -578,7 +620,9 @@ root.keys(globalkeys)
 awful.rules.rules = {
     -- All clients will match this rule.
     { rule = { },
-      properties = { focus = awful.client.focus.filter,
+      properties = { border_width = beautiful.border_width,
+                     border_color = beautiful.border_normal,
+                     focus = awful.client.focus.filter,
                      keys = clientkeys,
                      buttons = clientbuttons,
                      raise = true,
