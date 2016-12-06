@@ -109,7 +109,7 @@ mytextclock = awful.widget.textclock(markup.font("Tamsyn 3", " ") ..
                                      markup(white, "%H:%M "))
 
 -- Calendar
-lain.widgets.calendar:attach(mytextclock, { fg = beautiful.fg_focus })
+lain.widgets.calendar.attach(mytextclock, { fg = beautiful.fg_focus })
 
 -- MPD
 mpdwidget = lain.widgets.mpd({
@@ -457,7 +457,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "q",      awesome.quit),
 
     -- Widgets popups
-    awful.key({ altkey,           }, "c",      function () lain.widgets.calendar:show(7) end),
+    awful.key({ altkey,           }, "c",      function () lain.widgets.calendar.show(7) end),
     awful.key({ altkey,           }, "h",      function () fshome.show(7) end),
     awful.key({ altkey,           }, "w",      function () myweather.show(7) end),
 
