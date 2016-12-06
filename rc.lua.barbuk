@@ -628,7 +628,7 @@ awful.rules.rules = {
                      raise = true,
 	                 size_hints_honor = false } },
     { rule = { class = "MPlayer" }, properties = { floating = true } },
-    { rule = { class = "Kupfer.py" }, properties = { border_width = 0 } },
+    { rule = { name = "Kupfer" }, properties = { floating = true,border_width = 0 } },
     { rule = { instance = "plugin-container" }, properties = { tag = tags[1][1], floating = true, focus = yes } },
     { rule = { class = "Pidgin" }, properties = { tag = tags[1][1] } },
     { rule = { class = "Chromium" }, properties = { tag = tags[1][4] } },
@@ -655,6 +655,9 @@ awful.rules.rules = {
     { rule = { class = "Gimp", role = "gimp-image-window" },
           properties = { maximized_horizontal = true,
                          maximized_vertical = true } },
+    { rule = { class = "Wine" }, properties = { border_width = 0, floating = true } },
+    { rule = { class = "copyq" }, properties = { border_width = 0, floating = true } },
+
 }
 -- }}}
 
