@@ -453,6 +453,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "m",      function () os.execute("termite --class='center' --geometry='700x400' --exec=ncmpcpp &") end),
 
 
+
+
     awful.key({ modkey, "Control" }, "r",      awesome.restart),
     awful.key({ modkey, "Shift"   }, "q",      awesome.quit),
 
@@ -535,6 +537,7 @@ globalkeys = awful.util.table.join(
 
     -- Copy to clipboard
     awful.key({ modkey }, "c", function () os.execute("xsel -p -o | xsel -i -b") end),
+    awful.key({ modkey }, "v", function () awful.util.spawn_with_shell("xdotool sleep 0.1 key --clearmodifiers ctrl+shift+v") end),
 
     -- User programs
     awful.key({ modkey }, "q", function () awful.util.spawn(browser) end),
@@ -628,7 +631,7 @@ awful.rules.rules = {
                      raise = true,
 	                 size_hints_honor = false } },
     { rule = { class = "MPlayer" }, properties = { floating = true } },
-    { rule = { name = "Kupfer" }, properties = { floating = true,border_width = 0 } },
+    { rule = { name = "Kupfer" }, properties = { floating = true, border_width = 0, focus = yes } },
     { rule = { instance = "plugin-container" }, properties = { tag = tags[1][1], floating = true, focus = yes } },
     { rule = { class = "Pidgin" }, properties = { tag = tags[1][1] } },
     { rule = { class = "Chromium" }, properties = { tag = tags[1][4] } },
@@ -652,11 +655,9 @@ awful.rules.rules = {
     { rule = { class = "HipChat" }, properties = { tag = tags[1][1] } },
     { rule = { class = "Slack" }, properties = { tag = tags[1][1] } },
     { rule = { instance = "crx_knipolnnllmklapflnccelgolnpehhpl" }, properties = { tag = tags[1][1] } },
-    { rule = { class = "Gimp", role = "gimp-image-window" },
-          properties = { maximized_horizontal = true,
-                         maximized_vertical = true } },
+    { rule = { class = "Gimp", role = "gimp-image-window" }, properties = { maximized_horizontal = true, maximized_vertical = true } },
     { rule = { class = "Wine" }, properties = { border_width = 0, floating = true } },
-    { rule = { class = "copyq" }, properties = { border_width = 0, floating = true } },
+    { rule = { class = "copyq" }, properties = { border_width = 0, floating = true, focus = yes } },
 
 }
 -- }}}
