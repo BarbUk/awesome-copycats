@@ -466,32 +466,32 @@ globalkeys = awful.util.table.join(
 
 -- Volume control
     awful.key({ }, "XF86AudioRaiseVolume", function ()
-        awful.util.spawn("pamixer --increase 5 --allow-boost", false )
+        os.execute("pamixer --increase 5 --allow-boost --sink $(pacmd list-sinks | grep -B4 RUNNING | grep index | awk '{print $2}')", false )
         os.execute("sleep " .. tonumber(0.1))
         volume.update()
     end),
     awful.key({ }, "XF86AudioLowerVolume", function ()
-        awful.util.spawn("pamixer --decrease 5", false )
+        os.execute("pamixer --decrease 5 --sink $(pacmd list-sinks | grep -B4 RUNNING | grep index | awk '{print $2}')", false )
         os.execute("sleep " .. tonumber(0.1))
         volume.update()
     end),
     awful.key({ modkey }, "Prior", function ()
-        awful.util.spawn("pamixer --increase 5 --allow-boost", false )
+        os.execute("pamixer --increase 5 --allow-boost --sink $(pacmd list-sinks | grep -B4 RUNNING | grep index | awk '{print $2}')", false )
         os.execute("sleep " .. tonumber(0.1))
         volume.update()
     end),
     awful.key({ modkey }, "Next", function ()
-        awful.util.spawn("pamixer --decrease 5", false )
+        os.execute("pamixer --decrease 5 --sink $(pacmd list-sinks | grep -B4 RUNNING | grep index | awk '{print $2}')", false )
         os.execute("sleep " .. tonumber(0.1))
         volume.update()
     end),
     awful.key({ }, "XF86AudioMute", function ()
-        awful.util.spawn("pamixer --toggle-mute", false )
+        os.execute("pamixer --toggle-mute --sink $(pacmd list-sinks | grep -B4 RUNNING | grep index | awk '{print $2}')", false )
         os.execute("sleep " .. tonumber(0.1))
         volume.update()
     end),
     awful.key({ modkey }, "Pause", function ()
-        awful.util.spawn("pamixer --toggle-mute", false )
+        os.execute("pamixer --toggle-mute --sink $(pacmd list-sinks | grep -B4 RUNNING | grep index | awk '{print $2}')", false )
         os.execute("sleep " .. tonumber(0.1))
         volume.update()
     end),
