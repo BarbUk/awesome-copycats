@@ -526,10 +526,10 @@ globalkeys = awful.util.table.join(
     end),
 
     awful.key({ }, "XF86MonBrightnessUp", function ()
-        awful.util.spawn("light -A 10", false )
+        awful.util.spawn("light -A 5", false )
     end),
     awful.key({ }, "XF86MonBrightnessDown", function ()
-        awful.util.spawn("light -U 10", false )
+        awful.util.spawn("light -U 5", false )
     end),
     awful.key({ }, "XF86ScreenSaver", function ()
         awful.util.spawn("slock", false )
