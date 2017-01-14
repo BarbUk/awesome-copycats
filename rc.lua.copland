@@ -1,9 +1,9 @@
 
 --[[
-                               
-     Copland Awesome WM config 
-     github.com/copycat-killer 
-                               
+                                   
+     Copland Awesome WM config 2.0 
+     github.com/copycat-killer     
+                                   
 --]]
 
 -- {{{ Required libraries
@@ -17,6 +17,7 @@ local lain          = require("lain")
 local eminent       = require("eminent")
 local shape         = require("gears.shape")
 --local menubar       = require("menubar")
+local freedesktop   = require("freedesktop")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 -- }}}
 
@@ -56,7 +57,6 @@ run_once("unclutter -root")
 -- }}}
 
 -- {{{ Variable definitions
-
 -- beautiful init
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/copland/theme.lua")
 
@@ -76,12 +76,6 @@ lain.layout.termfair.nmaster   = 3
 lain.layout.termfair.ncol      = 1
 lain.layout.centerfair.nmaster = 3
 lain.layout.centerfair.ncol    = 1
-
--- quake terminal
-local quakeconsole = {}
-for s in screen do
-   quakeconsole[s] = lain.util.quake({ app = terminal, width = 0.999, horiz = "left" })
-end
 -- }}}
 
 -- {{{ Helper functions
@@ -107,11 +101,14 @@ myawesomemenu = {
     { "restart", awesome.restart },
     { "quit", function() awesome.quit() end }
 }
-mymainmenu = awful.menu({
-    items = {
-        { "awesome", myawesomemenu, beautiful.awesome_icon },
-        { "applications", require("freedesktop").menu.build() },
-        { "open terminal", terminal },
+mymainmenu = freedesktop.menu.build({
+    before = {
+        { "Awesome", myawesomemenu, beautiful.awesome_icon },
+        -- other triads can be put here
+    },
+    after = {
+        { "Open terminal", terminal },
+        -- other triads can be put here
     }
 })
 --menubar.utils.terminal = terminal -- Set the Menubar terminal for applications that require it
@@ -124,6 +121,7 @@ red    = "#EB8F8F"
 green  = "#8FEB8F"
 
 -- Textclock
+--os.setlocale(os.getenv("LANG")) -- to localize the clock
 mytextclock = awful.widget.textclock("<span font='Tamsyn 5'> </span>%H:%M ")
 
 -- Calendar
@@ -221,7 +219,7 @@ batupd = lain.widgets.bat({
     end
 })
 batbg = wibox.container.background(batbar, "#474747", shape.rectangle)
-batwidget = wibox.container.margin(batbg, 2, 7, 4, 4) 
+batwidget = wibox.container.margin(batbg, 2, 7, 4, 4)
 
 -- /home fs
 fsicon = wibox.widget.imagebox(beautiful.disk)
@@ -238,6 +236,7 @@ fsbar = wibox.widget {
 }
 fshome = lain.widgets.fs({
     partition = "/home",
+    options = "--exclude-type=tmpfs",
     settings  = function()
         if fs_now.used < 90 then
             fsbar:set_color(beautiful.fg_normal)
@@ -248,7 +247,7 @@ fshome = lain.widgets.fs({
     end
 })
 fsbg = wibox.container.background(fsbar, "#474747", shape.rectangle)
-fswidget = wibox.container.margin(fsbg, 2, 7, 4, 4) 
+fswidget = wibox.container.margin(fsbg, 2, 7, 4, 4)
 
 -- ALSA volume bar
 volicon = wibox.widget.imagebox(beautiful.vol)
@@ -284,6 +283,7 @@ myweather = lain.widgets.weather({
 spr = wibox.widget.textbox(' ')
 small_spr = wibox.widget.textbox('<span font="Tamsyn 4"> </span>')
 bar_spr = wibox.widget.textbox('<span font="Tamsyn 3"> </span>' .. markup("#333333", "|") .. '<span font="Tamsyn 3"> </span>')
+
 -- Create a wibox for each screen and add it
 local taglist_buttons = awful.util.table.join(
                     awful.button({ }, 1, function(t) t:view_only() end),
@@ -343,6 +343,9 @@ end
 screen.connect_signal("property::geometry", set_wallpaper)
 
 awful.screen.connect_for_each_screen(function(s)
+    -- Quake application
+    s.quake = lain.util.quake({ app = terminal })
+
     -- Wallpaper
     set_wallpaper(s)
 
@@ -350,12 +353,8 @@ awful.screen.connect_for_each_screen(function(s)
         awful.layout.suit.floating,
         awful.layout.suit.fair,
         awful.layout.suit.tile,
-        lain.layout.uselessfair.horizontal,
-        lain.layout.uselesstile,
-        lain.layout.uselessfair,
         lain.layout.termfair,
-        lain.layout.centerfair,
-        lain.layout.uselesspiral.dwindle
+        lain.layout.centerfair
     })
 
     -- Create a promptbox for each screen
@@ -508,6 +507,10 @@ globalkeys = awful.util.table.join(
         end
     end),
 
+    -- On the fly useless gaps change
+    awful.key({ altkey, "Control" }, "+", function () lain.util.useless_gaps_resize(1) end),
+    awful.key({ altkey, "Control" }, "-", function () lain.util.useless_gaps_resize(-1) end),
+
     -- Rename tag
     awful.key({ altkey, "Shift"   }, "r", function () lain.util.rename_tag() end),
 
@@ -519,9 +522,9 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
               {description = "quit awesome", group = "awesome"}),
 
-    awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
+    awful.key({ altkey, "Shift"   }, "l",     function () awful.tag.incmwfact( 0.05)          end,
               {description = "increase master width factor", group = "layout"}),
-    awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)          end,
+    awful.key({ altkey, "Shift"   }, "h",     function () awful.tag.incmwfact(-0.05)          end,
               {description = "decrease master width factor", group = "layout"}),
     awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1, nil, true) end,
               {description = "increase the number of master clients", group = "layout"}),
@@ -547,13 +550,13 @@ globalkeys = awful.util.table.join(
               end,
               {description = "restore minimized", group = "client"}),
 
-    -- Dropdown terminal
-    awful.key({ modkey,	          }, "z",      function () quakeconsole[mouse.screen]:toggle() end),
+    -- Dropdown application
+    awful.key({ modkey, }, "z", function () awful.screen.focused().quake:toggle() end),
 
     -- Widgets popups
-    awful.key({ altkey,           }, "c",      function () lain.widgets.calendar.show(7) end),
-    awful.key({ altkey,           }, "h",      function () fshome.show(7, "--exclude-type=tmpfs") end),
-    awful.key({ altkey,           }, "w",      function () myweather.show(7) end),
+    awful.key({ altkey, }, "c", function () lain.widgets.calendar.show(7) end),
+    awful.key({ altkey, }, "h", function () fshome.show(7) end),
+    awful.key({ altkey, }, "w", function () myweather.show(7) end),
 
     -- ALSA volume control
     awful.key({ altkey }, "Up",
@@ -610,28 +613,33 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "c", function () os.execute("xsel | xsel -b") end),
 
     -- User programs
-    awful.key({ modkey }, "q", function () awful.util.spawn(browser) end),
-    awful.key({ modkey }, "e", function () awful.util.spawn(gui_editor) end),
-    awful.key({ modkey }, "g", function () awful.util.spawn(graphics) end),
+    awful.key({ modkey }, "q", function () awful.spawn(browser) end),
+    awful.key({ modkey }, "e", function () awful.spawn(gui_editor) end),
+    awful.key({ modkey }, "g", function () awful.spawn(graphics) end),
 
     --[[ Default
     -- Prompt
-    awful.key({ modkey }, "r", function () mypromptbox[mouse.screen]:run() end),
+    awful.key({ modkey }, "r", function () awful.screen.focused().mypromptbox:run() end,
+              {description = "run prompt", group = "launcher"}),
 
     awful.key({ modkey }, "x",
               function ()
-                  awful.prompt.run({ prompt = "Run Lua code: " },
-                  mypromptbox[mouse.screen].widget,
-                  awful.util.eval, nil,
-                  awful.util.getdir("cache") .. "/history_eval")
-              end),
+                  awful.prompt.run {
+                    prompt       = "Run Lua code: ",
+                    textbox      = awful.screen.focused().mypromptbox.widget,
+                    exe_callback = awful.util.eval,
+                    history_path = awful.util.get_cache_dir() .. "/history_eval"
+                  }
+              end,
+              {description = "lua execute prompt", group = "awesome"}),
     -- Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end)
+    awful.key({ modkey }, "p", function() menubar.show() end,
+              {description = "show the menubar", group = "launcher"})
     --]]
 
     -- dmenu
     awful.key({ modkey }, "x", function ()
-        awful.util.spawn(string.format("dmenu_run -i -fn 'Tamsyn' -nb '%s' -nf '%s' -sb '%s' -sf '%s'",
+        awful.spawn(string.format("dmenu_run -i -fn 'Tamsyn' -nb '%s' -nf '%s' -sb '%s' -sf '%s'",
         beautiful.bg_normal, beautiful.fg_normal, beautiful.bg_focus, beautiful.fg_focus))
 		end)
 )
@@ -837,6 +845,5 @@ client.connect_signal("focus",
             c.border_color = beautiful.border_focus
         end
     end)
-client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}

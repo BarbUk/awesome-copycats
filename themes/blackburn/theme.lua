@@ -29,7 +29,7 @@ theme.taglist_bg_focus              = "#060606"
 theme.tasklist_fg_focus             = "#F6784F"
 theme.tasklist_bg_focus             = "#060606"
 theme.menu_height                   = 16
-theme.menu_width                    = 140
+theme.menu_width                    = 130
 
 theme.menu_submenu_icon             = theme.dir .. "/icons/submenu.png"
 theme.taglist_squares_sel           = theme.dir .. "/icons/square_sel.png"
@@ -50,7 +50,8 @@ theme.layout_fullscreen             = theme.dir .. "/icons/fullscreen.png"
 theme.layout_magnifier              = theme.dir .. "/icons/magnifier.png"
 theme.layout_floating               = theme.dir .. "/icons/floating.png"
 
+theme.tasklist_plain_task_name      = true
 theme.tasklist_disable_icon         = true
-theme.useless_gap                   = 8
+theme.useless_gap                   = 0
 
 return theme

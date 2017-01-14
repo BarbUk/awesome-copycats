@@ -7,7 +7,7 @@
 --]]
 
 
-theme                               = {}
+local theme                         = {}
 
 theme.confdir                       = os.getenv("HOME") .. "/.config/awesome/themes/multicolor"
 theme.wallpaper                     = theme.confdir .. "/wall.png"
@@ -23,21 +23,12 @@ theme.fg_normal                     = "#aaaaaa"
 theme.fg_focus                      = "#ff8c00"
 theme.fg_urgent                     = "#af1d18"
 theme.fg_minimize                   = "#ffffff"
-theme.fg_black                      = "#424242"
-theme.fg_red                        = "#ce5666"
-theme.fg_green                      = "#80a673"
-theme.fg_yellow                     = "#ffaf5f"
-theme.fg_blue                       = "#7788af"
-theme.fg_magenta                    = "#94738c"
-theme.fg_cyan                       = "#778baf"
-theme.fg_white                      = "#aaaaaa"
-theme.fg_blu                        = "#8ebdde"
 theme.border_width                  = "1"
 theme.border_normal                 = "#1c2022"
 theme.border_focus                  = "#606060"
 theme.border_marked                 = "#3ca4d8"
-theme.menu_width                    = "110"
-theme.menu_border_width             = "0"
+theme.menu_border_width             = 0
+theme.menu_width                    = 130
 theme.menu_fg_normal                = "#aaaaaa"
 theme.menu_fg_focus                 = "#ff8c00"
 theme.menu_bg_normal                = "#050505dd"
@@ -63,10 +54,8 @@ theme.widget_vol                    = theme.confdir .. "/icons/spkr.png"
 theme.taglist_squares_sel           = theme.confdir .. "/icons/square_a.png"
 theme.taglist_squares_unsel         = theme.confdir .. "/icons/square_b.png"
 
+theme.tasklist_plain_task_name      = true
 theme.tasklist_disable_icon         = true
-theme.tasklist_floating             = ""
-theme.tasklist_maximized_horizontal = ""
-theme.tasklist_maximized_vertical   = ""
 
 theme.layout_tile                   = theme.confdir .. "/icons/tile.png"
 theme.layout_tilegaps               = theme.confdir .. "/icons/tilegaps.png"
@@ -82,5 +71,6 @@ theme.layout_fullscreen             = theme.confdir .. "/icons/fullscreen.png"
 theme.layout_magnifier              = theme.confdir .. "/icons/magnifier.png"
 theme.layout_floating               = theme.confdir .. "/icons/floating.png"
 
+theme.useless_gap                   = 0
 
 return theme
