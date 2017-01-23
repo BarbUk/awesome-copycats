@@ -61,21 +61,42 @@ run_once("unclutter -root")
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/copland/theme.lua")
 
 -- common
-modkey     = "Mod4"
-altkey     = "Mod1"
-terminal   = "urxvtc" or "xterm"
-editor     = os.getenv("EDITOR") or "nano" or "vi"
+local modkey     = "Mod4"
+local altkey     = "Mod1"
+local terminal   = "urxvtc" or "xterm"
+local editor     = os.getenv("EDITOR") or "nano" or "vi"
 
 -- user defined
-browser    = "firefox"
-gui_editor = "gvim"
-graphics   = "gimp"
+local browser    = "firefox"
+local gui_editor = "gvim"
+local graphics   = "gimp"
+local tagnames   = { "start", "2", "3", "4", "5" }
+
+-- table of layouts to cover with awful.layout.inc, order matters.
+awful.layout.layouts = {
+    awful.layout.suit.floating,
+    awful.layout.suit.tile,
+    awful.layout.suit.tile.left,
+    awful.layout.suit.tile.bottom,
+    awful.layout.suit.tile.top,
+    -- awful.layout.suit.fair,
+    -- awful.layout.suit.fair.horizontal,
+    -- awful.layout.suit.spiral,
+    -- awful.layout.suit.spiral.dwindle,
+    -- awful.layout.suit.max,
+    -- awful.layout.suit.max.fullscreen,
+    -- awful.layout.suit.magnifier,
+    -- awful.layout.suit.corner.nw,
+    -- awful.layout.suit.corner.ne,
+    -- awful.layout.suit.corner.sw,
+    -- awful.layout.suit.corner.se,
+}
 
 -- lain
-lain.layout.termfair.nmaster   = 3
-lain.layout.termfair.ncol      = 1
-lain.layout.centerfair.nmaster = 3
-lain.layout.centerfair.ncol    = 1
+lain.layout.termfair.nmaster        = 3
+lain.layout.termfair.ncol           = 1
+lain.layout.termfair.center.nmaster = 3
+lain.layout.termfair.center.ncol    = 1
 -- }}}
 
 -- {{{ Helper functions
@@ -94,14 +115,14 @@ end
 -- }}}
 
 -- {{{ Menu
-myawesomemenu = {
+local myawesomemenu = {
     { "hotkeys", function() return false, hotkeys_popup.show_help end },
     { "manual", terminal .. " -e man awesome" },
     { "edit config", string.format("%s -e %s %s", terminal, editor, awesome.conffile) },
     { "restart", awesome.restart },
     { "quit", function() awesome.quit() end }
 }
-mymainmenu = freedesktop.menu.build({
+local mymainmenu = freedesktop.menu.build({
     before = {
         { "Awesome", myawesomemenu, beautiful.awesome_icon },
         -- other triads can be put here
@@ -115,21 +136,26 @@ mymainmenu = freedesktop.menu.build({
 -- }}}
 
 -- {{{ Wibar
-markup = lain.util.markup
-blue   = beautiful.fg_focus
-red    = "#EB8F8F"
-green  = "#8FEB8F"
+local markup = lain.util.markup
+local blue   = beautiful.fg_focus
+local red    = "#EB8F8F"
+local green  = "#8FEB8F"
 
 -- Textclock
 --os.setlocale(os.getenv("LANG")) -- to localize the clock
-mytextclock = awful.widget.textclock("<span font='Tamsyn 5'> </span>%H:%M ")
+local mytextclock = wibox.widget.textclock("<span font='Tamsyn 5'> </span>%H:%M ")
 
 -- Calendar
-lain.widgets.calendar.attach(mytextclock)
+lain.widgets.calendar.attach(mytextclock, {
+    notification_preset = {
+        font = "Tamsyn 10.5",
+        fg   = beautiful.fg_normal,
+        bg   = beautiful.bg_normal
+}})
 
 --[[ Mail IMAP check
 -- commented because it needs to be set before use
-mailwidget = lain.widgets.imap({
+local mailwidget = lain.widgets.imap({
     timeout  = 180,
     server   = "server",
     mail     = "mail",
@@ -149,8 +175,8 @@ mailwidget = lain.widgets.imap({
 ]]
 
 -- MPD
-mpdicon = wibox.widget.imagebox()
-mpdwidget = lain.widgets.mpd({
+local mpdicon = wibox.widget.imagebox()
+local mpdwidget = lain.widgets.mpd({
     settings = function()
         if mpd_now.state == "play" then
             title = mpd_now.title
@@ -174,8 +200,8 @@ mpdwidget = lain.widgets.mpd({
 })
 
 -- Battery
-baticon = wibox.widget.imagebox(beautiful.bat)
-batbar = wibox.widget {
+local baticon = wibox.widget.imagebox(beautiful.bat)
+local batbar = wibox.widget {
     forced_height    = 1,
     forced_width     = 59,
     color            = beautiful.fg_normal,
@@ -186,7 +212,7 @@ batbar = wibox.widget {
     ticks_size       = 6,
     widget           = wibox.widget.progressbar,
 }
-batupd = lain.widgets.bat({
+local batupd = lain.widgets.bat({
     settings = function()
         if bat_now.status == "N/A" or type(bat_now.perc) ~= "number" then return end
 
@@ -218,12 +244,12 @@ batupd = lain.widgets.bat({
         batbar:set_value(bat_now.perc / 100)
     end
 })
-batbg = wibox.container.background(batbar, "#474747", shape.rectangle)
-batwidget = wibox.container.margin(batbg, 2, 7, 4, 4)
+local batbg = wibox.container.background(batbar, "#474747", shape.rectangle)
+local batwidget = wibox.container.margin(batbg, 2, 7, 4, 4)
 
 -- /home fs
-fsicon = wibox.widget.imagebox(beautiful.disk)
-fsbar = wibox.widget {
+local fsicon = wibox.widget.imagebox(beautiful.disk)
+local fsbar = wibox.widget {
     forced_height    = 1,
     forced_width     = 59,
     color            = beautiful.fg_normal,
@@ -234,11 +260,12 @@ fsbar = wibox.widget {
     ticks_size       = 6,
     widget           = wibox.widget.progressbar,
 }
-fshome = lain.widgets.fs({
+local fshome = lain.widgets.fs({
     partition = "/home",
     options = "--exclude-type=tmpfs",
+    notification_preset = { fg = beautiful.fg_normal, bg = beautiful.bg_normal, font = "Tamsyn 10.5" },
     settings  = function()
-        if fs_now.used < 90 then
+        if tonumber(fs_now.used) < 90 then
             fsbar:set_color(beautiful.fg_normal)
         else
             fsbar:set_color("#EB8F8F")
@@ -246,14 +273,14 @@ fshome = lain.widgets.fs({
         fsbar:set_value(fs_now.used / 100)
     end
 })
-fsbg = wibox.container.background(fsbar, "#474747", shape.rectangle)
-fswidget = wibox.container.margin(fsbg, 2, 7, 4, 4)
+local fsbg = wibox.container.background(fsbar, "#474747", shape.rectangle)
+local fswidget = wibox.container.margin(fsbg, 2, 7, 4, 4)
 
 -- ALSA volume bar
-volicon = wibox.widget.imagebox(beautiful.vol)
-volume = lain.widgets.alsabar({
+local volicon = wibox.widget.imagebox(beautiful.vol)
+local volume = lain.widgets.alsabar({
     width = 59, border_width = 0, ticks = true, ticks_size = 6, step = "2%",
-    --togglechannel = "IEC958,3",
+    notification_preset = { font = beautiful.font },
     settings = function()
         if volume_now.status == "off" then
             volicon:set_image(beautiful.vol_mute)
@@ -271,18 +298,18 @@ volume = lain.widgets.alsabar({
         unmute       = beautiful.fg_normal
     }
 })
-volumebg = wibox.container.background(volume.bar, "#474747", shape.rectangle)
-volumewidget = wibox.container.margin(volumebg, 2, 7, 4, 4)
+local volumebg = wibox.container.background(volume.bar, "#474747", shape.rectangle)
+local volumewidget = wibox.container.margin(volumebg, 2, 7, 4, 4)
 
 -- Weather
-myweather = lain.widgets.weather({
+local myweather = lain.widgets.weather({
     city_id = 123456 -- placeholder
 })
 
 -- Separators
-spr = wibox.widget.textbox(' ')
-small_spr = wibox.widget.textbox('<span font="Tamsyn 4"> </span>')
-bar_spr = wibox.widget.textbox('<span font="Tamsyn 3"> </span>' .. markup("#333333", "|") .. '<span font="Tamsyn 3"> </span>')
+local spr       = wibox.widget.textbox(' ')
+local small_spr = wibox.widget.textbox('<span font="Tamsyn 4"> </span>')
+local bar_spr   = wibox.widget.textbox('<span font="Tamsyn 3"> </span>' .. markup("#333333", "|") .. '<span font="Tamsyn 3"> </span>')
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = awful.util.table.join(
@@ -349,13 +376,8 @@ awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     set_wallpaper(s)
 
-    awful.tag({ "start", "2", "3", "4", "5" }, s, {
-        awful.layout.suit.floating,
-        awful.layout.suit.fair,
-        awful.layout.suit.tile,
-        lain.layout.termfair,
-        lain.layout.centerfair
-    })
+    -- Tags
+    awful.tag(tagnames, s, awful.layout.layouts)
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -511,8 +533,12 @@ globalkeys = awful.util.table.join(
     awful.key({ altkey, "Control" }, "+", function () lain.util.useless_gaps_resize(1) end),
     awful.key({ altkey, "Control" }, "-", function () lain.util.useless_gaps_resize(-1) end),
 
-    -- Rename tag
-    awful.key({ altkey, "Shift"   }, "r", function () lain.util.rename_tag() end),
+    -- Dynamic tagging
+    awful.key({ modkey, "Shift" }, "n", function () lain.util.add_tag() end),
+    awful.key({ modkey, "Shift" }, "r", function () lain.util.rename_tag() end),
+    awful.key({ modkey, "Shift" }, "Left", function () lain.util.move_tag(1) end),   -- move to next tag
+    awful.key({ modkey, "Shift" }, "Right", function () lain.util.move_tag(-1) end), -- move to previous tag
+    awful.key({ modkey, "Shift" }, "d", function () lain.util.delete_tag() end),
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
@@ -617,7 +643,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "e", function () awful.spawn(gui_editor) end),
     awful.key({ modkey }, "g", function () awful.spawn(graphics) end),
 
-    --[[ Default
+    -- Default
     -- Prompt
     awful.key({ modkey }, "r", function () awful.screen.focused().mypromptbox:run() end,
               {description = "run prompt", group = "launcher"}),
@@ -637,11 +663,12 @@ globalkeys = awful.util.table.join(
               {description = "show the menubar", group = "launcher"})
     --]]
 
-    -- dmenu
+    --[[ dmenu
     awful.key({ modkey }, "x", function ()
         awful.spawn(string.format("dmenu_run -i -fn 'Tamsyn' -nb '%s' -nf '%s' -sb '%s' -sf '%s'",
         beautiful.bg_normal, beautiful.fg_normal, beautiful.bg_focus, beautiful.fg_focus))
 		end)
+    --]]
 )
 
 clientkeys = awful.util.table.join(
@@ -825,14 +852,12 @@ client.connect_signal("request::titlebars", function(c)
 end)
 
 -- Enable sloppy focus, so that focus follows mouse.
---[[
 client.connect_signal("mouse::enter", function(c)
     if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
         and awful.client.focus.filter(c) then
         client.focus = c
     end
 end)
-]]
 
 -- No border for maximized clients
 client.connect_signal("focus",
