@@ -9,8 +9,8 @@ local lain          = require("lain")
 local shape         = require("gears.shape")
 -- }}}
 
-naughty.config.defaults.font        = "PragmataPro 12"
-naughty.config.defaults.icon_size   = 150
+naughty.config.defaults.font        = "PragmataPro 11"
+naughty.config.defaults.icon_size   = 120
 
 -- {{{ Error handling
 if awesome.startup_errors then
@@ -186,7 +186,7 @@ local batwidget = lain.widgets.contrib.tpbat({
 local volicon = wibox.widget.imagebox(beautiful.vol)
 local volume = lain.widgets.pulseaudio({
     settings = function()
-        widget:set_markup(volume_now.right)
+        widget:set_markup(markup(white,volume_now.right))
     end
 })
 

@@ -12,6 +12,7 @@ theme.dir                           = os.getenv("HOME") .. "/.config/awesome/the
 theme.wallpaper                     = theme.dir .. "/archlinux.png"
 
 theme.font                          = "PragmataPro 7"
+
 theme.fg_normal                     = "#CACACA"
 theme.fg_focus                      = "#EBEBFF"
 theme.bg_normal                     = "#7F37A2"
