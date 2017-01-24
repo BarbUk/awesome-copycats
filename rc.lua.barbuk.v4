@@ -125,12 +125,11 @@ local white  = beautiful.fg_focus
 local gray   = beautiful.fg_normal
 
 -- Textclock
-local mytextclock = wibox.widget.textclock(markup(white, " %H:%M "))
+local mytextclock = wibox.widget.textclock(markup(white, "%H:%M "))
 
 -- Calendar
 lain.widgets.calendar.attach(mytextclock, {
     notification_preset = {
-        font = "Tamsyn 10.5",
         fg   = white,
         bg   = beautiful.bg_normal
 }})
@@ -177,16 +176,15 @@ local fshome = lain.widgets.fs({
 local baticon = wibox.widget.imagebox(beautiful.bat)
 local batwidget = lain.widgets.contrib.tpbat({
     settings = function()
-        bat_header = ""
         bat_p      = bat_now.perc
-        widget:set_markup(markup(gray, bat_header) .. markup(white,bat_p))
+        widget:set_markup(markup(white, bat_p))
     end
 })
 
 local volicon = wibox.widget.imagebox(beautiful.vol)
 local volume = lain.widgets.pulseaudio({
     settings = function()
-        widget:set_markup(markup(white,volume_now.right))
+        widget:set_markup(markup(white, volume_now.right))
     end
 })
 
@@ -196,7 +194,7 @@ local myweather = lain.widgets.weather({
     settings = function()
         descr = weather_now["weather"][1]["description"]
         units = math.floor(weather_now["main"]["temp"])
-        widget:set_markup(markup("#eca4c4", " " .. descr .. " @ " .. units .. "°C"))
+        widget:set_markup(markup("#eca4c4", descr .. " @ " .. units .. "°C"))
     end
 })
 
@@ -204,21 +202,20 @@ local myweather = lain.widgets.weather({
 local netdowninfo = wibox.widget.textbox()
 local netupinfo = lain.widgets.net({
     settings = function()
-        widget:set_markup(markup("#F4E59F", net_now.sent .. " "))
-        netdowninfo:set_markup(markup("#B3E383", net_now.received .. " "))
+        widget:set_markup(markup("#F4E59F", markup.bold("↑") .. net_now.sent))
+        netdowninfo:set_markup(markup("#B3E383", markup.bold("↓") .. net_now.received .. " "))
     end
 })
 
 -- CPU
 local cpuwidget = lain.widgets.sysload({
     settings = function()
-        widget:set_markup(markup("#E5CBCB", "load " .. load_1 .. " " .. load_5))
+        widget:set_markup(markup("#E5CBCB", "▣ " .. load_1 .. " " .. load_5))
     end
 })
 
 -- Separators
-local first = wibox.widget.textbox(markup.font("Tamsyn 4", " "))
-local spr   = wibox.widget.textbox(' ')
+local spr   = wibox.widget.textbox(markup.bold('  '))
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = awful.util.table.join(
@@ -285,9 +282,6 @@ end
 screen.connect_signal("property::geometry", set_wallpaper)
 
 awful.screen.connect_for_each_screen(function(s)
-    -- Quake application
-    s.quake = lain.util.quake({ app = terminal })
-
     -- Wallpaper
     set_wallpaper(s)
 
@@ -331,30 +325,30 @@ awful.screen.connect_for_each_screen(function(s)
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            small_spr,
             s.mytaglist,
-            spr,
             s.mytxtlayoutbox,
-            --spr,
             s.mypromptbox,
-            spr,
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mpdwidget,
-            small_spr,
             wibox.widget.systray(),
             spr,
             netdowninfo,
             netupinfo,
+            spr,
             cpuwidget,
             fshome,
+            spr,
             baticon,
             batwidget,
+            spr,
             volicon,
             volume,
+            spr,
             myweather,
+            spr,
             mytextclock,
         },
     }
@@ -507,9 +501,6 @@ globalkeys = awful.util.table.join(
                   end
               end,
               {description = "restore minimized", group = "client"}),
-
-    -- Dropdown application
-    awful.key({ modkey, }, "z", function () awful.screen.focused().quake:toggle() end),
 
     -- Widgets popups
     awful.key({ altkey, }, "c", function () lain.widgets.calendar.show(7) end),
