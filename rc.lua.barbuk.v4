@@ -61,6 +61,7 @@ local editor     = os.getenv("EDITOR") or "nano" or "vi"
 local browser    = "google-chrome-beta"
 local gui_editor = "subl"
 local graphics   = "gimp"
+local file_explorer = "pcmanfm"
 local tagnames   = { "chat", "www", "dev", "term", "media" }
 
 -- table of layouts to cover with awful.layout.inc, order matters.
@@ -590,8 +591,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "c", function () os.execute("xsel | xsel -b") end),
 
     -- User programs
-    awful.key({ modkey }, "q", function () awful.spawn(browser) end),
-    awful.key({ modkey }, "e", function () awful.spawn(gui_editor) end),
+    awful.key({ modkey }, "s", function () awful.spawn(gui_editor) end),
     awful.key({ modkey }, "g", function () awful.spawn(graphics) end),
     awful.key({ modkey, "Shift"   }, "Return", function () os.execute(scriptdir .. "dmenu_ssh") end),
     awful.key({ modkey, "Control" }, "Return", function () os.execute(scriptdir .. "dmenu_raise") end),
