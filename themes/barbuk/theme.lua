@@ -6,7 +6,7 @@
 
 --]]
 
-theme                               = {}
+local theme                               = {}
 
 theme.dir                           = os.getenv("HOME") .. "/.config/awesome/themes/barbuk"
 theme.wallpaper                     = theme.dir .. "/archlinux.png"
@@ -24,8 +24,10 @@ theme.border_normal                 = "#0E0E0E"
 theme.border_focus                  = "#7F37A2"
 theme.taglist_fg_focus              = "#EDEFFF"
 theme.taglist_bg_focus              = "#7F37A2"
-theme.menu_height                   = "16"
-theme.menu_width                    = "150"
+theme.menu_height                   = 12
+theme.menu_width                    = 140
+theme.menu_border_width             = 0
+theme.useless_gap                   = 0
 
 theme.ocol                          = "<span color='" .. theme.fg_normal .. "'>"
 theme.ccol                          = "</span>"
@@ -61,19 +63,7 @@ theme.layout_txt_magnifier          = "[M]"
 theme.layout_txt_floating           = "[*]"
 
 -- lain related
-theme.useless_gap_width             = 3
-theme.layout_txt_cascade            = "[cascade]"
-theme.layout_txt_cascadetile        = "[cascadetile]"
-theme.layout_txt_centerwork         = "[centerwork]"
 theme.layout_txt_termfair           = "[termfair]"
 theme.layout_txt_centerfair         = "[centerfair]"
-theme.layout_txt_uselessfair        = "[uf]"
-theme.layout_txt_uselessfairh       = "[ufh]"
-theme.layout_txt_uselesspiral       = "[us]"
-theme.layout_txt_uselessdwindle     = "[ud]"
-theme.layout_txt_uselesstile        = "[ut]"
-theme.layout_txt_uselesstileleft    = "[utl]"
-theme.layout_txt_uselesstiletop     = "[utt]"
-theme.layout_txt_uselesstilebottom  = "[utb]"
 
 return theme
