@@ -202,8 +202,14 @@ local myweather = lain.widgets.weather({
 local netdowninfo = wibox.widget.textbox()
 local netupinfo = lain.widgets.net({
     settings = function()
-        widget:set_markup(markup("#F4E59F", markup.bold("↑") .. net_now.sent))
-        netdowninfo:set_markup(markup("#B3E383", markup.bold("↓") .. net_now.received .. " "))
+      if iface ~= "network off" and
+        string.match(myweather.widget.text, "N/A")
+      then
+          myweather.update()
+      end
+
+      widget:set_markup(markup("#F4E59F", markup.bold("↑") .. net_now.sent))
+      netdowninfo:set_markup(markup("#B3E383", markup.bold("↓") .. net_now.received .. " "))
     end
 })
 
@@ -735,29 +741,29 @@ awful.rules.rules = {
     { rule = { class = "MPlayer" }, properties = { border_width = 0, focus = yes } },
     { rule = { class = "mpv" }, properties = { border_width = 0, focus = yes} },
     { rule = { name = "Kupfer" }, properties = { floating = true, border_width = 0, focus = yes } },
-    { rule = { instance = "plugin-container" }, properties = { screen = 1, tag = awful.screen.focused().tags[1], floating = true, focus = yes } },
-    { rule = { class = "Pidgin" }, properties = { screen = 1, tag = awful.screen.focused().tags[1] } },
-    { rule = { class = "Chromium" }, properties = { screen = 1, tag = awful.screen.focused().tags[4] } },
-    { rule = { class = "google-chrome-stable" }, properties = { screen = 1, tag = awful.screen.focused().tags[2] } },
-    { rule = { class = "google-chrome-beta" }, properties = { screen = 1, tag = awful.screen.focused().tags[2] } },
-    { rule = { class = "Firefox" }, properties = { screen = 1, tag = awful.screen.focused().tags[2] } },
-    { rule = { class = "Dia" }, properties = { screen = 1, tag = awful.screen.focused().tags[5], floating = true } },
-    { rule = { class = "Gimp" }, properties = { screen = 1, tag = awful.screen.focused().tags[5], floating = true } },
-    { rule = { class = "Inkscape" }, properties = { screen = 1, tag = awful.screen.focused().tags[5], floating = true } },
-    { rule = { class = "Transmission-gtk" }, properties = { screen = 1, tag = awful.screen.focused().tags[5] } },
-    { rule = { class = "Spotify" }, properties = { screen = 1, tag = awful.screen.focused().tags[5] } },
-    { rule = { class = "sublime-text" }, properties = { screen = 1, tag = awful.screen.focused().tags[3] } },
-    { rule = { class = "Subl3" }, except = { instance = "subl3" }, properties = { screen = 1, tag = awful.screen.focused().tags[3] } },
+    { rule = { instance = "plugin-container" }, properties = { screen = 1, tag = awful.screen.focusedscreen[1].tags[1], floating = true, focus = yes } },
+    { rule = { class = "Pidgin" }, properties = { screen = 1, tag = screen[1].tags[1] } },
+    { rule = { class = "Chromium" }, properties = { screen = 1, tag = screen[1].tags[4] } },
+    { rule = { class = "google-chrome-stable" }, properties = { screen = 1, tag = screen[1].tags[2] } },
+    { rule = { class = "google-chrome-beta" }, properties = { screen = 1, tag = screen[1].tags[2] } },
+    { rule = { class = "Firefox" }, properties = { screen = 1, tag = screen[1].tags[2] } },
+    { rule = { class = "Dia" }, properties = { screen = 1, tag = screen[1].tags[5], floating = true } },
+    { rule = { class = "Gimp" }, properties = { screen = 1, tag = screen[1].tags[5], floating = true } },
+    { rule = { class = "Inkscape" }, properties = { screen = 1, tag = screen[1].tags[5], floating = true } },
+    { rule = { class = "Transmission-gtk" }, properties = { screen = 1, tag = screen[1].tags[5] } },
+    { rule = { class = "Spotify" }, properties = { screen = 1, tag = screen[1].tags[5] } },
+    { rule = { class = "sublime-text" }, properties = { screen = 1, tag = screen[1].tags[3] } },
+    { rule = { class = "Subl3" }, except = { instance = "subl3" }, properties = { screen = 1, tag = screen[1].tags[3] } },
     { rule = { class = "Exe" }, properties = { floating = true, focus = yes } },
     { rule = { class = "feh" }, properties = { floating = true, focus = yes } },
     { rule = { class = "Toggl Desktop" }, properties = { focus = yes } },
     { rule = { class = "center" }, properties = { floating = true, focus = yes }, callback = function (c)
         awful.placement.centered(c,nil)
      end },
-    { rule = { instance = "crx_nckgahadagoaajjgafhacjanaoiihapd" }, properties = { screen = 1, tag = awful.screen.focused().tags[1] } },
-    { rule = { class = "HipChat" }, properties = { screen = 1, tag = awful.screen.focused().tags[1] } },
-    { rule = { class = "Slack" }, properties = { screen = 1, tag = awful.screen.focused().tags[1] } },
-    { rule = { instance = "crx_knipolnnllmklapflnccelgolnpehhpl" }, properties = { screen = 1, tag = awful.screen.focused().tags[1] } },
+    { rule = { instance = "crx_nckgahadagoaajjgafhacjanaoiihapd" }, properties = { screen = 1, tag = screen[1].tags[1] } },
+    { rule = { class = "HipChat" }, properties = { screen = 1, tag = screen[1].tags[1] } },
+    { rule = { class = "Slack" }, properties = { screen = 1, tag = screen[1].tags[1] } },
+    { rule = { instance = "crx_knipolnnllmklapflnccelgolnpehhpl" }, properties = { screen = 1, tag = screen[1].tags[1] } },
     { rule = { class = "Gimp", role = "gimp-image-window" }, properties = { maximized_horizontal = true, maximized_vertical = true } },
     { rule = { class = "Wine" }, properties = { border_width = 0, floating = true } },
     { rule = { class = "copyq" }, properties = { border_width = 0, floating = true, focus = yes } },
@@ -832,10 +838,10 @@ end)
 -- No border for maximized clients
 client.connect_signal("focus",
     function(c)
-        if c.maximized_horizontal == true and c.maximized_vertical == true or c.floating == true then
+        if c.maximized or c.floating == true then
             c.border_width = 0
         -- no borders if only 1 client visible
-        elseif #awful.client.visible(mouse.screen) > 1 then
+        elseif #awful.screen.focused().clients > 1 then
             c.border_width = beautiful.border_width
             c.border_color = beautiful.border_focus
         end
