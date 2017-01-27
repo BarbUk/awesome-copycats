@@ -9,7 +9,7 @@ local lain          = require("lain")
 local shape         = require("gears.shape")
 -- }}}
 
-naughty.config.defaults.font        = "PragmataPro 11"
+naughty.config.defaults.font        = "PragmataPro 10"
 naughty.config.defaults.icon_size   = 120
 
 -- {{{ Error handling
@@ -727,6 +727,7 @@ awful.rules.rules = {
     { rule = { class = "MPlayer" }, properties = { border_width = 0, focus = yes } },
     { rule = { class = "mpv" }, properties = { border_width = 0, focus = yes} },
     { rule = { name = "Kupfer" }, properties = { floating = true, border_width = 0, focus = yes } },
+    { rule = { class = "albert" }, properties = { floating = true, border_width = 0, focus = yes } },
     { rule = { instance = "plugin-container" }, properties = { screen = 1, tag = screen[1].tags[1], floating = true, focus = yes } },
     { rule = { class = "Pidgin" }, properties = { screen = 1, tag = screen[1].tags[1] } },
     { rule = { class = "Chromium" }, properties = { screen = 1, tag = screen[1].tags[4] } },
