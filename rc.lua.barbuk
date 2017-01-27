@@ -141,10 +141,10 @@ lain.widgets.calendar.attach(clock, {
 
 local spotify = function()
   local spotify = ""
-  if awful.spawn.with_shell("pgrep -u $USER -x spotify > /dev/null") then
+  if os.execute("pgrep -u $USER -x spotify > /dev/null") then
     local output = helpers.read_pipe(scriptdir .. "sp metadata")
-    local artist = string.match(output, "artist|(.-)[\n]")
-    local title  = string.match(output, "title|(.-)[\n]")
+    local artist = string.match(output, "artist|(.-)[\n]") or "n/a"
+    local title  = string.match(output, "title|(.-)[\n]") or "n/a"
     spotify = markup(gray, artist) .. " - " .. markup(white, title)
   end
   return spotify
