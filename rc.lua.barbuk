@@ -125,17 +125,17 @@ local white  = beautiful.fg_focus
 local gray   = beautiful.fg_normal
 
 -- Textclock
-local mytextclock = wibox.widget.textclock(markup(white, "%H:%M "))
+local clock = wibox.widget.textclock(markup(white, "%H:%M "))
 
 -- Calendar
-lain.widgets.calendar.attach(mytextclock, {
+lain.widgets.calendar.attach(clock, {
     notification_preset = {
         fg   = white,
         bg   = beautiful.bg_normal
 }})
 
 -- MPD
-local mpdwidget = lain.widgets.mpd({
+local mpd = lain.widgets.mpd({
     settings = function()
         mpd_notification_preset.fg = white
 
@@ -174,7 +174,7 @@ local fshome = lain.widgets.fs({
 
 -- Battery
 local baticon = wibox.widget.imagebox(beautiful.bat)
-local batwidget = lain.widgets.contrib.tpbat({
+local bat = lain.widgets.contrib.tpbat({
     settings = function()
         bat_p      = bat_now.perc
         widget:set_markup(markup(white, bat_p))
@@ -199,8 +199,7 @@ local myweather = lain.widgets.weather({
 })
 
 -- Net
-local netdowninfo = wibox.widget.textbox()
-local netupinfo = lain.widgets.net({
+local net = lain.widgets.net({
     settings = function()
       if iface ~= "network off" and
         string.match(myweather.widget.text, "N/A")
@@ -208,13 +207,12 @@ local netupinfo = lain.widgets.net({
           myweather.update()
       end
 
-      widget:set_markup(markup("#F4E59F", markup.bold("↑") .. net_now.sent))
-      netdowninfo:set_markup(markup("#B3E383", markup.bold("↓") .. net_now.received .. " "))
+      widget:set_markup(markup("#F4E59F", markup.bold("↑") .. net_now.sent) .. " " .. markup("#B3E383", markup.bold("↓") .. net_now.received .. " "))
     end
 })
 
 -- CPU
-local cpuwidget = lain.widgets.sysload({
+local cpu = lain.widgets.sysload({
     settings = function()
         widget:set_markup(markup("#E5CBCB", "▣ " .. load_1 .. " " .. load_5))
     end
@@ -338,24 +336,23 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            mpdwidget,
+            mpd.widget,
             wibox.widget.systray(),
             spr,
-            netdowninfo,
-            netupinfo,
+            net.widget,
             spr,
-            cpuwidget,
+            cpu.widget,
             fshome,
             spr,
             baticon,
-            batwidget,
+            bat.widget,
             spr,
             volicon,
-            volume,
+            volume.widget,
             spr,
-            myweather,
+            myweather.widget,
             spr,
-            mytextclock,
+            clock,
         },
     }
 end)
@@ -550,19 +547,19 @@ globalkeys = awful.util.table.join(
     -- Music control
     awful.key({ }, "XF86AudioStop", function ()
         awful.util.spawn("nocope mpc stop", false )
-        mpdwidget.update()
+        mpd.update()
     end),
     awful.key({ }, "XF86AudioPlay", function ()
          awful.util.spawn_with_shell("mpc toggle || dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause")
-         mpdwidget.update()
+         mpd.update()
     end),
     awful.key({ }, "XF86AudioPrev", function ()
         awful.util.spawn_with_shell("nocope mpc prev || dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous")
-        mpdwidget.update()
+        mpd.update()
     end),
     awful.key({ }, "XF86AudioNext", function ()
         awful.util.spawn_with_shell("nocope mpc next || dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next")
-        mpdwidget.update()
+        mpd.update()
     end),
     awful.key({ modkey }, "Insert", function ()
         awful.util.spawn_with_shell("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause")
