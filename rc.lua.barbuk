@@ -6,11 +6,16 @@ local wibox         = require("wibox")
 local beautiful     = require("beautiful")
 local naughty       = require("naughty")
 local lain          = require("lain")
+local helpers       = require("lain.helpers")
 local shape         = require("gears.shape")
 -- }}}
 
-naughty.config.defaults.font        = "PragmataPro 10"
-naughty.config.defaults.icon_size   = 120
+naughty.config.defaults.font        = "PragmataPro 12"
+naughty.config.defaults.icon_size   = 80
+naughty.config.defaults.bg          = "#ffffff"
+naughty.config.defaults.fg          = "#000000"
+
+local pulse_sink = "$(pacmd list-sinks | grep -B4 RUNNING | grep index | cut -d: -f 2 && sleep 0.1)"
 
 -- {{{ Error handling
 if awesome.startup_errors then
@@ -134,23 +139,33 @@ lain.widgets.calendar.attach(clock, {
         bg   = beautiful.bg_normal
 }})
 
+local spotify = function()
+  local spotify = ""
+  if awful.spawn.with_shell("pgrep -u $USER -x spotify > /dev/null") then
+    local output = helpers.read_pipe(scriptdir .. "sp metadata")
+    local artist = string.match(output, "artist|(.-)[\n]")
+    local title  = string.match(output, "title|(.-)[\n]")
+    spotify = markup(gray, artist) .. " - " .. markup(white, title)
+  end
+  return spotify
+end
+
 -- MPD
 local mpd = lain.widgets.mpd({
     settings = function()
         mpd_notification_preset.fg = white
 
-        artist = ""
-        title  = ""
+        local info = ""
 
         if mpd_now.state == "pause" then
-            artist = "mpd "
-            title  = "paused "
+          info = "mpd paused"
         elseif mpd_now.state == "play" then
-            artist = mpd_now.artist .. " "
-            title  = mpd_now.title  .. " "
+          info = markup(gray, mpd_now.artist) .. markup(white, mpd_now.title)
+        else
+          info = spotify()
         end
 
-        widget:set_markup(markup(gray, artist) .. markup(white, title))
+        widget:set_markup(info .. " ")
     end
 })
 
@@ -512,33 +527,27 @@ globalkeys = awful.util.table.join(
 
     -- Volume control
     awful.key({ }, "XF86AudioRaiseVolume", function ()
-        os.execute("pamixer --increase 5 --allow-boost --sink $(pacmd list-sinks | grep -B4 RUNNING | grep index | cut -d: -f 2)", false )
-        os.execute("sleep " .. tonumber(0.1))
+        os.execute("pamixer --increase 5 --allow-boost --sink " .. pulse_sink, false )
         volume.update()
     end),
     awful.key({ }, "XF86AudioLowerVolume", function ()
-        os.execute("pamixer --decrease 5 --sink $(pacmd list-sinks | grep -B4 RUNNING | grep index | cut -d: -f 2)", false )
-        os.execute("sleep " .. tonumber(0.1))
+        os.execute("pamixer --decrease 5 --sink " .. pulse_sink, false )
         volume.update()
     end),
     awful.key({ modkey }, "Prior", function ()
-        os.execute("pamixer --increase 5 --allow-boost --sink $(pacmd list-sinks | grep -B4 RUNNING | grep index | cut -d: -f 2)", false )
-        os.execute("sleep " .. tonumber(0.1))
+        os.execute("pamixer --increase 5 --allow-boost --sink " .. pulse_sink, false )
         volume.update()
     end),
     awful.key({ modkey }, "Next", function ()
-        os.execute("pamixer --decrease 5 --sink $(pacmd list-sinks | grep -B4 RUNNING | grep index | cut -d: -f 2)", false )
-        os.execute("sleep " .. tonumber(0.1))
+        os.execute("pamixer --decrease 5 --sink " .. pulse_sink, false )
         volume.update()
     end),
     awful.key({ }, "XF86AudioMute", function ()
-        os.execute("pamixer --toggle-mute --sink $(pacmd list-sinks | grep -B4 RUNNING | grep index | cut -d: -f 2)", false )
-        os.execute("sleep " .. tonumber(0.1))
+        os.execute("pamixer --toggle-mute --sink " .. pulse_sink, false )
         volume.update()
     end),
     awful.key({ modkey }, "Pause", function ()
-        os.execute("pamixer --toggle-mute --sink $(pacmd list-sinks | grep -B4 RUNNING | grep index | cut -d: -f 2)", false )
-        os.execute("sleep " .. tonumber(0.1))
+        os.execute("pamixer --toggle-mute --sink " .. pulse_sink, false )
         volume.update()
     end),
     awful.key({ }, "XF86Launch1", function ()
@@ -546,29 +555,29 @@ globalkeys = awful.util.table.join(
     end),
     -- Music control
     awful.key({ }, "XF86AudioStop", function ()
-        awful.util.spawn("nocope mpc stop", false )
+        awful.util.spawn("mpc stop", false )
         mpd.update()
     end),
     awful.key({ }, "XF86AudioPlay", function ()
-         awful.util.spawn_with_shell("mpc toggle || dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause")
+         awful.util.spawn_with_shell("mpc toggle || " .. scriptdir .. "sp play")
          mpd.update()
     end),
     awful.key({ }, "XF86AudioPrev", function ()
-        awful.util.spawn_with_shell("nocope mpc prev || dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous")
+        awful.util.spawn_with_shell("mpc prev || " .. scriptdir .. "sp prev")
         mpd.update()
     end),
     awful.key({ }, "XF86AudioNext", function ()
-        awful.util.spawn_with_shell("nocope mpc next || dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next")
+        awful.util.spawn_with_shell("mpc next || " .. scriptdir .. "sp next")
         mpd.update()
     end),
     awful.key({ modkey }, "Insert", function ()
-        awful.util.spawn_with_shell("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause")
+        awful.util.spawn_with_shell(scriptdir .. "sp play")
     end),
     awful.key({ modkey }, "End", function ()
-        awful.util.spawn_with_shell("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next")
+        awful.util.spawn_with_shell(scriptdir .. "sp next")
     end),
     awful.key({ modkey }, "Delete", function ()
-        awful.util.spawn_with_shell("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous")
+        awful.util.spawn_with_shell(scriptdir .. "sp prev")
     end),
 
     awful.key({ }, "XF86MonBrightnessUp", function ()
