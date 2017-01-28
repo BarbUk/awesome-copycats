@@ -204,6 +204,8 @@ local volume = lain.widgets.pulseaudio({
 -- Weather
 local myweather = lain.widgets.weather({
     city_id = 934131,
+    current_call  = "curl --connect-timeout 3 --max-time 5 -s 'http://api.openweathermap.org/data/2.5/weather?id=%s&units=%s&lang=%s&APPID=%s'",
+    forecast_call = "curl --connect-timeout 3 --max-time 5 -s 'http://api.openweathermap.org/data/2.5/forecast/daily?id=%s&units=%s&lang=%s&cnt=%s&APPID=%s'",
     settings = function()
         descr = weather_now["weather"][1]["description"]
         units = math.floor(weather_now["main"]["temp"])
