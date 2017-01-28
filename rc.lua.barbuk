@@ -159,7 +159,7 @@ local mpd = lain.widgets.mpd({
         if mpd_now.state == "pause" then
           info = "mpd paused"
         elseif mpd_now.state == "play" then
-          info = markup(gray, mpd_now.artist) .. markup(white, mpd_now.title)
+          info = markup(gray, mpd_now.artist) .. " - " .. markup(white, mpd_now.title)
         else
           info = spotify()
         end
