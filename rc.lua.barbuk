@@ -153,8 +153,6 @@ end
 -- MPD
 local mpd = lain.widgets.mpd({
     settings = function()
-        mpd_notification_preset.fg = white
-
         local info = ""
 
         if mpd_now.state == "pause" then
