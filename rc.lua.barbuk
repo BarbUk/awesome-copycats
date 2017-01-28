@@ -133,7 +133,8 @@ local gray   = beautiful.fg_normal
 local clock = wibox.widget.textclock(markup(white, "%H:%M "))
 
 -- Calendar
-lain.widgets.calendar.attach(clock, {
+lain.widgets.calendar({
+    attach_to = { clock },
     notification_preset = {
         fg   = white,
         bg   = beautiful.bg_normal
