@@ -743,7 +743,7 @@ awful.rules.rules = {
     { rule = { class = "wmail" }, properties = { screen = 1, tag = screen[1].tags[2] } },
     { rule = { class = "Chromium" }, properties = { screen = 1, tag = screen[1].tags[4] } },
     { rule = { class = "google-chrome-stable" }, properties = { screen = 1, tag = screen[1].tags[3] } },
-    { rule = { class = "google-chrome-beta" }, properties = { screen = 1, tag = screen[1].tags[3] } },
+    { rule = { class = "Google-chrome-beta" }, properties = { screen = 1, tag = screen[1].tags[3] } },
     { rule = { class = "Firefox" }, properties = { screen = 1, tag = screen[1].tags[3] } },
     { rule = { class = "Dia" }, properties = { screen = 1, tag = screen[1].tags[5], floating = true } },
     { rule = { class = "Gimp" }, properties = { screen = 1, tag = screen[1].tags[5], floating = true } },
