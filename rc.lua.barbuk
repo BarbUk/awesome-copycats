@@ -67,7 +67,7 @@ local browser    = "google-chrome-beta"
 local gui_editor = "subl"
 local graphics   = "gimp"
 local file_explorer = "pcmanfm"
-local tagnames   = { "chat", "www", "dev", "term", "media" }
+local tagnames   = { "chat", "mail", "www", "dev", "term", "media" }
 
 -- table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
@@ -95,6 +95,7 @@ awful.layout.layouts = {
 }
 
 layouts = {
+  awful.layout.suit.tile,
   awful.layout.suit.tile,
   awful.layout.suit.tile,
   awful.layout.suit.tile,
@@ -734,20 +735,23 @@ awful.rules.rules = {
     { rule = { class = "MPlayer" }, properties = { border_width = 0, focus = yes } },
     { rule = { class = "mpv" }, properties = { border_width = 0, focus = yes} },
     { rule = { name = "Kupfer" }, properties = { floating = true, border_width = 0, focus = yes } },
-    { rule = { class = "albert" }, properties = { floating = true, border_width = 0, focus = yes } },
+    { rule = { class = "albert" }, properties = { floating = true, focus = yes }, callback = function (c)
+        awful.placement.centered(c,nil)
+     end },
     { rule = { instance = "plugin-container" }, properties = { screen = 1, tag = screen[1].tags[1], floating = true, focus = yes } },
     { rule = { class = "Pidgin" }, properties = { screen = 1, tag = screen[1].tags[1] } },
+    { rule = { class = "wmail" }, properties = { screen = 1, tag = screen[1].tags[2] } },
     { rule = { class = "Chromium" }, properties = { screen = 1, tag = screen[1].tags[4] } },
-    { rule = { class = "google-chrome-stable" }, properties = { screen = 1, tag = screen[1].tags[2] } },
-    { rule = { class = "google-chrome-beta" }, properties = { screen = 1, tag = screen[1].tags[2] } },
-    { rule = { class = "Firefox" }, properties = { screen = 1, tag = screen[1].tags[2] } },
+    { rule = { class = "google-chrome-stable" }, properties = { screen = 1, tag = screen[1].tags[3] } },
+    { rule = { class = "google-chrome-beta" }, properties = { screen = 1, tag = screen[1].tags[3] } },
+    { rule = { class = "Firefox" }, properties = { screen = 1, tag = screen[1].tags[3] } },
     { rule = { class = "Dia" }, properties = { screen = 1, tag = screen[1].tags[5], floating = true } },
     { rule = { class = "Gimp" }, properties = { screen = 1, tag = screen[1].tags[5], floating = true } },
     { rule = { class = "Inkscape" }, properties = { screen = 1, tag = screen[1].tags[5], floating = true } },
     { rule = { class = "Transmission-gtk" }, properties = { screen = 1, tag = screen[1].tags[5] } },
-    { rule = { class = "Spotify" }, properties = { screen = 1, tag = screen[1].tags[5] } },
-    { rule = { class = "sublime-text" }, properties = { screen = 1, tag = screen[1].tags[3] } },
-    { rule = { class = "Subl3" }, except = { instance = "subl3" }, properties = { screen = 1, tag = screen[1].tags[3] } },
+    { rule = { class = "Spotify" }, properties = { screen = 1, tag = screen[1].tags[6] } },
+    { rule = { class = "sublime-text" }, properties = { screen = 1, tag = screen[1].tags[4] } },
+    { rule = { class = "Subl3" }, except = { instance = "subl3" }, properties = { screen = 1, tag = screen[1].tags[4] } },
     { rule = { class = "Exe" }, properties = { floating = true, focus = yes } },
     { rule = { class = "feh" }, properties = { floating = true, focus = yes } },
     { rule = { class = "Toggl Desktop" }, properties = { focus = yes } },
