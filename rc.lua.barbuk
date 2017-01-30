@@ -10,10 +10,11 @@ local helpers       = require("lain.helpers")
 local shape         = require("gears.shape")
 -- }}}
 
-naughty.config.defaults.font        = "PragmataPro 12"
+naughty.config.defaults.font        = "Myriad Pro 11"
 naughty.config.defaults.icon_size   = 80
 naughty.config.defaults.bg          = "#ffffff"
 naughty.config.defaults.fg          = "#000000"
+naughty.config.defaults.border_width       = 3
 
 local pulse_sink = "$(pacmd list-sinks | grep -B4 RUNNING | grep index | cut -d: -f 2 && sleep 0.1)"
 
