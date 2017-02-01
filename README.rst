@@ -10,11 +10,6 @@ Themes for Awesome WM 4.x
 :License: BY-NC-SA_
 :Source: https://github.com/copycat-killer/awesome-copycats
 
-Warning
-=======
-
-If you still have to use branch 3.5.x, you can refer to the commit b0ab0d7_, but be aware that it's no longer supported.
-
 Description
 ===========
 
@@ -23,8 +18,9 @@ A set of themes for the Awesome_ window manager.
 Features
 ========
 
+- Modularity
 - Autohide widgets
-- Autostart applications
+- Autostart windowless processes
 - Fast MPD and volume shortcuts (first time this trick has been used in Awesome)
 - Shortcuts for copying to the clipboard (no need for clipboard managers), toggle wiboxes, widgets popups, screenshots capture, moving and magnifying clients
 - Quake drop-down terminal
@@ -78,59 +74,53 @@ Gallery
 
 .. image:: http://dotshare.it/public/images/uploads/655.png
 
+**Vertex**, requested by swordfischer_
+
+.. image:: http://dotshare.it/public/images/uploads/1432.jpg
+
 Installation
 ============
 
-With Git: ::
+::
 
     $ git clone --recursive https://github.com/copycat-killer/awesome-copycats.git
     $ mv -bv awesome-copycats/* ~/.config/awesome; rm -r awesome-copycats
 
-otherwise: ::
-
-    $ wget https://github.com/copycat-killer/awesome-copycats/archive/master.zip -O awesome-copycats.zip
-    $ wget https://github.com/copycat-killer/lain/archive/master.zip -O lain.zip
-    $ wget https://github.com/copycat-killer/awesome-freedesktop/archive/master.zip -O freedesktop.zip
-    $ unzip '*.zip'; rm *.zip
-    $ mv lain-master awesome-copycats-master/lain; mv awesome-freedesktop-master awesome-copycats-master/freedesktop
-    $ mv -bv awesome-copycats-master/* ~/.config/awesome; rm -r awesome-copycats-master
-
 Usage
 =====
 
-Switch a theme this way: ::
+::
 
     $ cd ~/.config/awesome
-    $ cp rc.lua.theme rc.lua
+    $ cp rc.lua.template rc.lua
 
-Alternatively, you can use `switch-theme.sh`_, which will also update to the latest commit.
+Then, set the variable ``chosen_theme`` in ``rc.lua`` to your preferred theme, do your settings, and restart Awesome (``Mod4 + ctrl + r``).
 
-Then, customize your ``rc.lua`` and restart Awesome (``Mod4 + ctrl + r``).
+To customize a theme, head over ``themes/$chosen_teme/theme.lua``.
 
 Notes
 =====
 
 Complements are provided by lain_.
 
-Fonts are Terminus_ (Multicolor, Powerarrow Darker), Tamzen_ (Copland), Roboto_ (Holo) and Tamsyn_ (other ones).
+Fonts are Terminus_ (Multicolor, Powerarrow Darker), Tamzen_ (Copland), Roboto_ (Holo, Vertex) and Tamsyn_ (other ones).
 
 Every theme has a colorscheme_.
 
-Blackburn and Dremora use Icons_: be sure to have bitmaps enabled if running under Debian_ or Ubuntu_. If you want more glyphs, try FontAwesome_.
+Blackburn and Dremora use Icons_, Vertex uses FontAwesome_: be sure to have bitmaps enabled if running under Debian_ or Ubuntu_.
 
 Additional software used: ::
 
     unclutter firefox scrot mpd mpc dmenu xsel
 
 .. _BY-NC-SA: http://creativecommons.org/licenses/by-nc-sa/4.0
-.. _b0ab0d7: https://github.com/copycat-killer/awesome-copycats/tree/b0ab0d7837987be81b9195a36631df773113d491
 .. _Awesome: http://github.com/awesomeWM/awesome
 .. _lucamanni: https://github.com/lucamanni/awesome
 .. _romockee: https://github.com/romockee/powerarrow
 .. _ok100: http://ok100.deviantart.com/art/DWM-January-2013-348656846
 .. _amouly: https://bbs.archlinux.org/viewtopic.php?pid=1307158#p1307158
+.. _swordfischer: https://github.com/copycat-killer/awesome-copycats/issues/53
 .. _foozer: http://dotshare.it/dots/499
-.. _`switch-theme.sh`: https://github.com/copycat-killer/awesome-copycats/issues/36
 .. _lain: https://github.com/copycat-killer/lain
 .. _Terminus: http://terminus-font.sourceforge.net
 .. _Tamzen: https://github.com/sunaku/tamzen-font
