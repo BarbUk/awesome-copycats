@@ -142,31 +142,21 @@ lain.widgets.calendar({
         bg   = beautiful.bg_normal
 }})
 
-local spotify = function()
-  local spotify = ""
-  if os.execute("pgrep -u $USER -x spotify > /dev/null") then
-    local output = helpers.read_pipe(scriptdir .. "sp metadata")
-    local artist = string.match(output, "artist|(.-)[\n]") or "n/a"
-    local title  = string.match(output, "title|(.-)[\n]") or "n/a"
-    spotify = markup(gray, artist) .. " - " .. markup(white, title)
-  end
-  return spotify
-end
-
 -- MPD
 local mpd = lain.widgets.mpd({
     settings = function()
-        local info = ""
-
-        if mpd_now.state == "pause" then
-          info = "mpd paused"
-        elseif mpd_now.state == "play" then
-          info = markup(gray, mpd_now.artist) .. " - " .. markup(white, mpd_now.title)
-        else
-          info = spotify()
+        if mpd_now.state == "play" then
+          widget:set_markup(markup(gray, mpd_now.artist) .. " - " .. markup(white, mpd_now.title))
         end
+    end
+})
 
-        widget:set_markup(info .. " ")
+-- Spotify
+local spotify = lain.widgets.contrib.spotify({
+    settings = function()
+      if spotify_now.artist ~= "not_running" then
+        widget:set_markup(markup(gray, spotify_now.artist) .. " - " .. markup(white, spotify_now.title))
+      end
     end
 })
 
@@ -238,6 +228,8 @@ local cpu = lain.widgets.sysload({
 
 -- Separators
 local spr   = wibox.widget.textbox(markup.bold('  '))
+local lspr   = wibox.widget.textbox(markup.bold(' '))
+local spc   = wibox.widget.textbox(markup.bold(' '))
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = awful.util.table.join(
@@ -355,8 +347,10 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mpd.widget,
+            spotify.widget,
+            spc,
             wibox.widget.systray(),
-            spr,
+            lspr,
             net.widget,
             spr,
             cpu.widget,
