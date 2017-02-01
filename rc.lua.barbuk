@@ -10,7 +10,7 @@ local helpers       = require("lain.helpers")
 local shape         = require("gears.shape")
 -- }}}
 
-naughty.config.defaults.font        = "Myriad Pro 11"
+naughty.config.defaults.font        = "PragmataPro 10"
 naughty.config.defaults.icon_size   = 80
 naughty.config.defaults.bg          = "#ffffff"
 naughty.config.defaults.fg          = "#000000"
@@ -82,7 +82,7 @@ awful.layout.layouts = {
     -- awful.layout.suit.tile.left,
     -- awful.layout.suit.tile.bottom,
     -- awful.layout.suit.tile.top,
-    -- awful.layout.suit.fair,
+    awful.layout.suit.fair,
     -- awful.layout.suit.fair.horizontal,
     -- awful.layout.suit.spiral,
     -- awful.layout.suit.spiral.dwindle,
@@ -378,7 +378,7 @@ end)
 
 -- {{{ Mouse bindings
 root.buttons(awful.util.table.join(
-    awful.button({ }, 3, function () mymainmenu:toggle() end),
+    -- awful.button({ }, 3, function () mymainmenu:toggle() end),
     awful.button({ }, 4, awful.tag.viewnext),
     awful.button({ }, 5, awful.tag.viewprev)
 ))
@@ -629,6 +629,8 @@ clientkeys = awful.util.table.join(
               {description = "close", group = "client"}),
     awful.key({ "Mod1"            }, "F4",     function (c) c:kill()                         end,
               {description = "close", group = "client"}),
+    awful.key({ modkey            }, "q",     function (c) c:kill()                         end,
+              {description = "close", group = "client"}),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
               {description = "toggle floating", group = "client"}),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end,
@@ -736,9 +738,7 @@ awful.rules.rules = {
     { rule = { class = "MPlayer" }, properties = { border_width = 0, focus = yes } },
     { rule = { class = "mpv" }, properties = { border_width = 0, focus = yes} },
     { rule = { name = "Kupfer" }, properties = { floating = true, border_width = 0, focus = yes } },
-    { rule = { class = "albert" }, properties = { floating = true, focus = yes }, callback = function (c)
-        awful.placement.centered(c,nil)
-     end },
+    { rule = { class = "albert" }, properties = { floating = true, focus = yes } },
     { rule = { instance = "plugin-container" }, properties = { screen = 1, tag = screen[1].tags[1], floating = true, focus = yes } },
     { rule = { class = "Pidgin" }, properties = { screen = 1, tag = screen[1].tags[1] } },
     { rule = { class = "wmail" }, properties = { screen = 1, tag = screen[1].tags[2] } },
@@ -765,7 +765,7 @@ awful.rules.rules = {
     { rule = { instance = "crx_knipolnnllmklapflnccelgolnpehhpl" }, properties = { screen = 1, tag = screen[1].tags[1] } },
     { rule = { class = "Gimp", role = "gimp-image-window" }, properties = { maximized_horizontal = true, maximized_vertical = true } },
     { rule = { class = "Wine" }, properties = { border_width = 0, floating = true } },
-    { rule = { class = "copyq" }, properties = { border_width = 0, floating = true, focus = yes } },
+    { rule = { class = "copyq" }, properties = { border_width = 0, focus = yes } },
 }
 -- }}}
 
