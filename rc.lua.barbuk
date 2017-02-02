@@ -16,6 +16,8 @@ naughty.config.defaults.fg          = "#000000"
 naughty.config.defaults.border_width       = 3
 
 local pulse_sink = "$(pacmd list-sinks | grep -B4 RUNNING | grep index | cut -d: -f 2 && sleep 0.1)"
+local scriptdir = os.getenv("HOME") .. "/.dotfiles/bin/"
+
 
 -- {{{ Error handling
 if awesome.startup_errors then
@@ -54,7 +56,6 @@ run_once("unclutter -root")
 -- {{{ Variable definitions
 -- beautiful init
 beautiful.init(awful.util.getdir("config") .. "/themes/barbuk/theme.lua")
-scriptdir = os.getenv("HOME") .. "/.dotfiles/bin/"
 
 -- common
 local modkey     = "Mod4"
@@ -154,6 +155,7 @@ local mpd = lain.widgets.mpd({
 
 -- Spotify
 local spotify = spotify({
+    cmd = scriptdir .. "sp metadata",
     settings = function()
       if spotify_now.artist ~= "not_running" then
         widget:set_markup(markup(gray, spotify_now.artist) .. " - " .. markup(white, spotify_now.title))
