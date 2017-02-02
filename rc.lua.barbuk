@@ -240,9 +240,10 @@ local net = lain.widgets.net({
 })
 
 -- CPU
+local cpuicon = wibox.widget.imagebox(beautiful.widget_cpu)
 local cpu = lain.widgets.sysload({
     settings = function()
-        widget:set_markup(markup("#E5CBCB", "▣ " .. load_1 .. " " .. load_5))
+        widget:set_markup(markup("#E5CBCB", load_1 .. " " .. load_5))
     end
 })
 
@@ -347,6 +348,7 @@ awful.screen.connect_for_each_screen(function(s)
             lspr,
             net.widget,
             spr,
+            cpuicon,
             cpu.widget,
             fshome,
             spr,
@@ -356,7 +358,8 @@ awful.screen.connect_for_each_screen(function(s)
             volicon,
             volume.widget,
             spr,
-            myweather.widget,
+            weather.icon,
+            weather.widget,
             spr,
             clock,
         },
