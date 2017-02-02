@@ -147,6 +147,8 @@ local mpd = lain.widgets.mpd({
     settings = function()
         if mpd_now.state == "play" then
           widget:set_markup(markup(gray, mpd_now.artist) .. " - " .. markup(white, mpd_now.title))
+        else
+          widget:set_markup("")
         end
     end
 })
@@ -156,6 +158,8 @@ local spotify = lain.widgets.contrib.spotify({
     settings = function()
       if spotify_now.artist ~= "not_running" then
         widget:set_markup(markup(gray, spotify_now.artist) .. " - " .. markup(white, spotify_now.title))
+      else
+          widget:set_markup("")
       end
     end
 })
