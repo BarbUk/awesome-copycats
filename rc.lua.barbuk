@@ -146,9 +146,9 @@ lain.widgets.calendar({
 local mpd = lain.widgets.mpd({
     settings = function()
         if mpd_now.state == "play" then
-          widget:set_markup(markup(gray, mpd_now.artist) .. " - " .. markup(white, mpd_now.title))
+            widget:set_markup(markup(gray, mpd_now.artist) .. " - " .. markup(white, mpd_now.title))
         else
-          widget:set_markup("")
+            widget:set_markup("")
         end
     end
 })
@@ -157,11 +157,11 @@ local mpd = lain.widgets.mpd({
 local spotify = spotify({
     cmd = scriptdir .. "sp metadata",
     settings = function()
-      if spotify_now.artist ~= "not_running" then
-        widget:set_markup(markup(gray, spotify_now.artist) .. " - " .. markup(white, spotify_now.title))
-      else
-          widget:set_markup("")
-      end
+        if spotify_now.artist ~= "not_running" then
+            widget:set_markup(markup(gray, spotify_now.artist) .. " - " .. markup(white, spotify_now.title))
+        else
+            widget:set_markup("")
+        end
     end
 })
 

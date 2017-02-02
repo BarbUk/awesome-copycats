@@ -15,30 +15,30 @@ local setmetatable = setmetatable
 local spotify = {}
 
 local function worker(args)
-   local args        = args or {}
-   local timeout     = args.timeout or 5
-   local settings    = args.settings or function() end
+    local args       = args or {}
+    local timeout    = args.timeout or 5
+    local settings   = args.settings or function() end
 
-   spotify.cmd    = args.cmd or "sp metadata"
+    spotify.cmd      = args.cmd or "sp metadata"
 
-   spotify.widget = wibox.widget.textbox()
+    spotify.widget   = wibox.widget.textbox()
 
-   function spotify.update()
+    function spotify.update()
 
-      helpers.async({shell, "-c", spotify.cmd}, function(output)
-          spotify_now = {
-               artist = string.match(output, "artist|(.-)[\n]") or "not_running",
-               title  = string.match(output, "title|(.-)[\n]") or "not_running"
-          }
+        helpers.async({shell, "-c", spotify.cmd}, function(output)
+            spotify_now = {
+                artist = string.match(output, "artist|(.-)[\n]") or "not_running",
+                title  = string.match(output, "title|(.-)[\n]") or "not_running"
+            }
 
-          widget = spotify.widget
-          settings()
-      end)
-   end
+            widget = spotify.widget
+            settings()
+        end)
+    end
 
-   helpers.newtimer("spotify", timeout, spotify.update)
+    helpers.newtimer("spotify", timeout, spotify.update)
 
-   return spotify
+    return spotify
 end
 
 return setmetatable(spotify, { __call = function(_, ...) return worker(...) end })
