@@ -11,7 +11,7 @@ local lain         = require("lain")
 local awful        = require("awful")
 local wibox        = require("wibox")
 local theme_assets = require("beautiful.theme_assets")
-local math, string, tonumber, os = math, string, tonumber, os
+local math, string, tonumber, type, os = math, string, tonumber, type, os
 
 local theme                                     = {}
 theme.default_dir                               = require("awful.util").get_themes_dir() .. "default"
@@ -28,7 +28,9 @@ theme.bg_urgent                                 = "#006B8E"
 theme.border_width                              = 4
 theme.border_normal                             = "#252525"
 theme.border_focus                              = "#7CA2EE"
-theme.menu_height                               = 36
+theme.tooltip_border_color                      = theme.fg_focus
+theme.tooltip_border_width                      = theme.border_width
+theme.menu_height                               = 24 
 theme.menu_width                                = 140
 theme.taglist_squares_sel                       = theme.icon_dir .. "/square_sel.png"
 theme.taglist_squares_unsel                     = theme.icon_dir .. "/square_unsel.png"
@@ -104,7 +106,7 @@ theme.titlebar_maximized_button_focus_active    = theme.default_dir.."/titlebar/
 awful.util.tagnames = { " ", " ", " ", " ", " ", " ", " ", " ", " " }
 
 -- Generate Awesome icon
-theme.awesome_icon = theme_assets.awesome_icon(theme.menu_height, theme.fg_normal, theme.bg_normal)
+theme.awesome_icon = theme_assets.awesome_icon(36, theme.fg_normal, theme.bg_normal)
 
 local markup = lain.util.markup
 
@@ -124,10 +126,17 @@ lain.widgets.calendar({
 
 -- Battery
 local baticon = wibox.widget.imagebox(theme.bat000)
-local battooltip = awful.tooltip({ objects = { baticon } })
---battooltip:set_shape(gears.shape.rounded_rect)
+local battooltip = awful.tooltip({
+    objects = { baticon },
+    margin_leftright = 15,
+    margin_topbottom = 12
+})
 battooltip.wibox.fg = theme.fg_normal
-battooltip.textbox.font = "Roboto 18"
+battooltip.textbox.font = theme.font
+battooltip.timeout = 0
+battooltip:set_shape(function(cr, width, height)
+    gears.shape.infobubble(cr, width, height, corner_radius, arrow_size, width - 35)
+end)
 local bat = lain.widgets.bat({
     settings = function()
         local index, perc = "bat", tonumber(bat_now.perc) or 0
@@ -151,7 +160,26 @@ local bat = lain.widgets.bat({
         end
 
         baticon:set_image(theme[index])
-        battooltip:set_markup(string.format("%s%%, %s", bat_now.perc, bat_now.time))
+        battooltip:set_markup(string.format("\n%s%%, %s", bat_now.perc, bat_now.time))
+    end
+})
+
+-- MPD
+theme.mpd = lain.widgets.mpd({
+    music_dir = "/mnt/storage/Downloads/Music",
+    settings = function()
+        if mpd_now.state == "play" then
+            title = mpd_now.title
+            artist  = "  " .. mpd_now.artist  .. " "
+        elseif mpd_now.state == "pause" then
+            title = "mpd "
+            artist  = "paused "
+        else
+            title  = ""
+            artist = ""
+        end
+
+        widget:set_markup(markup.font(theme.font, title .. markup(theme.fg_focus, artist)))
     end
 })
 
@@ -204,13 +232,26 @@ volicon:buttons(awful.util.table.join (
 
 -- Wifi carrier and signal strength
 local wificon = wibox.widget.imagebox()
+local wifitooltip = awful.tooltip({
+    objects = { wificon },
+    margin_leftright = 15,
+    margin_topbottom = 15
+})
+wifitooltip.wibox.fg = theme.fg_normal
+wifitooltip.textbox.font = theme.font
+wifitooltip.timeout = 0
+wifitooltip:set_shape(function(cr, width, height)
+    gears.shape.infobubble(cr, width, height, corner_radius, arrow_size, width - 120)
+end)
 local mywifisig = lain.widgets.abase({
-    cmd = "awk 'NR==3 {printf(\"%d-%.0f\",$2, $3*10/7)}' /proc/net/wireless",
+    cmd = { awful.util.shell, "-c", "awk 'NR==3 {printf(\"%d-%.0f\\n\",$2, $3*10/7)}' /proc/net/wireless; iw dev wlan0 link" },
     settings = function()
-        local carrier, perc = output:match("(%d)-(.*)")
+        local carrier, perc = output:match("(%d)-(%d+)")
+        local tiptext = output:gsub("(%d)-(%d+)", ""):gsub("%s+$", "")
 
         if carrier == "1" then
             wificon:set_image(theme.wifidisc)
+            wifitooltip:set_markup("No carrier")
         else
             perc = tonumber(perc)
             if perc <= 5 then
@@ -224,6 +265,7 @@ local mywifisig = lain.widgets.abase({
             else
                 wificon:set_image(theme.wififull)
             end
+            wifitooltip:set_markup(tiptext)
         end
     end
 })
@@ -246,13 +288,13 @@ mylauncher:connect_signal("button::press", function() awful.util.mymainmenu:togg
 -- Separators
 local space = wibox.widget.textbox(" ")
 local rspace1 = wibox.widget.textbox()
-local rspace11 = wibox.widget.textbox()
+local rspace0 = wibox.widget.textbox()
 local rspace2 = wibox.widget.textbox()
 local rspace3 = wibox.widget.textbox()
 local tspace1 = wibox.widget.textbox()
 tspace1.forced_width = 18
 rspace1.forced_width = 16
-rspace11.forced_width = 18
+rspace0.forced_width = 18
 rspace2.forced_width = 19
 rspace3.forced_width = 21
 
@@ -279,7 +321,7 @@ local barcolor2 = gears.color({
 
 function theme.at_screen_connect(s)
     -- Quake application
-    s.quake = lain.util.quake({ app = awful.util.terminal })
+    s.quake = lain.util.quake({ app = awful.util.terminal, border = theme.border_width })
 
     -- If wallpaper is a function, call it with the screen
     if type(wallpaper) == "function" then
@@ -326,7 +368,7 @@ function theme.at_screen_connect(s)
             layout = wibox.layout.fixed.horizontal,
             s.mypromptbox,
             tspace1,
-            wibox.container.constraint(wibox.container.constraint(s.mytasklist, "min", s.workarea.width/4), "max", s.workarea.width/4),
+            wibox.container.constraint(s.mytasklist, "exact", s.workarea.width/2.6),
         },
         { -- Middle widgets
             layout = wibox.layout.flex.horizontal,
@@ -335,12 +377,13 @@ function theme.at_screen_connect(s)
         },
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            wibox.container.constraint(space, "min", s.workarea.width/4),
+            wibox.container.constraint(wibox.widget { nil, nil, theme.mpd.widget, layout = wibox.layout.align.horizontal }, "exact", s.workarea.width/3),
+            rspace0,
             theme.weather.icon,
             theme.weather.widget,
             rspace1,
             wificon,
-            rspace11,
+            rspace0,
             volicon,
             rspace2,
             baticon,
