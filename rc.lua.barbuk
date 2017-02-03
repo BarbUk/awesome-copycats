@@ -235,7 +235,7 @@ local net = lain.widgets.net({
           weather.update()
       end
 
-      widget:set_markup(markup("#B3E383", markup.bold("↓") .. net_now.received) .. " " .. markup("#F4E59F", markup.bold("↑") .. net_now.sent))
+      widget:set_markup(markup("#B3E383", markup.bold("↓ ") .. net_now.received) .. " " .. markup("#F4E59F", markup.bold("↑ ") .. net_now.sent))
     end
 })
 
