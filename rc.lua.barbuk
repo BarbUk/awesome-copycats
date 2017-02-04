@@ -142,6 +142,8 @@ lain.widgets.calendar({
         bg   = beautiful.bg_normal
 }})
 
+naughty.notify({text = file_exists(home .. "/.config/themelight").type})
+
 -- MPD
 local mpd = lain.widgets.mpd({
     settings = function()
@@ -736,9 +738,9 @@ awful.rules.rules = {
     { rule = { class = "google-chrome-stable" }, properties = { screen = 1, tag = screen[1].tags[3] } },
     { rule = { class = "Google-chrome-beta" }, properties = { screen = 1, tag = screen[1].tags[3] } },
     { rule = { class = "Firefox" }, properties = { screen = 1, tag = screen[1].tags[3] } },
-    { rule = { class = "Dia" }, properties = { screen = 1, tag = screen[1].tags[5], floating = true } },
-    { rule = { class = "Gimp" }, properties = { screen = 1, tag = screen[1].tags[5], floating = true } },
-    { rule = { class = "Inkscape" }, properties = { screen = 1, tag = screen[1].tags[5], floating = true } },
+    { rule = { class = "Dia" }, properties = { screen = 1, tag = screen[1].tags[6] } },
+    { rule = { class = "Gimp" }, properties = { screen = 1, tag = screen[1].tags[6] } },
+    { rule = { class = "Inkscape" }, properties = { screen = 1, tag = screen[1].tags[6] } },
     { rule = { class = "Transmission-gtk" }, properties = { screen = 1, tag = screen[1].tags[5] } },
     { rule = { class = "Spotify" }, properties = { screen = 1, tag = screen[1].tags[6] } },
     { rule = { class = "sublime-text" }, properties = { screen = 1, tag = screen[1].tags[4] } },
