@@ -15,7 +15,7 @@ naughty.config.defaults.bg          = "#ffffff"
 naughty.config.defaults.fg          = "#000000"
 naughty.config.defaults.border_width       = 3
 
-local pulse_sink = "$(pacmd list-sinks | grep -B4 RUNNING | grep index | cut -d: -f 2 && sleep 0.1)"
+local pulse_sink = "$(pacmd list-sinks | grep -B4 RUNNING | grep index | cut -d: -f 2)"
 local scriptdir = os.getenv("HOME") .. "/.dotfiles/bin/"
 
 
@@ -209,10 +209,16 @@ local bat = lain.widgets.contrib.tpbat({
 
 local volicon = wibox.widget.imagebox(beautiful.widget_vol)
 local volume = lain.widgets.pulseaudio({
-    settings = function()
-        widget:set_markup(markup(white, volume_now.right))
+  settings = function()
+    if volume_now.muted == "yes" then
+      widget:set_text("Mute")
+    else
+      widget:set_markup(markup(white, volume_now.right))
     end
+  end
 })
+
+
 
 -- Weather
 local weather = lain.widgets.weather({
