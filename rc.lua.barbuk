@@ -142,8 +142,6 @@ lain.widgets.calendar({
         bg   = beautiful.bg_normal
 }})
 
-naughty.notify({text = file_exists(home .. "/.config/themelight").type})
-
 -- MPD
 local mpd = lain.widgets.mpd({
     settings = function()
@@ -347,7 +345,7 @@ awful.screen.connect_for_each_screen(function(s)
             spotify.widget,
             spc,
             wibox.widget.systray(),
-            lspr,
+            spr,
             net.widget,
             spr,
             cpuicon,
