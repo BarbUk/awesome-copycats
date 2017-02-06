@@ -144,13 +144,14 @@ lain.widgets.calendar({
 
 -- MPD
 local mpd = lain.widgets.mpd({
-    settings = function()
-        if mpd_now.state == "play" then
-            widget:set_markup(markup(gray, mpd_now.artist) .. " - " .. markup(white, mpd_now.title))
-        else
-            widget:set_markup("")
-        end
+  settings = function()
+    music_dir = "~/Zik/"
+    if mpd_now.state == "play" then
+        widget:set_markup(markup(gray, mpd_now.artist) .. " - " .. markup(white, mpd_now.title))
+    else
+        widget:set_markup("")
     end
+  end
 })
 
 -- Spotify
