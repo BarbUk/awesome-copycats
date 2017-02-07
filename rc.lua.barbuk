@@ -51,6 +51,7 @@ local function run_once(cmd)
 end
 
 run_once("unclutter -root")
+run_once("redshift")
 -- }}}
 
 -- {{{ Variable definitions
@@ -739,10 +740,6 @@ awful.rules.rules = {
     { rule = { instance = "plugin-container" }, properties = { screen = 1, tag = screen[1].tags[1], floating = true, focus = yes } },
     { rule = { class = "Pidgin" }, properties = { screen = 1, tag = screen[1].tags[1] } },
     { rule = { class = "wmail" }, properties = { screen = 1, tag = screen[1].tags[2] } },
-    { rule = { class = "Chromium" }, properties = { screen = 1, tag = screen[1].tags[4] } },
-    { rule = { class = "google-chrome-stable" }, properties = { screen = 1, tag = screen[1].tags[3] } },
-    { rule = { class = "Google-chrome-beta" }, properties = { screen = 1, tag = screen[1].tags[3] } },
-    { rule = { class = "Firefox" }, properties = { screen = 1, tag = screen[1].tags[3] } },
     { rule = { class = "Dia" }, properties = { screen = 1, tag = screen[1].tags[6] } },
     { rule = { class = "Gimp" }, properties = { screen = 1, tag = screen[1].tags[6] } },
     { rule = { class = "Inkscape" }, properties = { screen = 1, tag = screen[1].tags[6] } },
