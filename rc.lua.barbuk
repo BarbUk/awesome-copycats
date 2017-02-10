@@ -136,7 +136,7 @@ local gray   = beautiful.fg_normal
 local clock = wibox.widget.textclock(markup(white, "%H:%M "))
 
 -- Calendar
-lain.widgets.calendar({
+lain.widget.calendar({
     attach_to = { clock },
     notification_preset = {
         fg   = white,
@@ -144,7 +144,7 @@ lain.widgets.calendar({
 }})
 
 -- MPD
-local mpd = lain.widgets.mpd({
+local mpd = lain.widget.mpd({
   settings = function()
     music_dir = "~/Zik/"
     if mpd_now.state == "play" then
@@ -168,7 +168,7 @@ local spotify = spotify({
 })
 
 -- /home fs
-local fshome = lain.widgets.fs({
+local fshome = lain.widget.fs({
     partition = "/",
     options = "--exclude-type=tmpfs",
     notification_preset = { fg = white, bg = beautiful.bg_normal },
@@ -187,7 +187,7 @@ local fshome = lain.widgets.fs({
 
 -- Battery
 local baticon = wibox.widget.imagebox(beautiful.widget_battery_low)
-local bat = lain.widgets.contrib.tpbat({
+local bat = lain.widget.contrib.tpbat({
     settings = function()
         if bat_now.status ~= "N/A" then
             if bat_now.ac_status == 1 then
@@ -210,7 +210,7 @@ local bat = lain.widgets.contrib.tpbat({
 })
 
 local volicon = wibox.widget.imagebox(beautiful.widget_vol)
-local volume = lain.widgets.pulseaudio({
+local volume = lain.widget.pulseaudio({
   settings = function()
     if volume_now.muted == "yes" then
       widget:set_text("Mute")
@@ -223,7 +223,7 @@ local volume = lain.widgets.pulseaudio({
 
 
 -- Weather
-local weather = lain.widgets.weather({
+local weather = lain.widget.weather({
     city_id = 934131,
     current_call  = "curl --connect-timeout 3 --max-time 5 -s 'http://api.openweathermap.org/data/2.5/weather?id=%s&units=%s&lang=%s&APPID=%s'",
     forecast_call = "curl --connect-timeout 3 --max-time 5 -s 'http://api.openweathermap.org/data/2.5/forecast/daily?id=%s&units=%s&lang=%s&cnt=%s&APPID=%s'",
@@ -235,7 +235,7 @@ local weather = lain.widgets.weather({
 })
 
 -- Net
-local net = lain.widgets.net({
+local net = lain.widget.net({
     settings = function()
       if iface ~= "network off" and
         string.match(weather.widget.text, "N/A")
@@ -249,7 +249,7 @@ local net = lain.widgets.net({
 
 -- CPU
 local cpuicon = wibox.widget.imagebox(beautiful.widget_cpu)
-local cpu = lain.widgets.sysload({
+local cpu = lain.widget.sysload({
     settings = function()
         widget:set_markup(markup("#E5CBCB", load_1 .. " " .. load_5))
     end
@@ -522,7 +522,7 @@ globalkeys = awful.util.table.join(
               {description = "restore minimized", group = "client"}),
 
     -- Widgets popups
-    awful.key({ altkey, }, "c", function () lain.widgets.calendar.show(7) end),
+    awful.key({ altkey, }, "c", function () lain.widget.calendar.show(7) end),
     awful.key({ altkey, }, "h", function () fshome.show(7) end),
     awful.key({ altkey, }, "w", function () weather.show(7) end),
 
