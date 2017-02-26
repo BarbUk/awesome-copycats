@@ -65,7 +65,7 @@ local terminal   = "termite"
 local editor     = os.getenv("EDITOR") or "vim"
 
 -- user defined
-local browser    = "google-chrome-beta"
+local browser    = "google-chrome-stable"
 local gui_editor = "subl"
 local graphics   = "gimp"
 local file_explorer = "pcmanfm"
@@ -605,8 +605,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "p",      function () os.execute(scriptdir .. "snippy") end),
     awful.key({ modkey, "Shift"   }, "m",      function () os.execute("termite --class='center' --geometry='700x400' --exec=ncmpcpp &") end),
     awful.key({ modkey }, "0",      function () awful.util.spawn(scriptdir .. "qrcodize", false ) end),
-    awful.key({ modkey }, "t",      function () awful.util.spawn( browser .. " --profile-directory=Default https://mail.google.com/mail/mu/mp/540/?mui=ca#tl/R%C3%A9ception", false ) end),
-    awful.key({ modkey }, "y",      function () awful.util.spawn( browser .. " --profile-directory='Profile 3' https://mail.google.com/mail/u/0/#inbox https://mail.google.com/mail/u/1/#inbox", false ) end),
+    awful.key({ modkey }, "t",      function () awful.util.spawn( browser .. " --profile-directory='Profile 4' https://mail.google.com/mail/mu/mp/540/?mui=ca#tl/R%C3%A9ception", false ) end),
+    awful.key({ modkey }, "y",      function () awful.util.spawn( browser .. " --profile-directory='Profile 5' https://mail.google.com/mail/u/0/#inbox https://mail.google.com/mail/u/1/#inbox", false ) end),
     awful.key({ modkey }, "d",      function () awful.util.spawn( "pcmanfm", false ) end),
 
     -- Default
@@ -737,7 +737,7 @@ awful.rules.rules = {
     { rule = { class = "mpv" }, properties = { border_width = 0, focus = yes} },
     { rule = { name = "Kupfer" }, properties = { floating = true, border_width = 0, focus = yes } },
     { rule = { class = "albert" }, properties = { floating = true, focus = yes } },
-    { rule = { instance = "plugin-container" }, properties = { screen = 1, tag = screen[1].tags[1], floating = true, focus = yes } },
+    -- { rule = { instance = "plugin-container" }, properties = { screen = 1, tag = screen[1].tags[1], floating = true, focus = yes } },
     { rule = { class = "Pidgin" }, properties = { screen = 1, tag = screen[1].tags[1] } },
     { rule = { class = "wmail" }, properties = { screen = 1, tag = screen[1].tags[2] } },
     { rule = { class = "Dia" }, properties = { screen = 1, tag = screen[1].tags[6] } },
@@ -747,16 +747,16 @@ awful.rules.rules = {
     { rule = { class = "Spotify" }, properties = { screen = 1, tag = screen[1].tags[6] } },
     { rule = { class = "sublime-text" }, properties = { screen = 1, tag = screen[1].tags[4] } },
     { rule = { class = "Subl3" }, except = { instance = "subl3" }, properties = { screen = 1, tag = screen[1].tags[4] } },
-    { rule = { class = "Exe" }, properties = { floating = true, focus = yes } },
+    -- { rule = { class = "Exe" }, properties = { floating = true, focus = yes } },
     { rule = { class = "feh" }, properties = { floating = true, focus = yes } },
     { rule = { class = "Toggl Desktop" }, properties = { focus = yes } },
     { rule = { class = "center" }, properties = { floating = true, focus = yes }, callback = function (c)
         awful.placement.centered(c,nil)
      end },
-    { rule = { instance = "crx_nckgahadagoaajjgafhacjanaoiihapd" }, properties = { screen = 1, tag = screen[1].tags[1] } },
+    -- { rule = { instance = "crx_nckgahadagoaajjgafhacjanaoiihapd" }, properties = { screen = 1, tag = screen[1].tags[1] } },
     { rule = { class = "HipChat" }, properties = { screen = 1, tag = screen[1].tags[1] } },
     { rule = { class = "Slack" }, properties = { screen = 1, tag = screen[1].tags[1] } },
-    { rule = { instance = "crx_knipolnnllmklapflnccelgolnpehhpl" }, properties = { screen = 1, tag = screen[1].tags[1] } },
+    -- { rule = { instance = "crx_knipolnnllmklapflnccelgolnpehhpl" }, properties = { screen = 1, tag = screen[1].tags[1] } },
     { rule = { class = "Gimp", role = "gimp-image-window" }, properties = { maximized_horizontal = true, maximized_vertical = true } },
     { rule = { class = "Wine" }, properties = { border_width = 0, floating = true } },
     { rule = { class = "copyq" }, properties = { border_width = 0, focus = yes } },
