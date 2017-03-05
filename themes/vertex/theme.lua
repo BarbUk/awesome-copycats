@@ -183,7 +183,7 @@ theme.mpd = lain.widget.mpd({
 -- ALSA volume
 local volicon = wibox.widget.imagebox()
 theme.volume = lain.widget.alsabar({
-    togglechannel = "IEC958,3",
+    --togglechannel = "IEC958,3",
     notification_preset = { font = "Monospace 12", fg = theme.fg_normal },
     settings = function()
         local index, perc = "", tonumber(volume_now.level) or 0
@@ -387,7 +387,7 @@ function theme.at_screen_connect(s)
     s.quake = lain.util.quake({ app = awful.util.terminal, border = theme.border_width })
 
     -- If wallpaper is a function, call it with the screen
-    if type(wallpaper) == "function" then
+    if type(theme.wallpaper) == "function" then
         theme.wallpaper = theme.wallpaper(s)
     end
     gears.wallpaper.maximized(theme.wallpaper, s, true)
