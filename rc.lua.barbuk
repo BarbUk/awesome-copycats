@@ -51,7 +51,6 @@ local function run_once(cmd)
 end
 
 run_once("unclutter -root")
-run_once("redshift")
 -- }}}
 
 -- {{{ Variable definitions
