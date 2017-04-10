@@ -10,11 +10,6 @@ local theme                               = {}
 
 home = os.getenv("HOME")
 
-local function file_exists(name)
-   local f=io.open(name,"r")
-   if f~=nil then io.close(f) return true else return false end
-end
-
 theme.dir                           = home .. "/.config/awesome/themes/barbuk"
 theme.wallpaper                     = theme.dir .. "/archlinux.png"
 
@@ -22,11 +17,7 @@ theme.font                          = "PragmataPro 7"
 
 theme.fg_normal                     = "#CACACA"
 theme.fg_focus                      = "#EBEBFF"
-if file_exists(home .. "/.config/themelight") then
-    theme.bg_normal                 = "#7F37A2"
-else
-    theme.bg_normal                 = "#002B36"
-end
+theme.bg_normal                     = "#002B36"
 theme.bg_focus                      = theme.bg_normal
 theme.fg_urgent                     = "#000000"
 theme.bg_urgent                     = "#A37AB7"
