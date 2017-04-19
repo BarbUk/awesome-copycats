@@ -15,7 +15,7 @@ naughty.config.defaults.bg          = "#ffffff"
 naughty.config.defaults.fg          = "#000000"
 naughty.config.defaults.border_width       = 3
 
-local pulse_sink = "$(pacmd list-sinks | grep -B4 RUNNING | grep index | cut -d: -f 2)"
+local pulse_sink = "$(pacmd list-sinks | grep '* index' | awk '{print $3}')"
 local scriptdir = os.getenv("HOME") .. "/.dotfiles/bin/"
 
 
