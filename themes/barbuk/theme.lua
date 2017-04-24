@@ -15,9 +15,9 @@ theme.wallpaper                     = theme.dir .. "/archlinux.png"
 
 theme.font                          = "PragmataPro 7"
 
-theme.fg_normal                     = "#CACACA"
+theme.fg_normal                     = "#D8DEE9"
 theme.fg_focus                      = "#EBEBFF"
-theme.bg_normal                     = "#002B36"
+theme.bg_normal                     = "#2E3440"
 theme.bg_focus                      = theme.bg_normal
 theme.fg_urgent                     = "#000000"
 theme.bg_urgent                     = "#A37AB7"
@@ -25,7 +25,7 @@ theme.border_width                  = 0
 theme.border_normal                 = "#0E0E0E"
 theme.border_focus                  = theme.bg_normal
 theme.taglist_fg_focus              = "#EDEFFF"
-theme.taglist_bg_focus              = "#3E7A89"
+theme.taglist_bg_focus              = "#4C566A"
 theme.wibar_height                  = 14
 theme.menu_height                   = 12
 theme.menu_width                    = 140
