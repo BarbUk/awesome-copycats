@@ -606,7 +606,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "m",      function () os.execute("termite --class='center' --geometry='700x400' --exec=ncmpcpp &") end),
     awful.key({ modkey }, "0",      function () awful.util.spawn(scriptdir .. "qrcodize", false ) end),
     awful.key({ modkey }, "t",      function () awful.util.spawn( browser .. " --profile-directory='Profile 4' https://mail.google.com/mail/mu/mp/540/?mui=ca#tl/R%C3%A9ception", false ) end),
-    awful.key({ modkey }, "y",      function () awful.util.spawn( browser .. " --profile-directory='Profile 5' https://mail.google.com/mail/u/0/#inbox", false ) end),
+    awful.key({ modkey }, "y",      function () awful.util.spawn( browser .. " --profile-directory='Profile 1' https://mail.google.com/mail/u/0/#inbox", false ) end),
     awful.key({ modkey }, "d",      function () awful.util.spawn( "pcmanfm", false ) end),
 
     -- Default
