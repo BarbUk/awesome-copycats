@@ -68,7 +68,8 @@ local browser    = "google-chrome-stable"
 local gui_editor = "subl"
 local graphics   = "gimp"
 local file_explorer = "pcmanfm"
-local tagnames   = { "chat", "mail", "www", "dev", "term", "media" }
+local tagnames_right  = { "chat", "mail", "www", "dev", "term", "media" }
+local tagnames_left   = { "skype", "slack", "www", "dev", "spotify" }
 
 -- table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
@@ -322,7 +323,11 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Tags
-    awful.tag(tagnames, s, layouts)
+    if s.index == 1 then
+      awful.tag(tagnames_right, s, layouts)
+    elseif s.index == 2 then
+      awful.tag(tagnames_left, s, layouts)
+    end
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -336,17 +341,13 @@ awful.screen.connect_for_each_screen(function(s)
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s, height = beautiful.wibar_height })
 
-    -- Add widgets to the wibox
-    s.mywibox:setup {
-        layout = wibox.layout.align.horizontal,
-        { -- Left widgets
+    local left = { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
             s.mytaglist,
             s.mytxtlayoutbox,
             s.mypromptbox,
-        },
-        s.mytasklist, -- Middle widget
-        { -- Right widgets
+        }
+    local right = { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mpd.widget,
             spotify.widget,
@@ -369,8 +370,25 @@ awful.screen.connect_for_each_screen(function(s)
             weather.widget,
             spr,
             clock,
-        },
-    }
+        }
+
+    if s.index == 1 then
+      -- Add widgets to the wibox
+      s.mywibox:setup {
+          layout = wibox.layout.align.horizontal,
+          left,
+          s.mytasklist, -- Middle widget
+          right
+      }
+    elseif s.index == 2 then
+      -- Add widgets to the wibox
+      s.mywibox:setup {
+          layout = wibox.layout.align.horizontal,
+          left,
+          s.mytasklist, -- Middle widget
+      }
+    end
+
 end)
 -- }}}
 
@@ -592,9 +610,9 @@ globalkeys = awful.util.table.join(
     end),
 
     -- Copy primary to clipboard (terminals to gtk)
-    awful.key({ modkey }, "c", function () awful.spawn("xsel | xsel -i -b") end),
+    awful.key({ modkey }, "c", function () awful.spawn("xclip -o | copyq add -") end),
     -- Copy clipboard to primary (gtk to terminals)
-    awful.key({ modkey }, "v", function () awful.spawn("xsel -b | xsel") end),
+    awful.key({ modkey }, "v", function () awful.spawn("copyq 'select(0); sleep(50); paste()'") end),
 
     -- User programs
     awful.key({ modkey }, "s", function () awful.spawn(gui_editor) end),
