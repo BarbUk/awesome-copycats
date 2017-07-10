@@ -357,7 +357,7 @@ awful.screen.connect_for_each_screen(function(s)
             spr,
             cpuicon,
             cpu.widget,
-            fshome,
+            fshome.widget,
             spr,
             baticon,
             bat.widget,
