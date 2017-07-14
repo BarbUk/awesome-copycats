@@ -352,35 +352,42 @@ awful.screen.connect_for_each_screen(function(s)
     s.mywibox = awful.wibar({ position = "top", screen = s, height = beautiful.wibar_height })
 
     local left = { -- Left widgets
-            layout = wibox.layout.fixed.horizontal,
-            s.mytaglist,
-            s.mytxtlayoutbox,
-            s.mypromptbox,
-        }
+      layout = wibox.layout.fixed.horizontal,
+      s.mytaglist,
+      s.mytxtlayoutbox,
+      s.mypromptbox,
+    }
     local right = { -- Right widgets
-            layout = wibox.layout.fixed.horizontal,
-            mpd.widget,
-            spotify.widget,
-            spc,
-            wibox.widget.systray(),
-            spr,
-            net.widget,
-            spr,
-            cpuicon,
-            cpu.widget,
-            fshome.widget,
-            spr,
-            baticon,
-            bat.widget,
-            spr,
-            volicon,
-            volume.widget,
-            spr,
-            weather.icon,
-            weather.widget,
-            spr,
-            clock,
-        }
+      layout = wibox.layout.fixed.horizontal,
+      mpd.widget,
+      spotify.widget,
+      spc,
+      wibox.widget.systray(),
+      spr,
+      net.widget,
+      spr,
+      cpuicon,
+      cpu.widget,
+      fshome.widget,
+      spr,
+      baticon,
+      bat.widget,
+      spr,
+      volicon,
+      volume.widget,
+      spr,
+      weather.icon,
+      weather.widget,
+      spr,
+      clock
+    }
+    local time = {
+      layout = wibox.layout.fixed.horizontal,
+      weather.icon,
+      weather.widget,
+      spr,
+      clock
+    }
 
     if s.index == 1 then
       -- Add widgets to the wibox
@@ -389,13 +396,14 @@ awful.screen.connect_for_each_screen(function(s)
           left,
           s.mytasklist, -- Middle widget
           right
-      }
+    }
     elseif s.index == 2 then
       -- Add widgets to the wibox
       s.mywibox:setup {
           layout = wibox.layout.align.horizontal,
           left,
-          s.mytasklist, -- Middle widget
+          s.mytasklist, -- Middle widget,
+          time
       }
     end
 
