@@ -413,12 +413,6 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
 
-    -- Non-empty tag browsing
-    -- awful.key({ altkey }, "Left", function () lain.util.tag_view_nonempty(-1) end,
-    --           {description = "view  previous nonempty", group = "tag"}),
-    -- awful.key({ altkey }, "Right", function () lain.util.tag_view_nonempty(1) end,
-    --           {description = "view  previous nonempty", group = "tag"}),
-
     -- Default client focus
     awful.key({ altkey,           }, "j",
         function ()
@@ -454,8 +448,6 @@ globalkeys = awful.util.table.join(
             awful.client.focus.bydirection("right")
             if client.focus then client.focus:raise() end
         end),
-    awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
-              {description = "show main menu", group = "awesome"}),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
@@ -476,14 +468,14 @@ globalkeys = awful.util.table.join(
             end
         end,
         {description = "go back", group = "client"}),
-    awful.key({ "Mod1",           }, "Tab",
+    awful.key({ altkey,           }, "Tab",
       function ()
-          -- awful.client.focus.history.previous()
-          awful.client.focus.byidx(-1)
-          if client.focus then
-              client.focus:raise()
-          end
-      end),
+            awful.client.focus.history.previous()
+            if client.focus then
+                client.focus:raise()
+            end
+        end,
+        {description = "go back", group = "client"}),
 
     -- Show/Hide Wibox
     awful.key({ modkey }, "b", function ()
@@ -610,7 +602,7 @@ globalkeys = awful.util.table.join(
     end),
 
     -- Copy primary to clipboard (terminals to gtk)
-    awful.key({ modkey }, "c", function () awful.spawn("xclip -o | copyq add -") end),
+    awful.key({ modkey }, "c", function () awful.util.spawn_with_shell("xsel | xsel -i -b") end),
     -- Copy clipboard to primary (gtk to terminals)
     awful.key({ modkey }, "v", function () awful.spawn("copyq 'select(0); sleep(50); paste()'") end),
 
@@ -643,8 +635,6 @@ clientkeys = awful.util.table.join(
             c:raise()
         end,
         {description = "toggle fullscreen", group = "client"}),
-    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
-              {description = "close", group = "client"}),
     awful.key({ "Mod1"            }, "F4",     function (c) c:kill()                         end,
               {description = "close", group = "client"}),
     awful.key({ modkey            }, "q",     function (c) c:kill()                         end,
@@ -730,7 +720,19 @@ clientbuttons = awful.util.table.join(
 -- Set keys
 root.keys(globalkeys)
 -- }}}
-
+-- if awful.screen.count() > 1 then
+--   local chat_apps = {
+--     { rule = { class = "HipChat" }, properties = { screen = 2, tag = screen[2].tags[2] } },
+--     { rule = { class = "Slack" }, properties = { screen = 2, tag = screen[2].tags[2] } },
+--     { rule = { class = "Skype" }, properties = { screen = 2, tag = screen[2].tags[1] } }
+--   }
+-- else
+--   local chat_apps = {
+--     { rule = { class = "HipChat" }, properties = { screen = 1, tag = screen[1].tags[1] } },
+--     { rule = { class = "Slack" }, properties = { screen = 1, tag = screen[1].tags[1] } },
+--     { rule = { class = "Skype" }, properties = { screen = 1, tag = screen[1].tags[1] } }
+--   }
+-- end
 -- {{{ Rules
 -- Rules to apply to new clients (through the "manage" signal).
 awful.rules.rules = {
@@ -757,7 +759,6 @@ awful.rules.rules = {
     { rule = { class = "mpv" }, properties = { border_width = 0, focus = yes} },
     { rule = { name = "Kupfer" }, properties = { floating = true, border_width = 0, focus = yes } },
     { rule = { class = "albert" }, properties = { floating = true, focus = yes } },
-    -- { rule = { instance = "plugin-container" }, properties = { screen = 1, tag = screen[1].tags[1], floating = true, focus = yes } },
     { rule = { class = "Pidgin" }, properties = { screen = 1, tag = screen[1].tags[1] } },
     { rule = { class = "wmail" }, properties = { screen = 1, tag = screen[1].tags[2] } },
     { rule = { class = "Dia" }, properties = { screen = 1, tag = screen[1].tags[6] } },
@@ -767,16 +768,11 @@ awful.rules.rules = {
     { rule = { class = "Spotify" }, properties = { screen = 1, tag = screen[1].tags[6] } },
     { rule = { class = "sublime-text" }, properties = { screen = 1, tag = screen[1].tags[4] } },
     { rule = { class = "Subl3" }, except = { instance = "subl3" }, properties = { screen = 1, tag = screen[1].tags[4] } },
-    -- { rule = { class = "Exe" }, properties = { floating = true, focus = yes } },
     { rule = { class = "feh" }, properties = { floating = true, focus = yes } },
     { rule = { class = "Toggl Desktop" }, properties = { focus = yes } },
     { rule = { class = "center" }, properties = { floating = true, focus = yes }, callback = function (c)
         awful.placement.centered(c,nil)
      end },
-    -- { rule = { instance = "crx_nckgahadagoaajjgafhacjanaoiihapd" }, properties = { screen = 1, tag = screen[1].tags[1] } },
-    { rule = { class = "HipChat" }, properties = { screen = 1, tag = screen[1].tags[1] } },
-    { rule = { class = "Slack" }, properties = { screen = 1, tag = screen[1].tags[1] } },
-    -- { rule = { instance = "crx_knipolnnllmklapflnccelgolnpehhpl" }, properties = { screen = 1, tag = screen[1].tags[1] } },
     { rule = { class = "Gimp", role = "gimp-image-window" }, properties = { maximized_horizontal = true, maximized_vertical = true } },
     { rule = { class = "Wine" }, properties = { border_width = 0, floating = true } },
     { rule = { class = "copyq" }, properties = { border_width = 0, focus = yes } },
