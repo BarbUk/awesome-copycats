@@ -1,4 +1,7 @@
 -- {{{ Required libraries
+local awesome, client, mouse, screen, tag = awesome, client, mouse, screen, tag
+local ipairs, string, os, table, tostring, tonumber, type = ipairs, string, os, table, tostring, tonumber, type
+
 local gears         = require("gears")
 local awful         = require("awful")
                       require("awful.autofocus")
@@ -6,8 +9,14 @@ local wibox         = require("wibox")
 local beautiful     = require("beautiful")
 local naughty       = require("naughty")
 local lain          = require("lain")
+local hotkeys_popup = require("awful.hotkeys_popup").widget
 local spotify       = require("spotify")
+local cyclefocus    = require('cyclefocus')
 -- }}}
+
+cyclefocus.display_next_count = 5
+cyclefocus.display_prev_count = 5
+cyclefocus.default_preset.font = 'PragmataPro 12'
 
 naughty.config.defaults.font        = "PragmataPro 10"
 naughty.config.defaults.icon_size   = 80
@@ -68,8 +77,9 @@ local browser    = "google-chrome-stable"
 local gui_editor = "subl"
 local graphics   = "gimp"
 local file_explorer = "pcmanfm"
-local tagnames_right  = { "chat", "mail", "www", "dev", "term", "media" }
-local tagnames_left   = { "skype", "slack", "www", "dev", "spotify" }
+awful.util.tagnames_right  = { "chat", "mail", "www", "dev", "term", "media" }
+awful.util.tagnames_left   = { "skype", "slack", "www", "dev", "spotify" }
+awful.util.terminal = terminal
 
 -- table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
@@ -324,9 +334,9 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Tags
     if s.index == 1 then
-      awful.tag(tagnames_right, s, layouts)
+      awful.tag(awful.util.tagnames_right, s, layouts)
     elseif s.index == 2 then
-      awful.tag(tagnames_left, s, layouts)
+      awful.tag(awful.util.tagnames_left, s, layouts)
     end
 
     -- Create a promptbox for each screen
@@ -459,23 +469,23 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end,
               {description = "focus the previous screen", group = "screen"}),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto,
-              {description = "jump to urgent client", group = "client"}),
-    awful.key({ modkey,           }, "Tab",
-        function ()
-            awful.client.focus.history.previous()
-            if client.focus then
-                client.focus:raise()
-            end
-        end,
-        {description = "go back", group = "client"}),
-    awful.key({ altkey,           }, "Tab",
-      function ()
-            awful.client.focus.history.previous()
-            if client.focus then
-                client.focus:raise()
-            end
-        end,
-        {description = "go back", group = "client"}),
+             {description = "jump to urgent client", group = "client"}),
+    -- modkey+Tab: cycle through all clients.
+    awful.key({ modkey }, "Tab", function(c)
+        cyclefocus.cycle({modifier="Super_L"})
+    end),
+    -- modkey+Shift+Tab: backwards
+    awful.key({ modkey, "Shift" }, "Tab", function(c)
+        cyclefocus.cycle({modifier="Super_L"})
+    end),
+    -- awful.key({ altkey,           }, "Tab",
+    --   function ()
+    --         awful.client.focus.history.previous()
+    --         if client.focus then
+    --             client.focus:raise()
+    --         end
+    --     end,
+    --     {description = "go back", group = "client"}),
 
     -- Show/Hide Wibox
     awful.key({ modkey }, "b", function ()
@@ -659,7 +669,11 @@ clientkeys = awful.util.table.join(
             c.maximized = not c.maximized
             c:raise()
         end ,
-        {description = "maximize", group = "client"})
+        {description = "maximize", group = "client"}),
+    cyclefocus.key({ "Mod1", }, "Tab", {
+      cycle_filters = { cyclefocus.filters.same_screen, cyclefocus.filters.common_tag },
+      keys = {'Tab', 'ISO_Left_Tab'}  -- default, could be left out
+  })
 )
 
 -- Bind all key numbers to tags.
@@ -741,28 +755,32 @@ awful.rules.rules = {
     { rule_any = { type = { "dialog", "normal" } },
       properties = { titlebars_enabled = false } },
 
+    -- local tagnames_right  = { "chat", "mail", "www", "dev", "term", "media" }
+    -- local tagnames_left   = { "skype", "slack", "www", "dev", "spotify" }
+    { rule = { class = "Pidgin" }, properties = { screen = 1, tag = awful.util.tagnames_right["chat"] } },
+    { rule = { class = "wmail" }, properties = { screen = 1, tag = awful.util.tagnames_right["mail"] } },
+    { rule = { class = "Dia" }, properties = { screen = 1, tag = awful.util.tagnames_right["media"] } },
+    { rule = { class = "Gimp" }, properties = { screen = 1, tag = awful.util.tagnames_right["media"] } },
+    { rule = { class = "Inkscape" }, properties = { screen = 1, tag = awful.util.tagnames_right["media"] } },
+    { rule = { class = "Transmission-gtk" }, properties = { screen = 1, tag = awful.util.tagnames_right["media"] } },
+    { rule = { class = "Spotify" }, properties = { screen = 1, tag = awful.util.tagnames_right["media"] } },
+    { rule = { class = "sublime-text" }, properties = { screen = 1, tag = awful.util.tagnames_right["dev"] } },
+    { rule = { class = "Subl3" }, except = { instance = "subl3" }, properties = { screen = 1, tag = awful.util.tagnames_right["dev"] } },
+
     { rule = { class = "MPlayer" }, properties = { border_width = 0, focus = yes } },
     { rule = { class = "mpv" }, properties = { border_width = 0, focus = yes} },
     { rule = { name = "Kupfer" }, properties = { floating = true, border_width = 0, focus = yes } },
     { rule = { class = "albert" }, properties = { floating = true, focus = yes } },
-    { rule = { class = "Pidgin" }, properties = { screen = 1, tag = awful.util.tagnames[1] } },
-    { rule = { class = "wmail" }, properties = { screen = 1, tag = awful.util.tagnames[2] } },
-    { rule = { class = "Dia" }, properties = { screen = 1, tag = awful.util.tagnames[6] } },
-    { rule = { class = "Gimp" }, properties = { screen = 1, tag = awful.util.tagnames[6] } },
-    { rule = { class = "Inkscape" }, properties = { screen = 1, tag = awful.util.tagnames[6] } },
-    { rule = { class = "Transmission-gtk" }, properties = { screen = 1, tag = awful.util.tagnames[5] } },
-    { rule = { class = "Spotify" }, properties = { screen = 1, tag = awful.util.tagnames[6] } },
-    { rule = { class = "sublime-text" }, properties = { screen = 1, tag = awful.util.tagnames[4] } },
-    { rule = { class = "Subl3" }, except = { instance = "subl3" }, properties = { screen = 1, tag = awful.util.tagnames[4] } },
     { rule = { class = "feh" }, properties = { floating = true, focus = yes } },
     { rule = { class = "Toggl Desktop" }, properties = { focus = yes } },
-    { rule = { class = "center" }, properties = { floating = true, focus = yes }, callback = function (c)
-        awful.placement.centered(c,nil)
-     end },
     { rule = { class = "Gimp", role = "gimp-image-window" }, properties = { maximized_horizontal = true, maximized_vertical = true } },
     { rule = { class = "Wine" }, properties = { border_width = 0, floating = true } },
     { rule = { class = "copyq" }, properties = { border_width = 0, focus = yes } },
+
     { rule = { role = "GtkFileChooserDialog" }, properties = { focus = yes }, callback = function (c)
+        awful.placement.centered(c,nil)
+     end },
+     { rule = { class = "center" }, properties = { floating = true, focus = yes }, callback = function (c)
         awful.placement.centered(c,nil)
      end }
 }
