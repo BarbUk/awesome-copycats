@@ -720,19 +720,6 @@ clientbuttons = awful.util.table.join(
 -- Set keys
 root.keys(globalkeys)
 -- }}}
--- if awful.screen.count() > 1 then
---   local chat_apps = {
---     { rule = { class = "HipChat" }, properties = { screen = 2, tag = screen[2].tags[2] } },
---     { rule = { class = "Slack" }, properties = { screen = 2, tag = screen[2].tags[2] } },
---     { rule = { class = "Skype" }, properties = { screen = 2, tag = screen[2].tags[1] } }
---   }
--- else
---   local chat_apps = {
---     { rule = { class = "HipChat" }, properties = { screen = 1, tag = screen[1].tags[1] } },
---     { rule = { class = "Slack" }, properties = { screen = 1, tag = screen[1].tags[1] } },
---     { rule = { class = "Skype" }, properties = { screen = 1, tag = screen[1].tags[1] } }
---   }
--- end
 -- {{{ Rules
 -- Rules to apply to new clients (through the "manage" signal).
 awful.rules.rules = {
@@ -754,20 +741,19 @@ awful.rules.rules = {
     { rule_any = { type = { "dialog", "normal" } },
       properties = { titlebars_enabled = false } },
 
-    -- Set Firefox to always map on the first tag on screen 1.
     { rule = { class = "MPlayer" }, properties = { border_width = 0, focus = yes } },
     { rule = { class = "mpv" }, properties = { border_width = 0, focus = yes} },
     { rule = { name = "Kupfer" }, properties = { floating = true, border_width = 0, focus = yes } },
     { rule = { class = "albert" }, properties = { floating = true, focus = yes } },
-    { rule = { class = "Pidgin" }, properties = { screen = 1, tag = screen[1].tags[1] } },
-    { rule = { class = "wmail" }, properties = { screen = 1, tag = screen[1].tags[2] } },
-    { rule = { class = "Dia" }, properties = { screen = 1, tag = screen[1].tags[6] } },
-    { rule = { class = "Gimp" }, properties = { screen = 1, tag = screen[1].tags[6] } },
-    { rule = { class = "Inkscape" }, properties = { screen = 1, tag = screen[1].tags[6] } },
-    { rule = { class = "Transmission-gtk" }, properties = { screen = 1, tag = screen[1].tags[5] } },
-    { rule = { class = "Spotify" }, properties = { screen = 1, tag = screen[1].tags[6] } },
-    { rule = { class = "sublime-text" }, properties = { screen = 1, tag = screen[1].tags[4] } },
-    { rule = { class = "Subl3" }, except = { instance = "subl3" }, properties = { screen = 1, tag = screen[1].tags[4] } },
+    { rule = { class = "Pidgin" }, properties = { screen = 1, tag = awful.util.tagnames[1] } },
+    { rule = { class = "wmail" }, properties = { screen = 1, tag = awful.util.tagnames[2] } },
+    { rule = { class = "Dia" }, properties = { screen = 1, tag = awful.util.tagnames[6] } },
+    { rule = { class = "Gimp" }, properties = { screen = 1, tag = awful.util.tagnames[6] } },
+    { rule = { class = "Inkscape" }, properties = { screen = 1, tag = awful.util.tagnames[6] } },
+    { rule = { class = "Transmission-gtk" }, properties = { screen = 1, tag = awful.util.tagnames[5] } },
+    { rule = { class = "Spotify" }, properties = { screen = 1, tag = awful.util.tagnames[6] } },
+    { rule = { class = "sublime-text" }, properties = { screen = 1, tag = awful.util.tagnames[4] } },
+    { rule = { class = "Subl3" }, except = { instance = "subl3" }, properties = { screen = 1, tag = awful.util.tagnames[4] } },
     { rule = { class = "feh" }, properties = { floating = true, focus = yes } },
     { rule = { class = "Toggl Desktop" }, properties = { focus = yes } },
     { rule = { class = "center" }, properties = { floating = true, focus = yes }, callback = function (c)
