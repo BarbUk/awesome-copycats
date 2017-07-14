@@ -478,14 +478,13 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift" }, "Tab", function(c)
         cyclefocus.cycle({modifier="Super_L"})
     end),
-    -- awful.key({ altkey,           }, "Tab",
-    --   function ()
-    --         awful.client.focus.history.previous()
-    --         if client.focus then
-    --             client.focus:raise()
-    --         end
-    --     end,
-    --     {description = "go back", group = "client"}),
+    awful.key({ altkey,           }, "Tab",
+        function ()
+          awful.client.focus.byidx(1)
+            if client.focus then
+                client.focus:raise()
+            end
+        end),
 
     -- Show/Hide Wibox
     awful.key({ modkey }, "b", function ()
@@ -669,11 +668,7 @@ clientkeys = awful.util.table.join(
             c.maximized = not c.maximized
             c:raise()
         end ,
-        {description = "maximize", group = "client"}),
-    cyclefocus.key({ "Mod1", }, "Tab", {
-      cycle_filters = { cyclefocus.filters.same_screen, cyclefocus.filters.common_tag },
-      keys = {'Tab', 'ISO_Left_Tab'}  -- default, could be left out
-  })
+        {description = "maximize", group = "client"})
 )
 
 -- Bind all key numbers to tags.
