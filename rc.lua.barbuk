@@ -142,6 +142,11 @@ local markup = lain.util.markup
 local white  = beautiful.fg_focus
 local gray   = beautiful.fg_normal
 
+-- Separators
+local spr   = wibox.widget.textbox(markup.bold('  '))
+local lspr   = wibox.widget.textbox(markup.bold(' '))
+local spc   = wibox.widget.textbox(markup.bold(' '))
+
 -- Textclock
 local clock = wibox.widget.textclock(markup(white, "%H:%M "))
 
@@ -187,7 +192,7 @@ local fshome = lain.widget.fs({
         p   = ""
 
         if tonumber(fs_now.used) >= 90 then
-            hdd = " Hdd "
+            hdd = "  hd "
             p   = fs_now.used .. " "
         end
 
@@ -264,11 +269,6 @@ local cpu = lain.widget.sysload({
         widget:set_markup(markup("#E5CBCB", load_1 .. " " .. load_5))
     end
 })
-
--- Separators
-local spr   = wibox.widget.textbox(markup.bold('  '))
-local lspr   = wibox.widget.textbox(markup.bold(' '))
-local spc   = wibox.widget.textbox(markup.bold(' '))
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = awful.util.table.join(
@@ -616,6 +616,10 @@ globalkeys = awful.util.table.join(
     end),
     awful.key({ }, "XF86ScreenSaver", function ()
         awful.util.spawn("slock", false )
+    end),
+
+    awful.key({ }, "XF86Display", function ()
+        awful.util.spawn_with_shell(scriptdir .. "detect-screen")
     end),
 
     -- Copy primary to clipboard (terminals to gtk)
