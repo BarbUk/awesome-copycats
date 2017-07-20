@@ -619,7 +619,7 @@ globalkeys = awful.util.table.join(
     end),
 
     awful.key({ }, "XF86Display", function ()
-        awful.util.spawn_with_shell(scriptdir .. "detect-screen")
+        os.execute(scriptdir .. "detect_screen")
     end),
 
     -- Copy primary to clipboard (terminals to gtk)
