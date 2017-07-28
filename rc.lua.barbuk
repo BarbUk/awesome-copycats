@@ -16,12 +16,12 @@ local cyclefocus    = require('cyclefocus')
 
 cyclefocus.display_next_count = 5
 cyclefocus.display_prev_count = 5
-cyclefocus.default_preset.font = 'PragmataPro 12'
+cyclefocus.default_preset.font = 'PragmataPro 14'
 
 naughty.config.defaults.font        = "PragmataPro 10"
 naughty.config.defaults.icon_size   = 80
-naughty.config.defaults.bg          = "#ffffff"
-naughty.config.defaults.fg          = "#000000"
+-- naughty.config.defaults.bg          = "#ffffff"
+-- naughty.config.defaults.fg          = "#000000"
 naughty.config.defaults.border_width       = 3
 
 local pulse_sink = "$(pacmd list-sinks | grep '* index' | awk '{print $3}')"
@@ -639,7 +639,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "m",      function () os.execute("termite --class='center' --geometry='700x400' --exec=ncmpcpp &") end),
     awful.key({ modkey }, "0",      function () awful.util.spawn(scriptdir .. "qrcodize", false ) end),
     awful.key({ modkey }, "t",      function () awful.util.spawn( browser .. " --profile-directory='Profile 4' https://mail.google.com/mail/mu/mp/540/?mui=ca#tl/R%C3%A9ception", false ) end),
-    awful.key({ modkey }, "y",      function () awful.util.spawn( browser .. " --profile-directory='Profile 1' https://mail.google.com/mail/u/0/#inbox", false ) end),
+    awful.key({ modkey }, "y",      function () awful.util.spawn( browser .. " --profile-directory='Profile 2' https://mail.google.com/mail/u/0/#inbox", false ) end),
     awful.key({ modkey }, "d",      function () awful.util.spawn( "pcmanfm", false ) end),
 
     -- Default
@@ -678,6 +678,8 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "m",
         function (c)
             c.maximized = not c.maximized
+            c.maximized_vertical = not c.maximized_vertical
+            c.maximized_horizontal = not c.maximized_horizontal
             c:raise()
         end ,
         {description = "maximize", group = "client"})
