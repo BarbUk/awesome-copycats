@@ -78,7 +78,7 @@ local gui_editor = "subl"
 local graphics   = "gimp"
 local file_explorer = "pcmanfm"
 awful.util.tagnames_right  = { "chat", "mail", "www", "dev", "term", "media" }
-awful.util.tagnames_left   = { "skype", "slack", "www", "dev", "spotify" }
+awful.util.tagnames_left   = { "skype", "slack", "www", "dev", "term", "backups" }
 awful.util.terminal = terminal
 
 -- table of layouts to cover with awful.layout.inc, order matters.
@@ -757,7 +757,10 @@ awful.rules.rules = {
                      screen = awful.screen.preferred,
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen,
                      size_hints_honor = false
-     }
+     },
+     callback = function(c)
+       c.maximized, c.maximized_vertical, c.maximized_horizontal = false, false, false
+     end,
     },
 
     -- Titlebars
@@ -789,9 +792,10 @@ awful.rules.rules = {
     { rule = { role = "GtkFileChooserDialog" }, properties = { focus = yes }, callback = function (c)
         awful.placement.centered(c,nil)
      end },
-     { rule = { class = "center" }, properties = { floating = true, focus = yes }, callback = function (c)
-        awful.placement.centered(c,nil)
-     end }
+    { rule = { class = "center" }, properties = { floating = true, focus = yes }, callback = function (c)
+      awful.placement.centered(c,nil)
+    end },
+    { rule = { name = "Slack Call Minipanel" }, properties = { floating = true}}
 }
 -- }}}
 
