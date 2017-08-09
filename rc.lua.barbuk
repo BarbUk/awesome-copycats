@@ -59,7 +59,7 @@ local function run_once(cmd)
   awful.spawn.with_shell(string.format("pgrep -u $USER -x %s > /dev/null || (%s)", findme, cmd))
 end
 
-run_once("unclutter -grab -root")
+run_once("unclutter -grab -root -reset")
 -- }}}
 
 -- {{{ Variable definitions
@@ -153,7 +153,9 @@ local clock = wibox.widget.textclock(markup(white, "%H:%M "))
 -- Calendar
 lain.widget.calendar({
     attach_to = { clock },
+    cal       = '/usr/bin/cal --monday --color=always',
     notification_preset = {
+        font = 'PragmataPro 10',
         fg   = white,
         bg   = beautiful.bg_normal
 }})
@@ -792,6 +794,9 @@ awful.rules.rules = {
     { rule = { role = "GtkFileChooserDialog" }, properties = { focus = yes }, callback = function (c)
         awful.placement.centered(c,nil)
      end },
+    { rule = { class = "gcr-prompter" }, properties = { focus = yes }, callback = function (c)
+        awful.placement.centered(c,nil)
+    end },
     { rule = { class = "center" }, properties = { floating = true, focus = yes }, callback = function (c)
       awful.placement.centered(c,nil)
     end },
