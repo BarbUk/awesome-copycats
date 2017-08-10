@@ -783,7 +783,6 @@ awful.rules.rules = {
 
     { rule = { class = "MPlayer" }, properties = { border_width = 0, focus = yes } },
     { rule = { class = "mpv" }, properties = { border_width = 0, focus = yes} },
-    { rule = { name = "Kupfer" }, properties = { floating = true, border_width = 0, focus = yes } },
     { rule = { class = "albert" }, properties = { floating = true, focus = yes } },
     { rule = { class = "feh" }, properties = { floating = true, focus = yes } },
     { rule = { class = "Toggl Desktop" }, properties = { focus = yes } },
@@ -794,12 +793,13 @@ awful.rules.rules = {
     { rule = { role = "GtkFileChooserDialog" }, properties = { focus = yes }, callback = function (c)
         awful.placement.centered(c,nil)
      end },
-    { rule = { class = "gcr-prompter" }, properties = { focus = yes }, callback = function (c)
+    { rule = { name = "Unlock Keyring" }, properties = { focus = yes }, callback = function (c)
         awful.placement.centered(c,nil)
     end },
     { rule = { class = "center" }, properties = { floating = true, focus = yes }, callback = function (c)
       awful.placement.centered(c,nil)
     end },
+
     { rule = { name = "Slack Call Minipanel" }, properties = { floating = true}}
 }
 -- }}}
