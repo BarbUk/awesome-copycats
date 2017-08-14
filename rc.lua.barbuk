@@ -238,8 +238,6 @@ local volume = lain.widget.pulseaudio({
   end
 })
 
-
-
 -- Weather
 local weather = lain.widget.weather({
   city_id = 934131,
@@ -560,7 +558,7 @@ globalkeys = awful.util.table.join(
   {description = "restore minimized", group = "client"}),
 
   -- Widgets popups
-  awful.key({ altkey, }, "c", function () lain.widget.calendar.show(7, 0, 2) end),
+  awful.key({ altkey, }, "c", function () lain.widget.calendar.show(7) end),
   awful.key({ altkey, }, "h", function () fshome.show(7, awful.screen.focused()) end),
   awful.key({ altkey, }, "w", function () weather.show(7) end),
 
@@ -671,21 +669,21 @@ clientkeys = awful.util.table.join(
   awful.key({ altkey, "Shift"   }, "m",      lain.util.magnify_client                         ),
   awful.key({ modkey,           }, "f",
     function (c)
-        c.fullscreen = not c.fullscreen
-        c:raise()
+      c.fullscreen = not c.fullscreen
+      c:raise()
     end,
     {description = "toggle fullscreen", group = "client"}),
-  awful.key({ "Mod1"            }, "F4",     function (c) c:kill()                         end,
+  awful.key({ "Mod1"            }, "F4", function (c) c:kill() end,
     {description = "close", group = "client"}),
-  awful.key({ modkey            }, "q",     function (c) c:kill()                         end,
+  awful.key({ modkey            }, "q", function (c) c:kill() end,
     {description = "close", group = "client"}),
-  awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
+  awful.key({ modkey, "Control" }, "space", awful.client.floating.toggle,
     {description = "toggle floating", group = "client"}),
   awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end,
     {description = "move to master", group = "client"}),
-  awful.key({ modkey,           }, "o",      function (c) c:move_to_screen()               end,
+  awful.key({ modkey,           }, "o", function (c) c:move_to_screen() end,
     {description = "move to screen", group = "client"}),
-  awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end,
+  awful.key({ modkey,           }, "t", function (c) c.ontop = not c.ontop end,
     {description = "toggle keep on top", group = "client"}),
   awful.key({ modkey,           }, "n",
     function (c)
@@ -768,46 +766,47 @@ root.keys(globalkeys)
 awful.rules.rules = {
   -- All clients will match this rule.
   { rule = { },
-  properties = {
-    border_width = beautiful.border_width,
-    border_color = beautiful.border_normal,
-    focus = awful.client.focus.filter,
-    raise = true,
-    keys = clientkeys,
-    buttons = clientbuttons,
-    screen = awful.screen.preferred,
-    placement = awful.placement.no_overlap+awful.placement.no_offscreen,
-    size_hints_honor = false
-  },
-  callback = function(c)
-    c.maximized, c.maximized_vertical, c.maximized_horizontal = false, false, false
-  end,
+    properties = {
+      border_width      = beautiful.border_width,
+      border_color      = beautiful.border_normal,
+      focus             = awful.client.focus.filter,
+      raise             = true,
+      keys              = clientkeys,
+      buttons           = clientbuttons,
+      screen            = awful.screen.preferred,
+      placement         = awful.placement.no_overlap+awful.placement.no_offscreen,
+      size_hints_honor  = false
+    },
+    callback = function(c)
+      c.maximized, c.maximized_vertical, c.maximized_horizontal = false, false, false
+    end
   },
 
   -- Titlebars
-  { rule_any = { type = { "dialog", "normal" } },
-    properties = { titlebars_enabled = false } },
-
+  { rule_any = { type = { "dialog", "normal" } }, properties = { titlebars_enabled = false } },
   -- local tagnames_right  = { "chat", "mail", "www", "dev", "term", "media" }
   -- local tagnames_left   = { "skype", "slack", "www", "dev", "spotify" }
-  { rule = { class = "Pidgin" }, properties = { screen = 1, tag = awful.util.tagnames_right["chat"] } },
-  { rule = { class = "wmail" }, properties = { screen = 1, tag = awful.util.tagnames_right["mail"] } },
-  { rule = { class = "Dia" }, properties = { screen = 1, tag = awful.util.tagnames_right["media"] } },
-  { rule = { class = "Gimp" }, properties = { screen = 1, tag = awful.util.tagnames_right["media"] } },
-  { rule = { class = "Inkscape" }, properties = { screen = 1, tag = awful.util.tagnames_right["media"] } },
-  { rule = { class = "Transmission-gtk" }, properties = { screen = 1, tag = awful.util.tagnames_right["media"] } },
-  { rule = { class = "Spotify" }, properties = { screen = 1, tag = awful.util.tagnames_right["media"] } },
-  { rule = { class = "sublime-text" }, properties = { screen = 1, tag = awful.util.tagnames_right["dev"] } },
-  { rule = { class = "Subl3" }, except = { instance = "subl3" }, properties = { screen = 1, tag = awful.util.tagnames_right["dev"] } },
+  { rule = { class = "Pidgin" }, properties             = { screen = 1, tag = awful.util.tagnames_right["chat"] } },
+  { rule = { class = "wmail" }, properties              = { screen = 1, tag = awful.util.tagnames_right["mail"] } },
+  { rule = { class = "Dia" }, properties                = { screen = 1, tag = awful.util.tagnames_right["media"] } },
+  { rule = { class = "Gimp" }, properties               = { screen = 1, tag = awful.util.tagnames_right["media"] } },
+  { rule = { class = "Inkscape" }, properties           = { screen = 1, tag = awful.util.tagnames_right["media"] } },
+  { rule = { class = "Transmission-gtk" }, properties   = { screen = 1, tag = awful.util.tagnames_right["media"] } },
+  { rule = { class = "Spotify" }, properties            = { screen = 1, tag = awful.util.tagnames_right["media"] } },
+  { rule = { class = "sublime-text" }, properties       = { screen = 1, tag = awful.util.tagnames_right["dev"] } },
+  { rule = { class = "Subl3" }, properties              = { screen = 1, tag = awful.util.tagnames_right["dev"] }, except = { instance = "subl3" } },
 
-  { rule = { class = "MPlayer" }, properties = { border_width = 0, focus = yes } },
-  { rule = { class = "mpv" }, properties = { border_width = 0, focus = yes} },
-  { rule = { class = "albert" }, properties = { floating = true, focus = yes } },
-  { rule = { class = "feh" }, properties = { floating = true, focus = yes } },
-  { rule = { class = "Toggl Desktop" }, properties = { focus = yes } },
+  { rule = { class = "MPlayer" }, properties            = { border_width = 0, focus = yes } },
+  { rule = { class = "mpv" }, properties                = { border_width = 0, focus = yes} },
+  { rule = { class = "albert" }, properties             = { floating = true, focus = yes } },
+  { rule = { class = "feh" }, properties                = { floating = true, focus = yes } },
+  { rule = { class = "Toggl Desktop" }, properties      = { focus = yes } },
+  { rule = { class = "Wine" }, properties               = { border_width = 0, floating = true } },
+  { rule = { class = "copyq" }, properties              = { border_width = 0, focus = yes } },
+
+  { rule = { name = "Slack Call Minipanel" }, properties = { floating = true} },
+
   { rule = { class = "Gimp", role = "gimp-image-window" }, properties = { maximized_horizontal = true, maximized_vertical = true } },
-  { rule = { class = "Wine" }, properties = { border_width = 0, floating = true } },
-  { rule = { class = "copyq" }, properties = { border_width = 0, focus = yes } },
 
   { rule = { role = "GtkFileChooserDialog" }, properties = { focus = yes },
     callback = function (c)
@@ -823,9 +822,7 @@ awful.rules.rules = {
     callback = function (c)
       awful.placement.centered(c,nil)
     end
-  },
-
-  { rule = { name = "Slack Call Minipanel" }, properties = { floating = true}}
+  }
 }
 -- }}}
 
