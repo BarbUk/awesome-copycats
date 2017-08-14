@@ -25,6 +25,7 @@ naughty.config.defaults.icon_size   = 80
 naughty.config.defaults.border_width       = 3
 
 local pulse_sink = "$(pacmd list-sinks | grep '* index' | awk '{print $3}')"
+local pulse_step = 5
 local scriptdir = os.getenv("HOME") .. "/.dotfiles/bin/"
 
 
@@ -70,7 +71,7 @@ beautiful.init(awful.util.getdir("config") .. "/themes/barbuk/theme.lua")
 local modkey     = "Mod4"
 local altkey     = "Mod1"
 local terminal   = "termite"
-local editor     = os.getenv("EDITOR") or "vim"
+local editor     = "vim"
 
 -- user defined
 local browser    = "google-chrome-stable"
@@ -516,72 +517,72 @@ globalkeys = awful.util.table.join(
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
-              {description = "open a terminal", group = "launcher"}),
+      {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
-              {description = "reload awesome", group = "awesome"}),
+      {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
-              {description = "quit awesome", group = "awesome"}),
+      {description = "quit awesome", group = "awesome"}),
 
     awful.key({ altkey, "Shift"   }, "l",     function () awful.tag.incmwfact( 0.05)          end,
-              {description = "increase master width factor", group = "layout"}),
+      {description = "increase master width factor", group = "layout"}),
     awful.key({ altkey, "Shift"   }, "h",     function () awful.tag.incmwfact(-0.05)          end,
-              {description = "decrease master width factor", group = "layout"}),
+      {description = "decrease master width factor", group = "layout"}),
     awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1, nil, true) end,
-              {description = "increase the number of master clients", group = "layout"}),
+      {description = "increase the number of master clients", group = "layout"}),
     awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1, nil, true) end,
-              {description = "decrease the number of master clients", group = "layout"}),
+      {description = "decrease the number of master clients", group = "layout"}),
     awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1, nil, true)    end,
-              {description = "increase the number of columns", group = "layout"}),
+      {description = "increase the number of columns", group = "layout"}),
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1, nil, true)    end,
-              {description = "decrease the number of columns", group = "layout"}),
+      {description = "decrease the number of columns", group = "layout"}),
     awful.key({ modkey,           }, "space", function () awful.layout.inc( 1)                end,
-              {description = "select next", group = "layout"}),
+      {description = "select next", group = "layout"}),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                end,
-              {description = "select previous", group = "layout"}),
+      {description = "select previous", group = "layout"}),
 
     awful.key({ modkey, "Control" }, "n",
-              function ()
-                  local c = awful.client.restore()
-                  -- Focus restored client
-                  if c then
-                      client.focus = c
-                      c:raise()
-                  end
-              end,
-              {description = "restore minimized", group = "client"}),
+      function ()
+        local c = awful.client.restore()
+        -- Focus restored client
+        if c then
+          client.focus = c
+          c:raise()
+        end
+      end,
+    {description = "restore minimized", group = "client"}),
 
     -- Widgets popups
-    awful.key({ altkey, }, "c", function () lain.widget.calendar.show(7) end),
+    awful.key({ altkey, }, "c", function () lain.widget.calendar.show(7, 0, 2) end),
     awful.key({ altkey, }, "h", function () fshome.show(7, awful.screen.focused()) end),
     awful.key({ altkey, }, "w", function () weather.show(7) end),
 
     -- Volume control
     awful.key({ }, "XF86AudioRaiseVolume", function ()
-        os.execute("pamixer --increase 5 --allow-boost --sink " .. pulse_sink, false )
-        volume.update()
+      awful.util.spawn_with_shell("pamixer --increase " .. pulse_step .. " --allow-boost --sink " .. pulse_sink, false )
+      volume.update()
     end),
     awful.key({ }, "XF86AudioLowerVolume", function ()
-        os.execute("pamixer --decrease 5 --sink " .. pulse_sink, false )
-        volume.update()
+      awful.util.spawn_with_shell("pamixer --decrease " .. pulse_step .. " --sink " .. pulse_sink, false )
+      volume.update()
     end),
     awful.key({ modkey }, "Prior", function ()
-        os.execute("pamixer --increase 5 --allow-boost --sink " .. pulse_sink, false )
-        volume.update()
+      awful.util.spawn_with_shell("pamixer --increase " .. pulse_step .. " --allow-boost --sink " .. pulse_sink, false )
+      volume.update()
     end),
     awful.key({ modkey }, "Next", function ()
-        os.execute("pamixer --decrease 5 --sink " .. pulse_sink, false )
-        volume.update()
+      awful.util.spawn_with_shell("pamixer --decrease " .. pulse_step .. " --sink " .. pulse_sink, false )
+      volume.update()
     end),
     awful.key({ }, "XF86AudioMute", function ()
-        os.execute("pamixer --toggle-mute --sink " .. pulse_sink, false )
-        volume.update()
+      awful.util.spawn_with_shell("pamixer --toggle-mute --sink " .. pulse_sink, false )
+      volume.update()
     end),
     awful.key({ modkey }, "Pause", function ()
-        os.execute("pamixer --toggle-mute --sink " .. pulse_sink, false )
-        volume.update()
+      awful.util.spawn_with_shell("pamixer --toggle-mute --sink " .. pulse_sink, false )
+      volume.update()
     end),
     awful.key({ }, "XF86Launch1", function ()
-        os.execute(scriptdir .. "change_theme")
+      awful.util.spawn_with_shell(scriptdir .. "change_theme")
     end),
     -- Music control
     awful.key({ }, "XF86AudioStop", function ()
@@ -589,8 +590,8 @@ globalkeys = awful.util.table.join(
       mpd.update()
     end),
     awful.key({ }, "XF86AudioPlay", function ()
-       awful.util.spawn_with_shell("mpc toggle || " .. scriptdir .. "sp play")
-       mpd.update()
+      awful.util.spawn_with_shell("mpc toggle || " .. scriptdir .. "sp play")
+      mpd.update()
     end),
     awful.key({ }, "XF86AudioPrev", function ()
       awful.util.spawn_with_shell("mpc prev || " .. scriptdir .. "sp prev")
@@ -621,7 +622,7 @@ globalkeys = awful.util.table.join(
     end),
 
     awful.key({ }, "XF86Display", function ()
-        os.execute(scriptdir .. "detect_screen")
+        awful.util.spawn_with_shell(scriptdir .. "detect_screen")
     end),
 
     -- Copy primary to clipboard (terminals to gtk)
@@ -633,16 +634,24 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "s", function () awful.spawn(gui_editor) end),
     awful.key({ modkey }, "g", function () awful.spawn(graphics) end),
 
-    awful.key({ modkey, "Shift"   }, "Return", function () os.execute(scriptdir .. "dmenu_ssh") end),
-    awful.key({ modkey, "Control" }, "Return", function () os.execute(scriptdir .. "dmenu_raise") end),
-    awful.key({ modkey, altkey    }, "Return", function () os.execute(scriptdir .. "dmenu_edit") end),
-    awful.key({ modkey, altkey, "Control"   }, "Return", function () os.execute(scriptdir .. "dmenu_monitoring") end),
-    awful.key({ modkey, "Shift"   }, "p",      function () os.execute(scriptdir .. "snippy") end),
-    awful.key({ modkey, "Shift"   }, "m",      function () os.execute("termite --class='center' --geometry='700x400' --exec=ncmpcpp &") end),
+    awful.key({ modkey, "Shift"   }, "Return", function () awful.util.spawn_with_shell(scriptdir .. "dmenu_ssh") end),
+    awful.key({ modkey, "Control" }, "Return", function () awful.util.spawn_with_shell(scriptdir .. "dmenu_raise") end),
+    awful.key({ modkey, altkey    }, "Return", function () awful.util.spawn_with_shell(scriptdir .. "dmenu_edit") end),
+    awful.key({ modkey, altkey, "Control"   }, "Return", function () awful.util.spawn_with_shell(scriptdir .. "dmenu_monitoring") end),
+    awful.key({ modkey, "Shift"   }, "p",      function () awful.util.spawn_with_shell(scriptdir .. "snippy") end),
+    awful.key({ modkey, "Shift"   }, "m",      function () awful.util.spawn_with_shell("termite --class='center' --geometry='700x400' --exec=ncmpcpp &") end),
     awful.key({ modkey }, "0",      function () awful.util.spawn(scriptdir .. "qrcodize", false ) end),
-    awful.key({ modkey }, "t",      function () awful.util.spawn( browser .. " --profile-directory='Profile 4' https://mail.google.com/mail/mu/mp/540/?mui=ca#tl/R%C3%A9ception", false ) end),
-    awful.key({ modkey }, "y",      function () awful.util.spawn( browser .. " --profile-directory='Profile 2' https://mail.google.com/mail/u/0/#inbox", false ) end),
     awful.key({ modkey }, "d",      function () awful.util.spawn( "pcmanfm", false ) end),
+    awful.key({ modkey }, "t",
+      function ()
+        awful.util.spawn( browser .. " --profile-directory='Profile 4' https://mail.google.com/mail/mu/mp/540/?mui=ca#tl/R%C3%A9ception", false )
+      end
+    ),
+    awful.key({ modkey }, "y",
+      function ()
+        awful.util.spawn( browser .. " --profile-directory='Profile 2' https://mail.google.com/mail/u/0/#inbox", false )
+      end
+    ),
 
     -- Default
     -- Prompt
