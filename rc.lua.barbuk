@@ -154,6 +154,7 @@ local clock = wibox.widget.textclock(markup(white, "%H:%M "))
 lain.widget.calendar({
   attach_to = { clock },
   cal       = '/usr/bin/cal --monday --color=always',
+  followtag = true,
   notification_preset = {
     font = 'PragmataPro 10',
     fg   = white,
