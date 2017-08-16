@@ -818,6 +818,11 @@ awful.rules.rules = {
       awful.placement.centered(c,nil)
     end
   },
+  { rule = { name = "Error" }, properties = { focus = yes },
+    callback = function (c)
+      awful.placement.centered(c,nil)
+    end
+  },
   { rule = { class = "center" }, properties = { floating = true, focus = yes },
     callback = function (c)
       awful.placement.centered(c,nil)
