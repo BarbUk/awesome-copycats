@@ -7,4 +7,4 @@
 	url = git://github.com/copycat-killer/awesome-freedesktop.git
 [submodule "cyclefocus"]
 	path = cyclefocus
-	url = https://github.com/blueyed/awesome-cyclefocus
+	url = git://github.com/blueyed/awesome-cyclefocus
