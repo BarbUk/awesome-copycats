@@ -14,6 +14,12 @@ local spotify       = require("spotify")
 local cyclefocus    = require('cyclefocus')
 -- }}}
 
+local noti = {}
+noti.id = nil
+function noti:notify (msg)
+  self.id = naughty.notify({ text = msg, timeout = 5, replaces_id = self.id}).id
+end
+
 cyclefocus.display_next_count = 5
 cyclefocus.display_prev_count = 5
 cyclefocus.default_preset.font = 'PragmataPro 14'
@@ -47,19 +53,6 @@ do
     in_error = false
   end)
 end
--- }}}
-
--- {{{ Autostart applications
-local function run_once(cmd)
-  findme = cmd
-  firstspace = cmd:find(" ")
-  if firstspace then
-    findme = cmd:sub(0, firstspace-1)
-  end
-  awful.spawn.with_shell(string.format("pgrep -u $USER -x %s > /dev/null || (%s)", findme, cmd))
-end
-
-run_once("unclutter -root -reset")
 -- }}}
 
 -- {{{ Variable definitions
@@ -419,7 +412,6 @@ root.buttons(awful.util.table.join(
   awful.button({ }, 5, awful.tag.viewprev)
 ))
 -- }}}
-
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
   -- Take a screenshot
@@ -618,10 +610,14 @@ globalkeys = awful.util.table.join(
   end),
 
   awful.key({ }, "XF86MonBrightnessUp", function ()
-      awful.util.spawn("light -A 5", false )
+      awful.spawn.easy_async(scriptdir .. "light_bar up", function(stdout)
+        noti:notify(stdout)
+      end)
   end),
   awful.key({ }, "XF86MonBrightnessDown", function ()
-      awful.util.spawn("light -U 5", false )
+      awful.spawn.easy_async(scriptdir .. "light_bar down", function(stdout)
+        noti:notify(stdout)
+      end)
   end),
   awful.key({ }, "XF86ScreenSaver", function ()
       awful.util.spawn("slock", false )
