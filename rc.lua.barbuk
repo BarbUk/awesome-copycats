@@ -23,6 +23,7 @@ end
 cyclefocus.display_next_count = 5
 cyclefocus.display_prev_count = 5
 cyclefocus.default_preset.font = 'PragmataPro 14'
+cyclefocus.default_preset.icon_size = '30'
 
 naughty.config.defaults.font        = "PragmataPro 10"
 naughty.config.defaults.icon_size   = 80
@@ -788,7 +789,7 @@ awful.rules.rules = {
   { rule = { class = "Gimp" }, properties               = { screen = 1, tag = awful.util.tagnames_right["media"] } },
   { rule = { class = "Inkscape" }, properties           = { screen = 1, tag = awful.util.tagnames_right["media"] } },
   { rule = { class = "Transmission-gtk" }, properties   = { screen = 1, tag = awful.util.tagnames_right["media"] } },
-  { rule = { class = "Spotify" }, properties            = { screen = 1, tag = awful.util.tagnames_right["media"] } },
+  { rule = { class = "spotify" }, properties            = { screen = 1, tag = awful.util.tagnames_right["media"] } },
   { rule = { class = "sublime-text" }, properties       = { screen = 1, tag = awful.util.tagnames_right["dev"] } },
   { rule = { class = "Subl3" }, properties              = { screen = 1, tag = awful.util.tagnames_right["dev"] }, except = { instance = "subl3" } },
 
