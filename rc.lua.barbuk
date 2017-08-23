@@ -560,26 +560,14 @@ globalkeys = awful.util.table.join(
     awful.util.spawn_with_shell("pamixer --decrease " .. pulse_step .. " --sink " .. pulse_sink, false )
     volume.update()
   end),
-  awful.key({ modkey }, "Prior", function ()
-    awful.util.spawn_with_shell("pamixer --increase " .. pulse_step .. " --allow-boost --sink " .. pulse_sink, false )
-    volume.update()
-  end),
-  awful.key({ modkey }, "Next", function ()
-    awful.util.spawn_with_shell("pamixer --decrease " .. pulse_step .. " --sink " .. pulse_sink, false )
-    volume.update()
-  end),
   awful.key({ }, "XF86AudioMute", function ()
-    awful.util.spawn_with_shell("pamixer --toggle-mute --sink " .. pulse_sink, false )
-    volume.update()
-  end),
-  awful.key({ modkey }, "Pause", function ()
     awful.util.spawn_with_shell("pamixer --toggle-mute --sink " .. pulse_sink, false )
     volume.update()
   end),
 
   -- Theme control
   awful.key({ }, "XF86Launch1", function ()
-    awful.util.spawn_with_shell(scriptdir .. "change_theme")
+    awful.spawn(scriptdir .. "change_theme")
   end),
 
   -- Music control
@@ -600,18 +588,6 @@ globalkeys = awful.util.table.join(
   awful.key({ }, "XF86AudioNext", function ()
     os.execute("mpc next || " .. scriptdir .. "sp next")
     mpd.update()
-    spotify.update()
-  end),
-  awful.key({ modkey }, "Insert", function ()
-    os.execute(scriptdir .. "sp play")
-    spotify.update()
-  end),
-  awful.key({ modkey }, "End", function ()
-    os.execute(scriptdir .. "sp next")
-    spotify.update()
-  end),
-  awful.key({ modkey }, "Delete", function ()
-    os.execute(scriptdir .. "sp prev")
     spotify.update()
   end),
 
