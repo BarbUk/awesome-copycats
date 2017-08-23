@@ -1,6 +1,6 @@
 -- {{{ Required libraries
 local awesome, client, mouse, screen, tag = awesome, client, mouse, screen, tag
-local ipairs, string, os, table, tostring, tonumber, type = ipairs, string, os, table, tostring, tonumber, type
+local string, os, table, tostring, tonumber, type = string, os, table, tostring, tonumber, type
 
 local gears         = require("gears")
 local awful         = require("awful")
@@ -614,7 +614,7 @@ globalkeys = awful.util.table.join(
   -- Copy primary to clipboard (terminals to gtk)
   awful.key({ modkey }, "c", function () awful.util.spawn_with_shell("xsel | xsel -i -b") end),
   -- Copy clipboard to primary (gtk to terminals)
-  awful.key({ modkey }, "v", function () awful.spawn("copyq 'select(0); sleep(50); paste()'") end),
+  awful.key({ modkey }, "v", function () awful.spawn("copyq 'select(0); sleep(30); paste()'") end),
 
   -- User programs
   awful.key({ modkey }, "s", function () awful.spawn(gui_editor) end),
