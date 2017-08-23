@@ -584,29 +584,35 @@ globalkeys = awful.util.table.join(
 
   -- Music control
   awful.key({ }, "XF86AudioStop", function ()
-    awful.spawn("mpc stop", false )
+    os.execute("mpc stop", false )
     mpd.update()
   end),
   awful.key({ }, "XF86AudioPlay", function ()
-    awful.util.spawn_with_shell("mpc toggle || " .. scriptdir .. "sp play")
+    os.execute("mpc toggle || " .. scriptdir .. "sp play")
     mpd.update()
+    spotify.update()
   end),
   awful.key({ }, "XF86AudioPrev", function ()
-    awful.util.spawn_with_shell("mpc prev || " .. scriptdir .. "sp prev")
+    os.execute("mpc prev || " .. scriptdir .. "sp prev")
     mpd.update()
+    spotify.update()
   end),
   awful.key({ }, "XF86AudioNext", function ()
-    awful.util.spawn_with_shell("mpc next || " .. scriptdir .. "sp next")
+    os.execute("mpc next || " .. scriptdir .. "sp next")
     mpd.update()
+    spotify.update()
   end),
   awful.key({ modkey }, "Insert", function ()
-      awful.util.spawn_with_shell(scriptdir .. "sp play")
+    os.execute(scriptdir .. "sp play")
+    spotify.update()
   end),
   awful.key({ modkey }, "End", function ()
-      awful.util.spawn_with_shell(scriptdir .. "sp next")
+    os.execute(scriptdir .. "sp next")
+    spotify.update()
   end),
   awful.key({ modkey }, "Delete", function ()
-      awful.util.spawn_with_shell(scriptdir .. "sp prev")
+    os.execute(scriptdir .. "sp prev")
+    spotify.update()
   end),
 
   -- Backlight control
