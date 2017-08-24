@@ -197,13 +197,13 @@ local baticon = wibox.widget.textbox("")
 local bat = lain.widget.contrib.tpbat({
   settings = function()
     if bat_now.status == "discharging" then
-      if not bat_now.perc and tonumber(bat_now.perc) <= 5 then
+      if bat_now.perc and tonumber(bat_now.perc) <= 5 then
         baticon:set_markup_silently(" ")
-      elseif not bat_now.perc and tonumber(bat_now.perc) <= 25 then
+      elseif bat_now.perc and tonumber(bat_now.perc) <= 25 then
         baticon:set_markup_silently(" ")
-      elseif not bat_now.perc and tonumber(bat_now.perc) <= 55 then
+      elseif bat_now.perc and tonumber(bat_now.perc) <= 55 then
         baticon:set_markup_silently(" ")
-      elseif not bat_now.perc and tonumber(bat_now.perc) <= 75 then
+      elseif bat_now.perc and tonumber(bat_now.perc) <= 75 then
         baticon:set_markup_silently(" ")
       else
         baticon:set_markup_silently("")
