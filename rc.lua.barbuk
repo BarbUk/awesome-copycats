@@ -68,8 +68,6 @@ local browser    = "google-chrome-stable"
 local gui_editor = "subl"
 local graphics   = "gimp"
 local file_explorer = "pcmanfm"
-awful.util.tagnames_right  = { "chat", "mail", "www", "dev", "term", "media" }
-awful.util.tagnames_left   = { "skype", "slack", "www", "dev", "term", "backups" }
 awful.util.terminal = terminal
 
 -- table of layouts to cover with awful.layout.inc, order matters.
@@ -97,13 +95,14 @@ awful.layout.layouts = {
   -- awful.layout.suit.corner.se,
 }
 
-layouts = {
-  awful.layout.suit.tile,
-  awful.layout.suit.tile,
-  awful.layout.suit.tile,
-  awful.layout.suit.tile,
-  awful.layout.suit.tile,
-  awful.layout.suit.tile,
+local lo = awful.layout.layouts
+awful.util.tagnames = {
+  { names =  { " ", "", "", "", " ", "" },
+    layout = { lo[2], lo[2], lo[2], lo[2], lo[2], lo[2] },
+  },
+  { names =  { "", "", "", "", " ", "backups" },
+    layout = {  lo[2], lo[2], lo[2], lo[2], lo[2], lo[2] },
+  },
 }
 
 -- lain
@@ -194,30 +193,34 @@ local fshome = lain.widget.fs({
 })
 
 -- Battery
-local baticon = wibox.widget.imagebox(beautiful.widget_battery_low)
+local baticon = wibox.widget.textbox(" ")
 local bat = lain.widget.contrib.tpbat({
   settings = function()
     if bat_now.status ~= "N/A" then
       if bat_now.ac_status == 1 then
         widget:set_markup(markup.font(beautiful.font, " AC "))
-        baticon:set_image(beautiful.widget_ac)
+        baticon:set_markup_silently(" ")
         return
       elseif not bat_now.perc and tonumber(bat_now.perc) <= 5 then
-        baticon:set_image(beautiful.widget_battery_empty)
+        baticon:set_markup_silently(" ")
       elseif not bat_now.perc and tonumber(bat_now.perc) <= 15 then
-        baticon:set_image(beautiful.widget_battery_low)
+        baticon:set_markup_silently(" ")
+      elseif not bat_now.perc and tonumber(bat_now.perc) <= 55 then
+        baticon:set_markup_silently(" ")
+      elseif not bat_now.perc and tonumber(bat_now.perc) <= 75 then
+        baticon:set_markup_silently(" ")
       else
-        baticon:set_image(beautiful.widget_battery)
+        baticon:set_markup_silently(" ")
       end
       widget:set_markup(markup.font(beautiful.font, " " .. bat_now.perc .. "% "))
     else
       widget:set_markup(markup.font(beautiful.font, " AC "))
-      baticon:set_image(beautiful.widget_ac)
+      baticon:set_markup_silently(" ")
     end
   end
 })
 
-local volicon = wibox.widget.imagebox(beautiful.widget_vol)
+local volicon = wibox.widget.textbox(" ")
 local volume = lain.widget.pulseaudio({
   settings = function()
     if volume_now.muted == "yes" then
@@ -325,11 +328,8 @@ awful.screen.connect_for_each_screen(function(s)
   set_wallpaper(s)
 
   -- Tags
-  if s.index == 1 then
-    awful.tag(awful.util.tagnames_right, s, layouts)
-  elseif s.index == 2 then
-    awful.tag(awful.util.tagnames_left, s, layouts)
-  end
+  screen_index = s.index
+  awful.tag(awful.util.tagnames[screen_index].names, s, awful.util.tagnames[screen_index].layout)
 
   -- Create a promptbox for each screen
   s.mypromptbox = awful.widget.prompt()
@@ -766,17 +766,15 @@ awful.rules.rules = {
 
   -- Titlebars
   { rule_any = { type = { "dialog", "normal" } }, properties = { titlebars_enabled = false } },
-  -- local tagnames_right  = { "chat", "mail", "www", "dev", "term", "media" }
-  -- local tagnames_left   = { "skype", "slack", "www", "dev", "spotify" }
-  { rule = { class = "Pidgin" }, properties             = { screen = 1, tag = awful.util.tagnames_right["chat"] } },
-  { rule = { class = "wmail" }, properties              = { screen = 1, tag = awful.util.tagnames_right["mail"] } },
-  { rule = { class = "Dia" }, properties                = { screen = 1, tag = awful.util.tagnames_right["media"] } },
-  { rule = { class = "Gimp" }, properties               = { screen = 1, tag = awful.util.tagnames_right["media"] } },
-  { rule = { class = "Inkscape" }, properties           = { screen = 1, tag = awful.util.tagnames_right["media"] } },
-  { rule = { class = "Transmission-gtk" }, properties   = { screen = 1, tag = awful.util.tagnames_right["media"] } },
-  { rule = { class = "spotify" }, properties            = { screen = 1, tag = awful.util.tagnames_right["media"] } },
-  { rule = { class = "sublime-text" }, properties       = { screen = 1, tag = awful.util.tagnames_right["dev"] } },
-  { rule = { class = "Subl3" }, properties              = { screen = 1, tag = awful.util.tagnames_right["dev"] }, except = { instance = "subl3" } },
+  { rule = { class = "Pidgin" }, properties             = { screen = 1, tag = awful.util.tagnames[1].names[1] } },
+  { rule = { class = "wmail" }, properties              = { screen = 1, tag = awful.util.tagnames[1].names[2] } },
+  { rule = { class = "Dia" }, properties                = { screen = 1, tag = awful.util.tagnames[1].names[6] } },
+  { rule = { class = "Gimp" }, properties               = { screen = 1, tag = awful.util.tagnames[1].names[6] } },
+  { rule = { class = "Inkscape" }, properties           = { screen = 1, tag = awful.util.tagnames[1].names[6] } },
+  { rule = { class = "Transmission-gtk" }, properties   = { screen = 1, tag = awful.util.tagnames[1].names[6] } },
+  { rule = { class = "spotify" }, properties            = { screen = 1, tag = awful.util.tagnames[1].names[6] } },
+  { rule = { class = "sublime-text" }, properties       = { screen = 1, tag = awful.util.tagnames[1].names[4] } },
+  { rule = { class = "Subl3" }, properties              = { screen = 1, tag = awful.util.tagnames[1].names[4] }, except = { instance = "subl3" } },
 
   { rule = { class = "MPlayer" }, properties            = { border_width = 0, focus = yes } },
   { rule = { class = "mpv" }, properties                = { border_width = 0, focus = yes} },
@@ -790,9 +788,19 @@ awful.rules.rules = {
 
   { rule = { class = "Gimp", role = "gimp-image-window" }, properties = { maximized_horizontal = true, maximized_vertical = true } },
 
-  { rule = { class = "center", role = "GtkFileChooserDialog", name = "Error", name = "Unlock Keyring" }, properties = { floating = true, focus = yes },
+  { rule = { class = "center" }, properties = { floating = true, focus = yes },
     callback = function (c)
-      awful.placement.centered(c,nil)
+      awful.placement.centered(c, nil)
+    end
+  },
+  { rule = { name = "Error", "Unlock Keyring" }, properties = { floating = true, focus = yes },
+    callback = function (c)
+      awful.placement.centered(c, nil)
+    end
+  },
+  { rule = { role = "GtkFileChooserDialog" }, properties = { floating = true, focus = yes },
+    callback = function (c)
+      awful.placement.centered(c, nil)
     end
   }
 }
