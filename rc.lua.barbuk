@@ -97,10 +97,10 @@ awful.layout.layouts = {
 
 local lo = awful.layout.layouts
 awful.util.tagnames = {
-  { names =  { " ", "", "", "", " ", "" },
+  { names =  { "", "", "", "", "", "" },
     layout = { lo[2], lo[2], lo[2], lo[2], lo[2], lo[2] },
   },
-  { names =  { "", "", "", "", " ", "backups" },
+  { names =  { "", "", "", "", "", "" },
     layout = {  lo[2], lo[2], lo[2], lo[2], lo[2], lo[2] },
   },
 }
@@ -155,7 +155,7 @@ local mpd = lain.widget.mpd({
   settings = function()
     music_dir = "~/Zik/"
     if mpd_now.state == "play" then
-        widget:set_markup(markup(gray, mpd_now.artist) .. " - " .. markup(white, mpd_now.title))
+        widget:set_markup(" " .. markup(gray, mpd_now.artist) .. " - " .. markup(white, mpd_now.title) .. " ")
     else
         widget:set_markup("")
     end
@@ -167,7 +167,7 @@ local spotify = spotify({
   cmd = scriptdir .. "sp metadata",
   settings = function()
     if spotify_now.artist ~= "not_running" then
-      widget:set_markup(markup(gray, spotify_now.artist) .. " - " .. markup(white, spotify_now.title))
+      widget:set_markup(" " .. markup(gray, spotify_now.artist) .. " - " .. markup(white, spotify_now.title) .. " ")
     else
       widget:set_markup("")
     end
@@ -193,30 +193,25 @@ local fshome = lain.widget.fs({
 })
 
 -- Battery
-local baticon = wibox.widget.textbox(" ")
+local baticon = wibox.widget.textbox("")
 local bat = lain.widget.contrib.tpbat({
   settings = function()
-    if bat_now.status ~= "N/A" then
-      if bat_now.ac_status == 1 then
-        widget:set_markup(markup.font(beautiful.font, " AC "))
-        baticon:set_markup_silently(" ")
-        return
-      elseif not bat_now.perc and tonumber(bat_now.perc) <= 5 then
+    if bat_now.status == "discharging" then
+      if not bat_now.perc and tonumber(bat_now.perc) <= 5 then
         baticon:set_markup_silently(" ")
-      elseif not bat_now.perc and tonumber(bat_now.perc) <= 15 then
+      elseif not bat_now.perc and tonumber(bat_now.perc) <= 25 then
         baticon:set_markup_silently(" ")
       elseif not bat_now.perc and tonumber(bat_now.perc) <= 55 then
         baticon:set_markup_silently(" ")
       elseif not bat_now.perc and tonumber(bat_now.perc) <= 75 then
         baticon:set_markup_silently(" ")
       else
-        baticon:set_markup_silently(" ")
+        baticon:set_markup_silently("")
       end
-      widget:set_markup(markup.font(beautiful.font, " " .. bat_now.perc .. "% "))
     else
-      widget:set_markup(markup.font(beautiful.font, " AC "))
-      baticon:set_markup_silently(" ")
+      baticon:set_markup_silently("")
     end
+    widget:set_markup(markup.font(beautiful.font, " " .. bat_now.perc .. "%"))
   end
 })
 
@@ -257,7 +252,7 @@ local net = lain.widget.net({
 })
 
 -- CPU
-local cpuicon = wibox.widget.imagebox(beautiful.widget_cpu)
+local cpuicon = wibox.widget.textbox(" ")
 local cpu = lain.widget.sysload({
   settings = function()
     widget:set_markup(markup("#E5CBCB", load_1 .. " " .. load_5))
@@ -793,7 +788,7 @@ awful.rules.rules = {
       awful.placement.centered(c, nil)
     end
   },
-  { rule = { name = "Error", "Unlock Keyring" }, properties = { floating = true, focus = yes },
+  { rule = { name = "Error", name = "Unlock Keyring" }, properties = { floating = true, focus = yes },
     callback = function (c)
       awful.placement.centered(c, nil)
     end
