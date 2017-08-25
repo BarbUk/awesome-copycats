@@ -133,7 +133,7 @@ local white  = beautiful.fg_focus
 local gray   = beautiful.fg_normal
 
 -- Separators
-local spr   = wibox.widget.textbox(markup.bold('  '))
+local spr   = wibox.widget.textbox(markup.bold('  '))
 local spc   = wibox.widget.textbox(markup.bold(' '))
 
 -- Textclock
@@ -155,7 +155,7 @@ local mpd = lain.widget.mpd({
   settings = function()
     music_dir = "~/Zik/"
     if mpd_now.state == "play" then
-        widget:set_markup(" " .. markup(gray, mpd_now.artist) .. " - " .. markup(white, mpd_now.title) .. " ")
+        widget:set_markup(" " .. markup(gray, mpd_now.artist) .. " - " .. markup(white, mpd_now.title) .. " ")
     else
         widget:set_markup("")
     end
@@ -167,7 +167,7 @@ local spotify = spotify({
   cmd = scriptdir .. "sp metadata",
   settings = function()
     if spotify_now.artist ~= "not_running" then
-      widget:set_markup(" " .. markup(gray, spotify_now.artist) .. " - " .. markup(white, spotify_now.title) .. " ")
+      widget:set_markup(" " .. markup(gray, spotify_now.artist) .. " - " .. markup(white, spotify_now.title) .. " ")
     else
       widget:set_markup("")
     end
