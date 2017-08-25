@@ -97,10 +97,10 @@ awful.layout.layouts = {
 
 local lo = awful.layout.layouts
 awful.util.tagnames = {
-  { names =  { "", "", "", "", "", "" },
+  { names =  { "", "", "", "", "", "" },
     layout = { lo[2], lo[2], lo[2], lo[2], lo[2], lo[2] },
   },
-  { names =  { "", "", "", "", "", "" },
+  { names =  { "", "", "", "", "", "" },
     layout = {  lo[2], lo[2], lo[2], lo[2], lo[2], lo[2] },
   },
 }
@@ -220,8 +220,10 @@ local volume = lain.widget.pulseaudio({
   settings = function()
     if volume_now.muted == "yes" then
       widget:set_text("Mute")
+      volicon:set_markup_silently(" ")
     else
       widget:set_markup(markup(white, volume_now.right))
+      volicon:set_markup_silently(" ")
     end
   end
 })
