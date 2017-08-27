@@ -34,11 +34,11 @@ theme.useless_gap                   = 0
 
 theme.ocol                          = "<span color='" .. theme.fg_normal .. "'>"
 theme.ccol                          = "</span>"
-theme.tasklist_sticky               = theme.ocol .. "[S]" .. theme.ccol
-theme.tasklist_ontop                = theme.ocol .. "[T]" .. theme.ccol
-theme.tasklist_floating             = theme.ocol .. "[F]" .. theme.ccol
-theme.tasklist_maximized_horizontal = theme.ocol .. "[M]" .. theme.ccol
-theme.tasklist_maximized_vertical   = theme.ocol .. "[V]" .. theme.ccol
+theme.tasklist_ontop                = theme.ocol .. " " .. theme.ccol
+theme.tasklist_floating             = theme.ocol .. " " .. theme.ccol
+theme.tasklist_maximized_horizontal = theme.ocol .. " " .. theme.ccol
+theme.tasklist_maximized_vertical   = theme.ocol .. " " .. theme.ccol
+theme.tasklist_maximized            = theme.ocol .. " " .. theme.ccol
 theme.layout_txt_tile               = ""
 theme.layout_txt_tiletop            = ""
 theme.layout_txt_fairv              = ""
