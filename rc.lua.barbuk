@@ -74,18 +74,13 @@ awful.util.terminal = terminal
 awful.layout.layouts = {
   awful.layout.suit.floating,
   awful.layout.suit.tile,
-  awful.layout.suit.tile.left,
-  awful.layout.suit.tile.bottom,
-  awful.layout.suit.tile.top,
-  -- awful.layout.suit.floating,
-  -- awful.layout.suit.tile,
   -- awful.layout.suit.tile.left,
   -- awful.layout.suit.tile.bottom,
-  -- awful.layout.suit.tile.top,
+  awful.layout.suit.tile.top,
   awful.layout.suit.fair,
   -- awful.layout.suit.fair.horizontal,
   -- awful.layout.suit.spiral,
-  -- awful.layout.suit.spiral.dwindle,
+  awful.layout.suit.spiral.dwindle,
   -- awful.layout.suit.max,
   -- awful.layout.suit.max.fullscreen,
   -- awful.layout.suit.magnifier,
@@ -97,11 +92,11 @@ awful.layout.layouts = {
 
 local lo = awful.layout.layouts
 awful.util.tagnames = {
-  { names =  { "", "", "", "", "", "" },
-    layout = { lo[2], lo[2], lo[2], lo[2], lo[2], lo[2] },
+  { names =  { "", "", "", "", "", "" },
+    layout = { lo[5], lo[5], lo[5], lo[5], lo[5], lo[5] },
   },
   { names =  { "", "", "", "", "", "" },
-    layout = {  lo[2], lo[2], lo[2], lo[2], lo[2], lo[2] },
+    layout = {  lo[5], lo[5], lo[5], lo[5], lo[5], lo[5] },
   },
 }
 
@@ -133,8 +128,9 @@ local white  = beautiful.fg_focus
 local gray   = beautiful.fg_normal
 
 -- Separators
-local spr   = wibox.widget.textbox(markup.bold('  '))
+local spl   = wibox.widget.textbox(markup.bold('  '))
 local spc   = wibox.widget.textbox(markup.bold(' '))
+local spr   = wibox.widget.textbox(markup.bold('  '))
 
 -- Textclock
 local clock = wibox.widget.textclock(markup(white, "%H:%M "))
@@ -320,6 +316,12 @@ end
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
+local function update_txt_layoutbox(s)
+    -- Writes a string representation of the current layout in a textbox widget
+    local txt_l = beautiful["layout_txt_" .. awful.layout.getname(awful.layout.get(s))] or ""
+    s.mytxtlayoutbox:set_text(txt_l)
+end
+
 awful.screen.connect_for_each_screen(function(s)
   -- Wallpaper
   set_wallpaper(s)
@@ -330,6 +332,16 @@ awful.screen.connect_for_each_screen(function(s)
 
   -- Create a promptbox for each screen
   s.mypromptbox = awful.widget.prompt()
+
+  -- Textual layoutbox
+  s.mytxtlayoutbox = wibox.widget.textbox(beautiful["layout_txt_" .. awful.layout.getname(awful.layout.get(s))])
+  awful.tag.attached_connect_signal(s, "property::selected", function () update_txt_layoutbox(s) end)
+  awful.tag.attached_connect_signal(s, "property::layout", function () update_txt_layoutbox(s) end)
+  s.mytxtlayoutbox:buttons(awful.util.table.join(
+                         awful.button({}, 1, function() awful.layout.inc(1) end),
+                         awful.button({}, 3, function() awful.layout.inc(-1) end),
+                         awful.button({}, 4, function() awful.layout.inc(1) end),
+                         awful.button({}, 5, function() awful.layout.inc(-1) end)))
 
   -- Create a taglist widget
   s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.all, taglist_buttons)
@@ -343,7 +355,9 @@ awful.screen.connect_for_each_screen(function(s)
   local left = { -- Left widgets
     layout = wibox.layout.fixed.horizontal,
     s.mytaglist,
+    spr,
     s.mytxtlayoutbox,
+    spr,
     s.mypromptbox,
   }
 
@@ -353,22 +367,22 @@ awful.screen.connect_for_each_screen(function(s)
     spotify.widget,
     spc,
     wibox.widget.systray(),
-    spr,
+    spl,
     net.widget,
-    spr,
+    spl,
     cpuicon,
     cpu.widget,
     fshome.widget,
-    spr,
+    spl,
     baticon,
     bat.widget,
-    spr,
+    spl,
     volicon,
     volume.widget,
-    spr,
+    spl,
     weather.icon,
     weather.widget,
-    spr,
+    spl,
     clock
   }
 
@@ -376,7 +390,7 @@ awful.screen.connect_for_each_screen(function(s)
     layout = wibox.layout.fixed.horizontal,
     weather.icon,
     weather.widget,
-    spr,
+    spl,
     clock
   }
 

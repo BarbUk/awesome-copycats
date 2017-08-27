@@ -37,8 +37,14 @@ theme.ccol                          = "</span>"
 theme.tasklist_sticky               = theme.ocol .. "[S]" .. theme.ccol
 theme.tasklist_ontop                = theme.ocol .. "[T]" .. theme.ccol
 theme.tasklist_floating             = theme.ocol .. "[F]" .. theme.ccol
-theme.tasklist_maximized_horizontal = theme.ocol .. "[M] " .. theme.ccol
-theme.tasklist_maximized_vertical   = ""
+theme.tasklist_maximized_horizontal = theme.ocol .. "[M]" .. theme.ccol
+theme.tasklist_maximized_vertical   = theme.ocol .. "[V]" .. theme.ccol
+theme.layout_txt_tile               = ""
+theme.layout_txt_tiletop            = ""
+theme.layout_txt_fairv              = ""
+theme.layout_txt_dwindle            = ""
+theme.layout_txt_fullscreen         = ""
+theme.layout_txt_floating           = ""
 theme.tasklist_disable_icon         = false
 
 theme.taglist_squares_sel           = theme.dir .. "/icons/square_sel.png"
