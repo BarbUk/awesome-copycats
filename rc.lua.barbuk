@@ -795,7 +795,8 @@ awful.rules.rules = {
   { rule = { class = "Wine" }, properties               = { border_width = 0, floating = true } },
   { rule = { class = "copyq" }, properties              = { border_width = 0, focus = yes } },
 
-  { rule = { name = "Slack Call Minipanel" }, { class = "sun-awt-X11-XFramePeer" } , properties = { floating = true} },
+  { rule = { name = "Slack Call Minipanel" }, properties = { floating = true} },
+  { rule = { class = "com-sun-javaws-Main" } , properties = { floating = true} },
 
   { rule = { class = "Gimp", role = "gimp-image-window" }, properties = { maximized_horizontal = true, maximized_vertical = true } },
 
