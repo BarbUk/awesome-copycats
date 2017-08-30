@@ -1,7 +1,4 @@
 -- {{{ Required libraries
-local awesome, client, mouse, screen, tag = awesome, client, mouse, screen, tag
-local string, os, table, tostring, tonumber, type = string, os, table, tostring, tonumber, type
-
 local gears         = require("gears")
 local awful         = require("awful")
                       require("awful.autofocus")
@@ -34,7 +31,6 @@ naughty.config.defaults.border_width  = 3
 local pulse_sink = "$(pacmd list-sinks | awk '/* index/ {print $3}')"
 local pulse_step = 5
 local scriptdir = os.getenv("HOME") .. "/.dotfiles/bin/"
-
 
 -- {{{ Error handling
 if awesome.startup_errors then
@@ -107,30 +103,15 @@ lain.layout.termfair.center.nmaster = 3
 lain.layout.termfair.center.ncol    = 1
 -- }}}
 
--- {{{ Helper functions
-local function client_menu_toggle_fn()
-  local instance = nil
-
-  return function ()
-    if instance and instance.wibox.visible then
-      instance:hide()
-      instance = nil
-    else
-      instance = awful.menu.clients({ theme = { width = 250 } })
-    end
-  end
-end
--- }}}
-
 -- {{{ Wibox
 local markup = lain.util.markup
-local white  = beautiful.fg_focus
-local gray   = beautiful.fg_normal
+local white  = beautiful.fg_normal
+local gray   = beautiful.fg_focus
 
 -- Separators
-local spl   = wibox.widget.textbox(markup.bold('  '))
-local spc   = wibox.widget.textbox(markup.bold(' '))
-local spr   = wibox.widget.textbox(markup.bold('  '))
+local spl   = wibox.widget.textbox(markup(white, markup.bold('  ')))
+local spc   = wibox.widget.textbox(markup(white, markup.bold(' ')))
+local spr   = wibox.widget.textbox(markup(white, markup.bold('  ')))
 
 -- Textclock
 local clock = wibox.widget.textclock(markup(white, "%H:%M "))
@@ -142,7 +123,7 @@ lain.widget.calendar({
   followtag = true,
   notification_preset = {
     font = 'PragmataPro 10',
-    fg   = white,
+    fg   = beautiful.fg_normal,
     bg   = beautiful.bg_normal
 }})
 
@@ -151,7 +132,7 @@ local mpd = lain.widget.mpd({
   settings = function()
     music_dir = "~/Zik/"
     if mpd_now.state == "play" then
-        widget:set_markup(" " .. markup(gray, mpd_now.artist) .. " - " .. markup(white, mpd_now.title) .. " ")
+        widget:set_markup(markup(beautiful.nord7, " ") .. markup(white, mpd_now.artist) .. " - " .. markup(white, mpd_now.title) .. " ")
     else
         widget:set_markup("")
     end
@@ -163,7 +144,7 @@ local spotify = spotify({
   cmd = scriptdir .. "sp metadata",
   settings = function()
     if spotify_now.artist ~= "not_running" then
-      widget:set_markup(" " .. markup(gray, spotify_now.artist) .. " - " .. markup(white, spotify_now.title) .. " ")
+      widget:set_markup(markup(beautiful.nord7, " ") .. markup(white, spotify_now.artist) .. " - " .. markup(white, spotify_now.title) .. " ")
     else
       widget:set_markup("")
     end
@@ -184,7 +165,7 @@ local fshome = lain.widget.fs({
       p   = fs_now.used .. " "
     end
 
-    widget:set_markup(markup(gray, hdd) .. markup(white, p))
+    widget:set_markup(markup(white, hdd) .. markup(white, p))
   end
 })
 
@@ -194,32 +175,33 @@ local bat = lain.widget.contrib.tpbat({
   settings = function()
     if bat_now.status == "discharging" then
       if bat_now.perc and tonumber(bat_now.perc) <= 5 then
-        baticon:set_markup_silently(" ")
+        baticon:set_markup_silently(markup(beautiful.nord11, " "))
       elseif bat_now.perc and tonumber(bat_now.perc) <= 25 then
-        baticon:set_markup_silently(" ")
+        baticon:set_markup_silently(markup(beautiful.nord12, " "))
       elseif bat_now.perc and tonumber(bat_now.perc) <= 55 then
-        baticon:set_markup_silently(" ")
+        baticon:set_markup_silently(markup(beautiful.nord13, " "))
       elseif bat_now.perc and tonumber(bat_now.perc) <= 75 then
-        baticon:set_markup_silently(" ")
+        baticon:set_markup_silently(markup(beautiful.nord14, " "))
       else
-        baticon:set_markup_silently("")
+        baticon:set_markup_silently(markup(beautiful.nord15, ""))
       end
     else
-      baticon:set_markup_silently("")
+      baticon:set_markup_silently(markup(beautiful.nord15, ""))
     end
-    widget:set_markup(markup.font(beautiful.font, " " .. bat_now.perc .. "%"))
+    widget:set_markup(" " .. bat_now.perc .. "%")
   end
 })
 
-local volicon = wibox.widget.textbox(" ")
+local volumeicon = markup(beautiful.nord9, " ")
+local volicon = wibox.widget.textbox(volumeicon)
 local volume = lain.widget.pulseaudio({
   settings = function()
     if volume_now.muted == "yes" then
       widget:set_text("Mute")
-      volicon:set_markup_silently(" ")
+      volicon:set_markup_silently(markup(beautiful.nord9, " "))
     else
-      widget:set_markup(markup(white, volume_now.right))
-      volicon:set_markup_silently(" ")
+      widget:set_markup(volume_now.right)
+      volicon:set_markup_silently(volumeicon)
     end
   end
 })
@@ -232,7 +214,7 @@ local weather = lain.widget.weather({
   settings = function()
     descr = weather_now["weather"][1]["description"]
     units = math.floor(weather_now["main"]["temp"])
-    widget:set_markup(markup("#eca4c4", " " .. units .. "°C"))
+    widget:set_markup(" " .. units .. "°C")
   end
 })
 
@@ -245,15 +227,15 @@ local net = lain.widget.net({
     weather.update()
   end
 
-  widget:set_markup(markup("#B3E383", markup.bold("↓ ") .. net_now.received) .. " " .. markup("#F4E59F", markup.bold("↑ ") .. net_now.sent))
+  widget:set_markup(markup(beautiful.nord14, markup.bold("↓ ")) .. net_now.received .. " " .. markup(beautiful.nord11, markup.bold("↑ ")) .. net_now.sent)
   end
 })
 
 -- CPU
-local cpuicon = wibox.widget.textbox(" ")
+local cpuicon = wibox.widget.textbox(markup(beautiful.nord14, " "))
 local cpu = lain.widget.sysload({
   settings = function()
-    widget:set_markup(markup("#E5CBCB", load_1 .. " " .. load_5))
+    widget:set_markup(load_1 .. " " .. load_5)
   end
 })
 
@@ -292,7 +274,6 @@ local tasklist_buttons = awful.util.table.join(
       c:raise()
     end
   end),
-  awful.button({ }, 3, client_menu_toggle_fn()),
   awful.button({ }, 4, function ()
     awful.client.focus.byidx(1)
   end),
@@ -847,10 +828,12 @@ end)
 -- No border for maximized clients
 client.connect_signal("focus",
   function(c)
-    if c.maximized or c.floating == true then
+    if c.maximized or c.floating == true or #awful.screen.focused().clients == 1 then
       c.border_width = 0
+      awful.screen.focused().selected_tag.gap = 0
     -- no borders if only 1 client visible
     elseif #awful.screen.focused().clients > 1 then
+      awful.screen.focused().selected_tag.gap = 1
       c.border_width = beautiful.border_width
       c.border_color = beautiful.border_focus
     end
