@@ -33,7 +33,7 @@ theme.nord14                        = "#A3BE8C"
 theme.nord15                        = "#B48EAD"
 
 theme.fg_normal                     = theme.nord4
-theme.fg_focus                      = theme.nord7
+theme.fg_focus                      = theme.nord6
 theme.bg_normal                     = theme.nord0
 theme.bg_focus                      = theme.bg_normal
 theme.fg_urgent                     = theme.nord3
