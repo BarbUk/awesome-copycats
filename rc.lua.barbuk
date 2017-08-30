@@ -833,7 +833,7 @@ client.connect_signal("focus",
       awful.screen.focused().selected_tag.gap = 0
     -- no borders if only 1 client visible
     elseif #awful.screen.focused().clients > 1 then
-      awful.screen.focused().selected_tag.gap = 1
+      awful.screen.focused().selected_tag.gap = beautiful.useless_gap
       c.border_width = beautiful.border_width
       c.border_color = beautiful.border_focus
     end
