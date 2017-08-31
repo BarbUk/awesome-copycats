@@ -825,10 +825,10 @@ client.connect_signal("mouse::enter", function(c)
   end
 end)
 
--- No border for maximized clients
+-- No border and and no gap for maximized clients
 client.connect_signal("focus",
   function(c)
-    if c.maximized or c.floating == true or #awful.screen.focused().clients == 1 then
+    if c.maximized or #awful.screen.focused().clients == 1 then
       c.border_width = 0
       awful.screen.focused().selected_tag.gap = 0
     -- no borders if only 1 client visible
