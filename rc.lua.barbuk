@@ -599,6 +599,17 @@ globalkeys = awful.util.table.join(
       end)
   end),
 
+  awful.key({ modkey }, "F12", function ()
+      awful.spawn.easy_async(scriptdir .. "light_bar up", function(stdout)
+        noti:notify(stdout)
+      end)
+  end),
+  awful.key({ modkey }, "F11", function ()
+      awful.spawn.easy_async(scriptdir .. "light_bar down", function(stdout)
+        noti:notify(stdout)
+      end)
+  end),
+
   awful.key({ }, "XF86ScreenSaver", function ()
       awful.spawn("slock", false )
   end),
