@@ -198,7 +198,7 @@ local bat = lain.widget.contrib.tpbat({
 
 local volumeicon = markup(beautiful.nord9, " ")
 local volicon = wibox.widget.textbox(volumeicon)
-local volume = lain.widget.pulseaudio({
+local volume = lain.widget.pulse({
   settings = function()
     if volume_now.muted == "yes" then
       widget:set_text("Mute")
