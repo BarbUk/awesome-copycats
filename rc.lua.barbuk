@@ -24,9 +24,13 @@ cyclefocus.default_preset.font        = 'PragmataPro 14'
 cyclefocus.display_next_count         = 5
 cyclefocus.display_prev_count         = 5
 
-naughty.config.defaults.font          = "PragmataPro 10"
-naughty.config.defaults.icon_size     = 80
+naughty.config.defaults.font          = "PragmataPro 11"
+naughty.config.icon_dirs     = { "/usr/share/icons/Papirus/16x16/apps/", "/usr/share/pixmaps/" }
+naughty.config.icon_formats  = { "png" }
+naughty.config.defaults.icon_size     = 40
 naughty.config.defaults.border_width  = 3
+naughty.config.defaults.timeout       = 7
+naughty.config.defaults.hover_timeout = 3
 
 local pulse_sink = "$(pacmd list-sinks | awk '/* index/ {print $3}')"
 local pulse_step = 5
