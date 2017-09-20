@@ -145,7 +145,7 @@ local mpd = lain.widget.mpd({
 
 -- Spotify
 local spotify = spotify({
-  cmd = scriptdir .. "sp metadata",
+  cmd = scriptdir .. "spotify_info",
   settings = function()
     if spotify_now.artist ~= "not_running" then
       widget:set_markup(markup(beautiful.nord7, " ") .. markup(white, spotify_now.artist) .. " - " .. markup(white, spotify_now.title) .. " ")
@@ -568,21 +568,21 @@ globalkeys = awful.util.table.join(
 
   -- Music control
   awful.key({ }, "XF86AudioStop", function ()
-    os.execute("mpc stop", false )
+    os.execute("mpc stop || playerctl stop")
     mpd.update()
   end),
   awful.key({ }, "XF86AudioPlay", function ()
-    os.execute("mpc toggle || " .. scriptdir .. "sp play")
+    os.execute("mpc toggle || playerctl play-pause")
     mpd.update()
     spotify.update()
   end),
   awful.key({ }, "XF86AudioPrev", function ()
-    os.execute("mpc prev || " .. scriptdir .. "sp prev")
+    os.execute("mpc prev || playerctl previous")
     mpd.update()
     spotify.update()
   end),
   awful.key({ }, "XF86AudioNext", function ()
-    os.execute("mpc next || " .. scriptdir .. "sp next")
+    os.execute("mpc next || playerctl next")
     mpd.update()
     spotify.update()
   end),
