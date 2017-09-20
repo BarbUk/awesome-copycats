@@ -843,12 +843,21 @@ end)
 -- No border and and no gap for maximized clients
 client.connect_signal("focus",
   function(c)
-    if c.maximized or #awful.screen.focused().clients == 1
-      or #awful.screen.focused().clients == 2 and c.floating then
+    clients = c.screen.clients
+
+    floating = false
+    for i,client in ipairs(clients) do
+      if client.floating then
+        floating = true
+      end
+    end
+
+    if #clients == 1 or c.maximized
+      or not c.class == "albert"
+      or #clients == 2 and floating then
       c.border_width = 0
       awful.screen.focused().selected_tag.gap = 0
-    -- no borders if only 1 client visible
-    elseif #awful.screen.focused().clients > 1 then
+    elseif not c.class == "albert" and #clients > 1 then
       awful.screen.focused().selected_tag.gap = beautiful.useless_gap
       c.border_width = beautiful.border_width
       c.border_color = beautiful.border_focus
