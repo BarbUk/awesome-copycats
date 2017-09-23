@@ -545,7 +545,7 @@ globalkeys = awful.util.table.join(
   -- Widgets popups
   awful.key({ altkey, }, "c", function () lain.widget.calendar.show(7) end),
   awful.key({ altkey, }, "h", function () fshome.show(7, awful.screen.focused()) end),
-  awful.key({ altkey, }, "w", function () weather.show(7) end),
+  -- awful.key({ altkey, }, "w", function () weather.show(7) end),
 
   -- Volume control
   awful.key({ }, "XF86AudioRaiseVolume", function ()
@@ -775,7 +775,11 @@ awful.rules.rules = {
   },
 
   -- Titlebars
-  { rule_any = { type = { "dialog", "normal" } }, properties = { titlebars_enabled = false } },
+  { rule_any = { type = { "dialog", "normal" } }, properties = { titlebars_enabled = false },
+    callback = function (c)
+      awful.placement.centered(c, nil)
+    end
+  },
   { rule = { class = "Pidgin" }, properties             = { screen = 1, tag = awful.util.tagnames[1].names[1] } },
   { rule = { class = "wmail" }, properties              = { screen = 1, tag = awful.util.tagnames[1].names[2] } },
   { rule = { class = "Dia" }, properties                = { screen = 1, tag = awful.util.tagnames[1].names[6] } },
