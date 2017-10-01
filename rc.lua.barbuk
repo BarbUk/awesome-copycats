@@ -415,9 +415,13 @@ globalkeys = awful.util.table.join(
     ]])
   end),
   awful.key({ }, "Print", function ()
+    -- awful.util.spawn_with_shell([[
+    --   maim --select --hidecursor --highlight --color=0.3,0.4,0.6,0.3 --bordersize=3 --format=png --quality=10 |
+    --   convert - \( +clone -background black -shadow 25x5+10+10 \) +swap -background none -layers merge +repage - |
+    --   xclip -selection clipboard -t image/png
+    -- ]])
     awful.util.spawn_with_shell([[
       maim --select --hidecursor --highlight --color=0.3,0.4,0.6,0.3 --bordersize=3 --format=png --quality=10 |
-      convert - \( +clone -background black -shadow 25x5+10+10 \) +swap -background none -layers merge +repage - |
       xclip -selection clipboard -t image/png
     ]])
   end),
