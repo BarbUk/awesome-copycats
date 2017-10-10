@@ -798,6 +798,7 @@ awful.rules.rules = {
   { rule = { class = "mpv" }, properties                = { border_width = 0, focus = yes} },
   { rule = { class = "albert" }, properties             = { floating = true, focus = yes } },
   { rule = { class = "feh" }, properties                = { floating = true, focus = yes } },
+  { rule = { class = "Peek" }, properties                = { floating = true, focus = yes } },
   { rule = { class = "Toggl Desktop" }, properties      = { focus = yes } },
   { rule = { class = "Wine" }, properties               = { border_width = 0, floating = true } },
   { rule = { class = "copyq" }, properties              = { border_width = 0, focus = yes } },
