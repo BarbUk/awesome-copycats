@@ -32,6 +32,10 @@ theme.nord13                        = "#EBCB8B"
 theme.nord14                        = "#A3BE8C"
 theme.nord15                        = "#B48EAD"
 
+theme.soud0                         = "#F0EAD8"
+theme.soud4                         = "#556970"
+theme.soud6                         = "#556970"
+
 theme.fg_normal                     = theme.nord4
 theme.fg_focus                      = theme.nord6
 theme.bg_normal                     = theme.nord0
@@ -42,7 +46,7 @@ theme.border_width                  = 0
 theme.border_normal                 = theme.nord1
 theme.border_focus                  = theme.bg_normal
 theme.taglist_fg_focus              = theme.nord4
-theme.taglist_bg_focus              = theme.nord10
+theme.taglist_bg_focus              = theme.nord9
 theme.wibar_height                  = 14
 theme.menu_height                   = 12
 theme.menu_width                    = 140
