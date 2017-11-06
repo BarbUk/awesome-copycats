@@ -72,7 +72,7 @@ awful.util.terminal = terminal
 
 -- table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
-  awful.layout.suit.floating,
+  -- awful.layout.suit.floating,
   awful.layout.suit.tile,
   -- awful.layout.suit.tile.left,
   -- awful.layout.suit.tile.bottom,
@@ -90,13 +90,13 @@ awful.layout.layouts = {
   -- awful.layout.suit.corner.se,
 }
 
-local lo = awful.layout.layouts
+local l = awful.layout.layouts
 awful.util.tagnames = {
   { names =  { "", "", "", "", "", "" },
-    layout = { lo[5], lo[5], lo[5], lo[5], lo[5], lo[5] },
+    layout = { l[4], l[4], l[4], l[4], l[4], l[4] },
   },
   { names =  { "", "", "", "", "", "" },
-    layout = {  lo[5], lo[5], lo[5], lo[5], lo[5], lo[5] },
+    layout = {  l[4], l[4], l[4], l[4], l[4], l[4] },
   },
 }
 
