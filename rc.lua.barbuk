@@ -426,6 +426,11 @@ globalkeys = awful.util.table.join(
     ]])
   end),
 
+  awful.key({ modkey,           }, "p", function ()
+    awful.spawn([[
+      rofi -combi-modi "clipboard:greenclip print,window,drun" -show combi -modi combi -lines 25
+      ]])
+  end),
   -- Tag browsing
   awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
     {description = "view previous", group = "tag"}),
