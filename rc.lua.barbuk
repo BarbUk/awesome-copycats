@@ -851,11 +851,16 @@ client.connect_signal("manage", function (c)
 end)
 
 -- Enable sloppy focus, so that focus follows mouse.
+local sloppyfocus_last = {c=nil}
 client.connect_signal("mouse::enter", function(c)
-  if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
-    and awful.client.focus.filter(c) then
-    client.focus = c
-  end
+    if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
+            and awful.client.focus.filter(c) then
+        -- Skip focusing the client if the mouse wasn't moved.
+        if c ~= sloppyfocus_last.c then
+            client.focus = c
+            sloppyfocus_last.c = c
+        end
+    end
 end)
 
 -- No border and and no gap for maximized clients
