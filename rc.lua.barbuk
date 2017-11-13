@@ -117,8 +117,13 @@ local spl   = wibox.widget.textbox(markup(white, markup.bold('  ')))
 local spc   = wibox.widget.textbox(markup(white, markup.bold(' ')))
 local spr   = wibox.widget.textbox(markup(white, markup.bold('  ')))
 
--- Textclock
-local clock = wibox.widget.textclock(markup(white, "%H:%M "))
+local fr_flag     = wibox.widget.imagebox(beautiful.fr_flag, true)
+local local_flag  = wibox.widget.imagebox(beautiful.local_flag, true)
+
+
+-- Text
+local clockfr = wibox.widget.textclock(markup(white, "%H:%M"), 30, "Europe/Paris")
+local clock = wibox.widget.textclock(markup(white, "%H:%M "), 30)
 
 -- Calendar
 lain.widget.calendar({
@@ -368,7 +373,9 @@ awful.screen.connect_for_each_screen(function(s)
     weather.icon,
     weather.widget,
     spl,
-    clock
+    fr_flag,clockfr,
+    spl,
+    local_flag,clock
   }
 
   local time = {
@@ -376,7 +383,9 @@ awful.screen.connect_for_each_screen(function(s)
     weather.icon,
     weather.widget,
     spl,
-    clock
+    fr_flag,clockfr,
+    spl,
+    local_flag,clock
   }
 
   if s.index == 1 then

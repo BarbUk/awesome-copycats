@@ -67,6 +67,8 @@ theme.layout_txt_dwindle            = ""
 theme.layout_txt_fullscreen         = ""
 theme.layout_txt_floating           = ""
 theme.tasklist_disable_icon         = false
+theme.fr_flag                       = theme.dir .. "/icons/fr.png"
+theme.local_flag                    = theme.dir .. "/icons/mu.png"
 
 theme.taglist_squares_sel           = theme.dir .. "/icons/square_sel.png"
 theme.taglist_squares_unsel         = theme.dir .. "/icons/square_unsel.png"
