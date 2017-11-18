@@ -51,7 +51,7 @@ theme.wibar_height                  = 14
 theme.menu_height                   = 12
 theme.menu_width                    = 140
 theme.menu_border_width             = 0
-theme.useless_gap                   = 1
+theme.useless_gap                   = 2
 
 theme.ocol                          = "<span color='" .. theme.nord8 .. "'>"
 theme.ccol                          = "</span>"

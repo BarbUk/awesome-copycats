@@ -436,6 +436,7 @@ globalkeys = awful.util.table.join(
   end),
 
   awful.key({ modkey,           }, "p", function ()
+    notrofi = false
     awful.spawn([[
       rofi -combi-modi "clipboard:greenclip print,window,drun" -show combi -modi combi -lines 25
       ]])
@@ -866,14 +867,15 @@ client.connect_signal("manage", function (c)
 end)
 
 -- Enable sloppy focus, so that focus follows mouse.
-local sloppyfocus_last = {c=nil}
+local sloppyfocus_last = { c = nil }
 client.connect_signal("mouse::enter", function(c)
-    if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
-            and awful.client.focus.filter(c) then
+    if awful.client.focus.filter(c) then
         -- Skip focusing the client if the mouse wasn't moved.
-        if c ~= sloppyfocus_last.c then
-            client.focus = c
-            sloppyfocus_last.c = c
+        if notrofi and c ~= sloppyfocus_last.c then
+          client.focus = c
+          sloppyfocus_last.c = c
+        else
+          notrofi = true
         end
     end
 end)
@@ -883,19 +885,10 @@ client.connect_signal("focus",
   function(c)
     clients = c.screen.clients
 
-    floating = false
-    for i,client in ipairs(clients) do
-      if client.floating then
-        floating = true
-      end
-    end
-
-    if #clients == 1 or c.maximized
-      or not c.class == "albert"
-      or #clients == 2 and floating then
+    if #clients == 1 or c.maximized or #clients == 2 and c.floating then
       c.border_width = 0
       awful.screen.focused().selected_tag.gap = 0
-    elseif not c.class == "albert" and #clients > 1 then
+    elseif #clients > 1 then
       awful.screen.focused().selected_tag.gap = beautiful.useless_gap
       c.border_width = beautiful.border_width
       c.border_color = beautiful.border_focus
