@@ -822,6 +822,7 @@ awful.rules.rules = {
   { rule = { class = "com-sun-javaws-Main" } , properties = { floating = true} },
 
   { rule = { class = "Gimp", role = "gimp-image-window" }, properties = { maximized_horizontal = true, maximized_vertical = true } },
+  { rule = { class = "com-sun-javaws-Main" }, properties = { screen = 1, tag = awful.util.tagnames[1].names[6], maximized = true } },
 
   { rule = { class = "center" }, properties = { floating = true, focus = yes },
     callback = function (c)
@@ -869,15 +870,14 @@ end)
 -- Enable sloppy focus, so that focus follows mouse.
 local sloppyfocus_last = { c = nil }
 client.connect_signal("mouse::enter", function(c)
-    if awful.client.focus.filter(c) then
-        -- Skip focusing the client if the mouse wasn't moved.
-        if notrofi and c ~= sloppyfocus_last.c then
-          client.focus = c
-          sloppyfocus_last.c = c
-        else
-          notrofi = true
-        end
+  if notrofi and awful.client.focus.filter(c) then
+    -- Skip focusing the client if the mouse wasn't moved.
+    if c ~= sloppyfocus_last.c then
+      client.focus = c
+      sloppyfocus_last.c = c
     end
+  end
+  notrofi = true
 end)
 
 -- No border and and no gap for maximized clients
