@@ -13,6 +13,7 @@ local cyclefocus    = require('cyclefocus')
 
 -- beautiful init
 beautiful.init(awful.util.getdir("config") .. "/themes/barbuk/theme.lua")
+local sloppyfocus_last = { c = true }
 
 local noti = {}
 noti.id = nil
@@ -436,7 +437,7 @@ globalkeys = gears.table.join(
   end),
 
   awful.key({ modkey,           }, "p", function ()
-    notrofi = false
+    sloppyfocus_last.c = false
     awful.spawn([[
       rofi -combi-modi "clipboard:greenclip print,window,drun" -show combi -modi combi -lines 25
       ]])
@@ -653,13 +654,25 @@ globalkeys = gears.table.join(
   awful.key({ modkey }, "g", function () awful.spawn(graphics) end),
   awful.key({ modkey }, "d", function () awful.spawn(file_explorer) end),
 
-  awful.key({ modkey, "Shift"   }, "Return", function () awful.util.spawn_with_shell(scriptdir .. "dmenu_ssh") end),
-  awful.key({ modkey, "Control" }, "Return", function () awful.util.spawn_with_shell(scriptdir .. "dmenu_raise") end),
-  awful.key({ modkey, altkey    }, "Return", function () awful.util.spawn_with_shell(scriptdir .. "dmenu_edit") end),
+  awful.key({ modkey, "Shift"   }, "Return", function ()
+    sloppyfocus_last.c = false
+    awful.util.spawn_with_shell(scriptdir .. "dmenu_ssh")
+  end),
+  awful.key({ modkey, "Control" }, "Return", function ()
+    sloppyfocus_last.c = false
+    awful.util.spawn_with_shell(scriptdir .. "dmenu_raise")
+  end),
+  awful.key({ modkey, altkey    }, "Return", function ()
+    sloppyfocus_last.c = false
+    awful.util.spawn_with_shell(scriptdir .. "dmenu_edit")
+  end),
   awful.key({ modkey, altkey, "Control" }, "Return", function ()
     awful.util.spawn_with_shell(scriptdir .. "dmenu_monitoring")
   end),
-  awful.key({ modkey, "Shift"   }, "p",      function () awful.util.spawn_with_shell(scriptdir .. "snippy") end),
+  awful.key({ modkey, "Shift"   }, "p",      function ()
+    sloppyfocus_last.c = false
+    awful.util.spawn_with_shell(scriptdir .. "snippy")
+  end),
   awful.key({ modkey, "Shift"   }, "m",      function () awful.util.spawn_with_shell("termite --class='center' --geometry='700x400' --exec=ncmpcpp &") end),
   awful.key({ modkey }, "0",                 function () awful.spawn( scriptdir .. "qrcodize", false ) end),
   awful.key({ modkey }, "t",
@@ -868,17 +881,16 @@ client.connect_signal("manage", function (c)
 end)
 
 -- Enable sloppy focus, so that focus follows mouse.
-local sloppyfocus_last = { c = nil }
-
 function sloppy_focus(c)
-  if notrofi and awful.client.focus.filter(c) then
+  if awful.client.focus.filter(c) then
     -- Skip focusing the client if the mouse wasn't moved.
-    if c ~= sloppyfocus_last.c then
+    if sloppyfocus_last.c and c ~= sloppyfocus_last.c then
       client.focus = c
       sloppyfocus_last.c = c
+    else
+      sloppyfocus_last.c = true
     end
   end
-  notrofi = true
 end
 
 -- No border and and no gap for maximized clients
