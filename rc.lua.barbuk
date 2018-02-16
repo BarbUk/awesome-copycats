@@ -438,9 +438,7 @@ globalkeys = gears.table.join(
 
   awful.key({ modkey,           }, "p", function ()
     sloppyfocus_last.c = false
-    awful.spawn([[
-      rofi -combi-modi "clipboard:greenclip print,window,drun" -show combi -modi combi -lines 25
-      ]])
+    awful.spawn("rofi -combi-modi 'clipboard:greenclip print,chrome:" .. scriptdir .. "chrome_history,window,drun' -show combi -modi combi -lines 25")
   end),
   -- Tag browsing
   awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
@@ -682,7 +680,7 @@ globalkeys = gears.table.join(
   ),
   awful.key({ modkey }, "y",
     function ()
-      awful.spawn( browser .. " --profile-directory='Profile 2' https://mail.google.com/mail/u/0/#inbox", false )
+      awful.spawn( browser .. " --profile-directory='Profile 2' https://mail.google.com/mail/u/0/#inbox https://app.frontapp.com", false )
     end
   ),
 
