@@ -162,20 +162,18 @@ local spotify = spotify({
 })
 
 -- /home fs
-local fshome = lain.widget.fs({
-  partition = "/",
-  options = "--exclude-type=tmpfs",
+local fsroot = lain.widget.fs({
   notification_preset = { fg = white, bg = beautiful.bg_normal },
   settings  = function()
     hdd = ""
     p   = ""
 
-    if tonumber(fs_now.used) >= 90 then
-      hdd = "  hd "
-      p   = fs_now.used .. " "
+    if fs_now["/"].percentage >= 85 then
+      hdd = tostring(spl) .. "  "
+      p   = fs_now["/"].percentage .. "%"
     end
 
-    widget:set_markup(markup(white, hdd) .. markup(white, p))
+    widget:set_markup(markup(beautiful.nord7, hdd) .. markup(white, p))
   end
 })
 
@@ -363,7 +361,7 @@ awful.screen.connect_for_each_screen(function(s)
     spl,
     cpuicon,
     cpu.widget,
-    fshome.widget,
+    fsroot.widget,
     spl,
     baticon,
     bat.widget,
@@ -464,19 +462,19 @@ globalkeys = gears.table.join(
 
   -- By direction client focus
   awful.key({ modkey }, "j", function()
-    awful.client.focus.bydirection("down")
+    awful.client.focus.global_bydirection("down")
     if client.focus then client.focus:raise() end
   end),
   awful.key({ modkey }, "k", function()
-    awful.client.focus.bydirection("up")
+    awful.client.focus.global_bydirection("up")
     if client.focus then client.focus:raise() end
   end),
   awful.key({ modkey }, "h", function()
-    awful.client.focus.bydirection("left")
+    awful.client.focus.global_bydirection("left")
     if client.focus then client.focus:raise() end
   end),
   awful.key({ modkey }, "l", function()
-    awful.client.focus.bydirection("right")
+    awful.client.focus.global_bydirection("right")
     if client.focus then client.focus:raise() end
   end),
 
