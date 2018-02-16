@@ -5,11 +5,13 @@
 
 --]]
 
-local gears   = require("gears")
-local lain    = require("lain")
-local awful   = require("awful")
-local wibox   = require("wibox")
-local os      = { getenv = os.getenv }
+local gears = require("gears")
+local lain  = require("lain")
+local awful = require("awful")
+local wibox = require("wibox")
+
+local os = { getenv = os.getenv }
+local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
 
 local theme                                     = {}
 theme.dir                                       = os.getenv("HOME") .. "/.config/awesome/themes/dremora"
@@ -132,16 +134,14 @@ theme.mpd = lain.widget.mpd({
 
 -- /home fs
 theme.fs = lain.widget.fs({
-    partition = "/home",
-    options = "--exclude-type=tmpfs",
     notification_preset = { fg = white, bg = theme.bg_normal, font = "Misc Tamsyn 10.5" },
     settings  = function()
         fs_header = ""
         fs_p      = ""
 
-        if tonumber(fs_now.used) >= 90 then
+        if fs_now["/home"].percentage >= 90 then
             fs_header = " Hdd "
-            fs_p      = fs_now.used
+            fs_p      = fs_now["/home"].percentage
         end
 
         widget:set_markup(markup.font(theme.font, markup(gray, fs_header) .. markup(white, fs_p)))
@@ -204,7 +204,7 @@ function theme.at_screen_connect(s)
     -- Create an imagebox widget which will contains an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
     s.mylayoutbox = awful.widget.layoutbox(s)
-    s.mylayoutbox:buttons(gears.table.join(
+    s.mylayoutbox:buttons(my_table.join(
                            awful.button({ }, 1, function () awful.layout.inc( 1) end),
                            awful.button({ }, 3, function () awful.layout.inc(-1) end),
                            awful.button({ }, 4, function () awful.layout.inc( 1) end),
