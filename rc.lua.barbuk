@@ -142,7 +142,7 @@ local mpd = lain.widget.mpd({
   settings = function()
     music_dir = "~/Zik/"
     if mpd_now.state == "play" then
-        widget:set_markup(markup(beautiful.nord7, " ") .. markup(white, mpd_now.artist) .. " - " .. markup(white, mpd_now.title) .. " ")
+        widget:set_markup(markup(beautiful.nord7, " ") .. markup(white, mpd_now.artist) .. " - " .. markup(white, mpd_now.title) .. " ")
     else
         widget:set_markup("")
     end
@@ -154,7 +154,7 @@ local spotify = spotify({
   cmd = scriptdir .. "spotify_info",
   settings = function()
     if spotify_now.artist ~= "not_running" then
-      widget:set_markup(markup(beautiful.nord7, " ") .. markup(white, spotify_now.artist) .. " - " .. markup(white, spotify_now.title) .. " ")
+      widget:set_markup(markup(beautiful.nord7, " ") .. markup(white, spotify_now.artist) .. " - " .. markup(white, spotify_now.title) .. " ")
     else
       widget:set_markup("")
     end
