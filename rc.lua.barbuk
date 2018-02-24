@@ -829,6 +829,7 @@ awful.rules.rules = {
   { rule = { class = "copyq" }, properties              = { border_width = 0, focus = yes } },
 
   { rule = { class = "com-sun-javaws-Main" } , properties = { floating = true} },
+  { rule = { class = "sun-awt-X11-XDialogPeer" } , properties = { floating = true} },
 
   { rule = { class = "Gimp", role = "gimp-image-window" }, properties = { maximized_horizontal = true, maximized_vertical = true } },
   { rule = { class = "com-sun-javaws-Main" }, properties = { screen = 1, tag = awful.util.tagnames[1].names[6], maximized = true } },

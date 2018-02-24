@@ -10,8 +10,8 @@ local wibox        = require("wibox")
 local shell        = require("awful.util").shell
 local setmetatable = setmetatable
 
--- PulseAudio volume
--- lain.widgets.contrib.pulseaudio
+-- Spotify
+-- lain.widgets.contrib.spotify
 local spotify = {}
 
 local function worker(args)
