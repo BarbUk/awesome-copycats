@@ -438,6 +438,10 @@ globalkeys = gears.table.join(
     sloppyfocus_last.c = false
     awful.spawn("rofi -combi-modi 'clipboard:greenclip print,chrome:" .. scriptdir .. "chrome_history,window,drun' -show combi -modi combi -lines 25")
   end),
+  awful.key({ modkey,           }, "=", function ()
+    sloppyfocus_last.c = false
+    awful.spawn("=")
+  end),
   -- Tag browsing
   awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
     {description = "view previous", group = "tag"}),
