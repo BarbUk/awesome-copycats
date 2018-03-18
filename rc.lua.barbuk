@@ -34,9 +34,6 @@ naughty.config.defaults.timeout       = 7
 naughty.config.defaults.hover_timeout = 3
 
 naughty.config.notify_callback = function(args)
-  if args.icon then
-    args.icon_size = 250
-  end
   if string.len(args.text) > 100 then
     args.width = 666
   end
