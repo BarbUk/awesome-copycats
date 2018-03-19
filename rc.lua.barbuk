@@ -26,23 +26,23 @@ cyclefocus.display_next_count         = 5
 cyclefocus.display_prev_count         = 5
 
 naughty.config.defaults.font          = "PragmataPro 11"
-naughty.config.icon_dirs     = { "/usr/share/icons/Papirus/16x16/apps/", "/usr/share/pixmaps/" }
-naughty.config.icon_formats  = { "png" }
+naughty.config.icon_dirs              = { "/usr/share/icons/Papirus/16x16/apps/", "/usr/share/pixmaps/" }
+naughty.config.icon_formats           = { "png" }
 naughty.config.defaults.icon_size     = 40
 naughty.config.defaults.border_width  = 3
 naughty.config.defaults.timeout       = 7
 naughty.config.defaults.hover_timeout = 3
 
 naughty.config.notify_callback = function(args)
-  if string.len(args.text) > 100 then
+  if args.text and string.len(args.text) > 666 then
     args.width = 666
   end
   return args
 end
 
-local pulse_sink = "$(pacmd list-sinks | awk '/* index/ {print $3}')"
-local pulse_step = 5
-local scriptdir = os.getenv("HOME") .. "/.dotfiles/bin/"
+local pulse_sink  = "$(pacmd list-sinks | awk '/* index/ {print $3}')"
+local pulse_step  = 5
+local scriptdir   = os.getenv("HOME") .. "/.dotfiles/bin/"
 
 -- {{{ Error handling
 if awesome.startup_errors then
@@ -72,9 +72,9 @@ local terminal   = "termite"
 local editor     = "vim"
 
 -- user defined
-local browser    = "google-chrome-stable"
-local gui_editor = "subl"
-local graphics   = "gimp"
+local browser       = "google-chrome-stable"
+local gui_editor    = "subl"
+local graphics      = "gimp"
 local file_explorer = "pcmanfm"
 awful.util.terminal = terminal
 
