@@ -34,8 +34,12 @@ naughty.config.defaults.timeout       = 7
 naughty.config.defaults.hover_timeout = 3
 
 naughty.config.notify_callback = function(args)
-  if args.text and string.len(args.text) > 666 then
-    args.width = 666
+  if args.text then
+    for line in string.gmatch(args.text, "[%S ]+") do
+      if string.len(line) > 120 then
+        args.width = 666
+      end
+    end
   end
   return args
 end
