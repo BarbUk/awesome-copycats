@@ -45,6 +45,7 @@ theme.bg_urgent                     = theme.nord15
 theme.border_width                  = 1
 theme.border_normal                 = theme.nord1
 theme.border_focus                  = theme.nord10
+theme.notification_border_color     = theme.nord10
 theme.taglist_fg_focus              = theme.nord4
 theme.taglist_bg_focus              = theme.nord9
 theme.wibar_height                  = 14
