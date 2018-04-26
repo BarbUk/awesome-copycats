@@ -180,11 +180,11 @@ local fsroot = lain.widget.fs({
     p   = ""
 
     if fs_now["/"].percentage >= 85 then
-      hdd = tostring(spl) .. "  "
+      hdd = markup(white, markup.bold('  ')) .. markup(beautiful.nord7,"  ")
       p   = fs_now["/"].percentage .. "%"
     end
 
-    widget:set_markup(markup(beautiful.nord7, hdd) .. markup(white, p))
+    widget:set_markup(hdd .. markup(white, p))
   end
 })
 
