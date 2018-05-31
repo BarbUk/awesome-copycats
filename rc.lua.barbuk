@@ -613,6 +613,11 @@ globalkeys = gears.table.join(
     mpd.update()
     spotify.update()
   end),
+  awful.key({ }, "Pause", function ()
+    os.execute("mpc toggle || playerctl play-pause")
+    mpd.update()
+    spotify.update()
+  end),
   awful.key({ }, "XF86AudioPrev", function ()
     os.execute("mpc prev || playerctl previous")
     mpd.update()
