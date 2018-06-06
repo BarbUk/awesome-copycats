@@ -453,6 +453,10 @@ globalkeys = gears.table.join(
     sloppyfocus_last.c = false
     awful.spawn("=")
   end),
+  awful.key({ modkey,           }, "-", function ()
+    sloppyfocus_last.c = false
+    awful.spawn("/usr/local/bin/splatmoji/splatmoji type")
+  end),
   -- Tag browsing
   awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
     {description = "view previous", group = "tag"}),
