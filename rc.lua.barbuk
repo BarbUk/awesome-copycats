@@ -21,11 +21,11 @@ function noti:notify (msg)
   self.id = naughty.notify({ text = msg, timeout = 5, replaces_id = self.id}).id
 end
 
-cyclefocus.default_preset.font        = 'PragmataPro 14'
+cyclefocus.default_preset.font        = 'PragmataPro Nerd Font 14'
 cyclefocus.display_next_count         = 5
 cyclefocus.display_prev_count         = 5
 
-naughty.config.defaults.font          = "PragmataPro 11"
+naughty.config.defaults.font          = "PragmataPro Nerd Font 11"
 naughty.config.icon_dirs              = { "/usr/share/icons/Papirus/16x16/apps/", "/usr/share/pixmaps/" }
 naughty.config.icon_formats           = { "png" }
 naughty.config.defaults.icon_size     = 40
@@ -143,7 +143,7 @@ lain.widget.calendar({
   cal       = '/usr/bin/cal --monday --color=always',
   followtag = true,
   notification_preset = {
-    font = 'PragmataPro 10',
+    font = 'PragmataPro Nerd Font 10',
     fg   = beautiful.fg_normal,
     bg   = beautiful.bg_normal
 }})

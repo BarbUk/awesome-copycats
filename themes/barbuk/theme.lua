@@ -13,7 +13,7 @@ home = os.getenv("HOME")
 theme.dir                           = home .. "/.config/awesome/themes/barbuk"
 theme.wallpaper                     = theme.dir .. "/archlinux.png"
 
-theme.font                          = "PragmataPro 8"
+theme.font                          = "PragmataPro Nerd Font 8"
 
 theme.nord0                         = "#2E3440"
 theme.nord1                         = "#3B4252"
