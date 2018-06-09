@@ -447,7 +447,7 @@ globalkeys = gears.table.join(
 
   awful.key({ modkey,           }, "p", function ()
     sloppyfocus_last.c = false
-    awful.spawn("rofi -combi-modi 'clipboard:greenclip print,chrome:" .. scriptdir .. "chrome_history,window,drun' -show combi -modi combi -lines 25")
+    awful.spawn("rofi -combi-modi 'clipboard:greenclip print,chrome:" .. scriptdir .. "chrome_history,window,drun' -show combi -modi combi")
   end),
   awful.key({ modkey,           }, "=", function ()
     sloppyfocus_last.c = false
