@@ -676,22 +676,22 @@ globalkeys = gears.table.join(
 
   awful.key({ modkey, "Shift"   }, "Return", function ()
     sloppyfocus_last.c = false
-    awful.util.spawn_with_shell(scriptdir .. "dmenu_ssh")
+    awful.spawn(scriptdir .. "dmenu_ssh")
   end),
   awful.key({ modkey, "Control" }, "Return", function ()
     sloppyfocus_last.c = false
-    awful.util.spawn_with_shell(scriptdir .. "dmenu_raise")
+    awful.spawn(scriptdir .. "dmenu_raise")
   end),
   awful.key({ modkey, altkey    }, "Return", function ()
     sloppyfocus_last.c = false
-    awful.util.spawn_with_shell(scriptdir .. "dmenu_edit")
+    awful.spawn(scriptdir .. "dmenu_edit")
   end),
   awful.key({ modkey, altkey, "Control" }, "Return", function ()
-    awful.util.spawn_with_shell(scriptdir .. "dmenu_monitoring")
+    awful.spawn(scriptdir .. "dmenu_monitoring")
   end),
   awful.key({ modkey, "Shift"   }, "p",      function ()
     sloppyfocus_last.c = false
-    awful.util.spawn_with_shell(scriptdir .. "snippy")
+    awful.spawn(scriptdir .. "snippy")
   end),
   awful.key({ modkey, "Shift"   }, "m",      function () awful.util.spawn_with_shell("termite --class='center' --geometry='700x400' --exec=ncmpcpp &") end),
   awful.key({ modkey }, "0",                 function () awful.spawn( scriptdir .. "qrcodize", false ) end),
