@@ -833,50 +833,42 @@ awful.rules.rules = {
   },
 
   -- Titlebars
-  { rule = { class = "Pidgin" }, properties             = { screen = 1, tag = awful.util.tagnames[1].names[1] } },
-  { rule = { class = "wmail" }, properties              = { screen = 1, tag = awful.util.tagnames[1].names[2] } },
-  { rule = { class = "Dia" }, properties                = { screen = 1, tag = awful.util.tagnames[1].names[6] } },
-  { rule = { class = "Gimp" }, properties               = { screen = 1, tag = awful.util.tagnames[1].names[6] } },
-  { rule = { class = "Inkscape" }, properties           = { screen = 1, tag = awful.util.tagnames[1].names[6] } },
-  { rule = { class = "Transmission-gtk" }, properties   = { screen = 1, tag = awful.util.tagnames[1].names[6] } },
   { rule = { class = "spotify" }, properties            = { screen = 1, tag = awful.util.tagnames[1].names[6] } },
-  { rule = { class = "sublime-text" }, properties       = { screen = 1, tag = awful.util.tagnames[1].names[4] } },
-  { rule = { class = "Subl3" }, properties              = { screen = 1, tag = awful.util.tagnames[1].names[4] }, except = { instance = "subl3" } },
-
-  { rule = { class = "MPlayer" }, properties            = { border_width = 0, focus = yes } },
-  { rule = { class = "mpv" }, properties                = { border_width = 0, focus = yes} },
-  { rule = { class = "albert" }, properties             = { floating = true, focus = yes } },
-  { rule = { class = "feh" }, properties                = { floating = true, focus = yes } },
-  { rule = { class = "Peek" }, properties                = { floating = true, focus = yes } },
-  { rule = { class = "Toggl Desktop" }, properties      = { focus = yes } },
-  { rule = { class = "Wine" }, properties               = { border_width = 0, floating = true } },
-  { rule = { class = "copyq" }, properties              = { border_width = 0, focus = yes } },
-
-  { rule = { class = "com-sun-javaws-Main" } , properties = { floating = true} },
-  { rule = { class = "sun-awt-X11-XDialogPeer" } , properties = { floating = true} },
-
-  { rule = { class = "Gimp", role = "gimp-image-window" }, properties = { maximized_horizontal = true, maximized_vertical = true } },
-  { rule = { class = "com-sun-javaws-Main" }, properties = { screen = 1, tag = awful.util.tagnames[1].names[6], maximized = true } },
-
-  { rule = { class = "center" }, properties = { floating = true, focus = yes },
-    callback = function (c)
-      awful.placement.centered(c, nil)
-    end
-  },
-  { rule = { name = "Error", name = "Unlock Keyring" }, properties = { floating = true, focus = yes },
-    callback = function (c)
-      awful.placement.centered(c, nil)
-    end
-  },
-  { rule = { role = "GtkFileChooserDialog" }, properties = { floating = true, focus = yes },
-    callback = function (c)
-      awful.placement.centered(c, nil)
-    end
-  },
-  { rule_any = { type = { "dialog", "normal" } }, properties = { titlebars_enabled = false },
-    callback = function (c)
-      awful.placement.centered(c, nil)
-    end
+  { rule_any = { class = { "mpv", "MPlayer" } }, properties                = { border_width = 0, focus = yes} },
+   -- clients that should float
+  { rule_any = { class = {"sun-awt-X11-XDialogPeer", "com-sun-javaws-Main"} } , properties = { floating = true} },
+  {
+    rule_any = {
+      class = {
+        "feh",
+        "Lxappearance",
+        "Lxsession-edit",
+        "Lxsession-default-apps",
+        "Pinentry",
+        "Pavucontrol",
+        "center",
+        "albert",
+        "Peek",
+        "Toggl Desktop",
+        "Wine",
+        "copyq",
+      },
+      type = {
+        "dialog"
+      },
+      name = {
+        "Error",
+        "Unlock Keyring",
+      },
+      role = {
+        "GtkFileChooserDialog"
+      },
+    },
+    properties = {
+      floating = true,
+      focus = yes,
+      placement = awful.placement.centered,
+    }
   },
   { rule = { name = "Slack Call Minipanel" }, properties = { floating = true, ontop = true},
     callback = function (c)
