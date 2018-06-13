@@ -833,8 +833,9 @@ awful.rules.rules = {
   },
 
   -- Titlebars
-  { rule = { class = "spotify" }, properties            = { screen = 1, tag = awful.util.tagnames[1].names[6] } },
-  { rule_any = { class = { "mpv", "MPlayer" } }, properties                = { border_width = 0, focus = yes} },
+  { rule = { class = "Spotify" }, properties = { screen = 1, tag = awful.util.tagnames[1].names[6] } },
+  { rule = { class = "Slack" }, properties = { screen = 1, tag = awful.util.tagnames[1].names[1] } },
+  { rule_any = { class = { "mpv", "MPlayer" } }, properties = { border_width = 0, focus = yes} },
    -- clients that should float
   { rule_any = { class = {"sun-awt-X11-XDialogPeer", "com-sun-javaws-Main"} } , properties = { floating = true} },
   {
