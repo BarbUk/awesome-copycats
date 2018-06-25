@@ -8,7 +8,6 @@ local naughty       = require("naughty")
 local lain          = require("lain")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 local spotify       = require("spotify")
-local cyclefocus    = require('cyclefocus')
 -- }}}
 
 -- beautiful init
@@ -20,10 +19,6 @@ noti.id = nil
 function noti:notify (msg)
   self.id = naughty.notify({ text = msg, timeout = 5, replaces_id = self.id}).id
 end
-
-cyclefocus.default_preset.font        = 'PragmataPro Nerd Font 14'
-cyclefocus.display_next_count         = 5
-cyclefocus.display_prev_count         = 5
 
 naughty.config.defaults.font          = "PragmataPro Nerd Font 11"
 naughty.config.icon_dirs              = { "/usr/share/icons/Papirus/16x16/apps/", "/usr/share/pixmaps/" }
@@ -131,7 +126,6 @@ local spr   = wibox.widget.textbox(markup(white, markup.bold('  ')))
 
 local fr_flag     = wibox.widget.imagebox(beautiful.fr_flag, true)
 local local_flag  = wibox.widget.imagebox(beautiful.local_flag, true)
-
 
 -- Text
 local clockfr = wibox.widget.textclock(markup(white, "%H:%M"), 30, "Europe/Paris")
@@ -508,14 +502,6 @@ globalkeys = gears.table.join(
     {description = "focus the previous screen", group = "screen"}),
   awful.key({ modkey,           }, "u", awful.client.urgent.jumpto,
     {description = "jump to urgent client", group = "client"}),
-  -- modkey+Tab: cycle through all clients.
-  awful.key({ modkey }, "Tab", function(c)
-    cyclefocus.cycle({modifier="Super_L"})
-  end),
-  -- modkey+Shift+Tab: backwards
-  awful.key({ modkey, "Shift" }, "Tab", function(c)
-      cyclefocus.cycle({modifier="Super_L"})
-  end),
   awful.key({ altkey,           }, "Tab", function ()
     awful.client.focus.byidx(1)
     if client.focus then
