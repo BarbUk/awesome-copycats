@@ -28,6 +28,7 @@ naughty.config.defaults.border_width  = 3
 naughty.config.defaults.timeout       = 7
 naughty.config.defaults.hover_timeout = 3
 
+-- Limit notification width
 naughty.config.notify_callback = function(args)
   if args.text then
     for line in string.gmatch(args.text, "[%S ]+") do
