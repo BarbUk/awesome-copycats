@@ -828,12 +828,34 @@ awful.rules.rules = {
     end
   },
 
-  -- Titlebars
+  -- clients that should stay on their tag
   { rule = { class = "Spotify" }, properties = { screen = 1, tag = awful.util.tagnames[1].names[6] } },
-  { rule = { class = "Slack" }, properties = { screen = 1, tag = awful.util.tagnames[1].names[1] } },
-  { rule_any = { class = { "mpv", "MPlayer" } }, properties = { border_width = 0, focus = yes} },
-   -- clients that should float
-  { rule_any = { class = {"sun-awt-X11-XDialogPeer", "com-sun-javaws-Main"} } , properties = { floating = true} },
+  -- { rule = { class = "Slack" }, properties = { screen = 1, tag = awful.util.tagnames[1].names[1] } },
+  {
+    rule_any = {
+      class = {
+        "mpv",
+        "MPlayer"
+      }
+    },
+    properties = {
+      border_width = 0,
+      focus = yes
+    }
+  },
+  -- clients that should float
+  {
+    rule_any = {
+      class = {
+        "sun-awt-X11-XDialogPeer",
+        "com-sun-javaws-Main"
+      }
+    },
+    properties = {
+      floating = true
+    }
+  },
+  -- clients that should float centered
   {
     rule_any = {
       class = {
@@ -867,6 +889,7 @@ awful.rules.rules = {
       placement = awful.placement.centered,
     }
   },
+  -- clients that should float ontop
   { rule = { name = "Slack Call Minipanel" }, properties = { floating = true, ontop = true},
     callback = function (c)
       awful.placement.bottom_right(c, { honor_workarea=true })
