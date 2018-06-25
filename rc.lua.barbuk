@@ -40,9 +40,13 @@ naughty.config.notify_callback = function(args)
   return args
 end
 
-local pulse_sink  = "$(pacmd list-sinks | awk '/* index/ {print $3}')"
-local pulse_step  = 5
 local scriptdir   = os.getenv("HOME") .. "/.dotfiles/bin/"
+
+local pulse_sink      = "$(pacmd list-sinks | awk '/* index/ {print $3}')"
+local pulse_step      = 5
+local volume_up_cmd   = "pamixer --increase " .. pulse_step .. " --sink " .. pulse_sink
+local volume_down_cmd = "pamixer --decrease " .. pulse_step .. " --sink " .. pulse_sink
+local volume_mute_cmd = "pamixer --toggle-mute --sink " .. pulse_sink
 
 -- {{{ Error handling
 if awesome.startup_errors then
@@ -167,6 +171,15 @@ local spotify = spotify({
   end
 })
 
+spotify.widget:connect_signal("button::press", function(_, _, _, button)
+    if (button == 4) then awful.util.spawn_with_shell("playerctl next", false)
+    elseif (button == 5) then awful.util.spawn_with_shell("playerctl previous", false)
+    elseif (button == 1) then awful.util.spawn_with_shell("playerctl play-pause", false)
+    end
+    spotify.update()
+  end
+)
+
 -- /home fs
 local fsroot = lain.widget.fs({
   notification_preset = { fg = white, bg = beautiful.bg_normal },
@@ -214,11 +227,20 @@ local volume = lain.widget.pulse({
       widget:set_text("Mute")
       volicon:set_markup_silently(markup(beautiful.nord9, " "))
     else
-      widget:set_markup(volume_now.right)
       volicon:set_markup_silently(volumeicon)
+      widget:set_markup(volume_now.right)
     end
   end
 })
+
+volume.widget:connect_signal("button::press", function(_, _, _, button)
+    if (button == 4) then awful.util.spawn_with_shell(volume_up_cmd, false)
+    elseif (button == 5) then awful.util.spawn_with_shell(volume_down_cmd, false)
+    elseif (button == 1) then awful.util.spawn_with_shell(volume_mute_cmd, false)
+    end
+    volume.update()
+  end
+)
 
 -- Weather
 local weather = lain.widget.weather({
@@ -573,19 +595,18 @@ globalkeys = gears.table.join(
   -- Widgets popups
   awful.key({ altkey, }, "c", function () lain.widget.calendar.show(7) end),
   awful.key({ altkey, }, "h", function () fshome.show(7, awful.screen.focused()) end),
-  -- awful.key({ altkey, }, "w", function () weather.show(7) end),
 
   -- Volume control
   awful.key({ }, "XF86AudioRaiseVolume", function ()
-    awful.util.spawn_with_shell("pamixer --increase " .. pulse_step .. " --allow-boost --sink " .. pulse_sink, false )
+    awful.util.spawn_with_shell(volume_up_cmd)
     volume.update()
   end),
   awful.key({ }, "XF86AudioLowerVolume", function ()
-    awful.util.spawn_with_shell("pamixer --decrease " .. pulse_step .. " --sink " .. pulse_sink, false )
+    awful.util.spawn_with_shell(volume_down_cmd)
     volume.update()
   end),
   awful.key({ }, "XF86AudioMute", function ()
-    awful.util.spawn_with_shell("pamixer --toggle-mute --sink " .. pulse_sink, false )
+    awful.util.spawn_with_shell(volume_mute_cmd)
     volume.update()
   end),
 
@@ -596,26 +617,26 @@ globalkeys = gears.table.join(
 
   -- Music control
   awful.key({ }, "XF86AudioStop", function ()
-    os.execute("mpc stop || playerctl stop")
+     awful.util.spawn_with_shell("mpc stop || playerctl stop", false)
     mpd.update()
   end),
   awful.key({ }, "XF86AudioPlay", function ()
-    os.execute("mpc toggle || playerctl play-pause")
+     awful.util.spawn_with_shell("mpc toggle || playerctl play-pause", false)
     mpd.update()
     spotify.update()
   end),
   awful.key({ }, "Pause", function ()
-    os.execute("mpc toggle || playerctl play-pause")
+     awful.util.spawn_with_shell("mpc toggle || playerctl play-pause", false)
     mpd.update()
     spotify.update()
   end),
   awful.key({ }, "XF86AudioPrev", function ()
-    os.execute("mpc prev || playerctl previous")
+     awful.util.spawn_with_shell("mpc prev || playerctl previous", false)
     mpd.update()
     spotify.update()
   end),
   awful.key({ }, "XF86AudioNext", function ()
-    os.execute("mpc next || playerctl next")
+     awful.util.spawn_with_shell("mpc next || playerctl next", false)
     mpd.update()
     spotify.update()
   end),
@@ -798,6 +819,7 @@ clientbuttons = gears.table.join(
 -- Set keys
 root.keys(globalkeys)
 -- }}}
+
 -- {{{ Rules
 -- Rules to apply to new clients (through the "manage" signal).
 awful.rules.rules = {
