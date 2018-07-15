@@ -127,6 +127,7 @@ local clock = wibox.widget.textclock(markup(white, "%H:%M "), 30)
 lain.widget.calendar({
   attach_to = { clock },
   cal       = '/usr/bin/cal -3 --week --monday --color=always',
+  -- cal       = 'khal',
   followtag = true,
   notification_preset = {
     font = 'PragmataPro Nerd Font 10',
@@ -692,12 +693,12 @@ globalkeys = gears.table.join(
   awful.key({ modkey }, "0",                 function () awful.spawn( scriptdir .. "qrcodize", false ) end),
   awful.key({ modkey }, "t",
     function ()
-      awful.spawn( browser .. " --profile-directory='Profile 4' https://mail.google.com/mail/u/0/#inbox", false )
+      awful.spawn( browser .. " --profile-directory='Default' https://mail.google.com/mail/u/0/#inbox", false )
     end
   ),
   awful.key({ modkey }, "y",
     function ()
-      awful.spawn( browser .. " --profile-directory='Profile 2' https://mail.google.com/mail/u/0/#inbox https://app.frontapp.com", false )
+      awful.spawn( browser .. " --profile-directory='Profile 1' https://mail.google.com/mail/u/0/#inbox https://app.frontapp.com", false )
     end
   ),
 
