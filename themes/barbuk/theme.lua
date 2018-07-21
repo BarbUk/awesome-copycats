@@ -54,6 +54,7 @@ theme.menu_width                    = 140
 theme.menu_border_width             = 0
 theme.useless_gap                   = 1
 theme.notification_width            = auto
+theme.iconcolor                     = "white"
 
 theme.ocol                          = "<span color='" .. theme.nord8 .. "'>"
 theme.ccol                          = "</span>"
