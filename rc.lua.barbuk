@@ -653,6 +653,10 @@ globalkeys = gears.table.join(
       end)
   end),
 
+  awful.key({ modkey }, "l", function ()
+      awful.spawn("slock", false )
+  end),
+
   awful.key({ }, "XF86ScreenSaver", function ()
       awful.spawn("slock", false )
   end),
