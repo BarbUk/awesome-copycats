@@ -143,7 +143,7 @@ Notes
 
 Complements are provided by lain_ and freedesktop_. **Be sure** to satisfy their dependencies.
 
-Fonts are Terminus_ (Multicolor, Powerarrow Darker), Tamzen_ (Copland), Roboto_ (Holo, Vertex) and Tamsyn_ (other ones).
+Fonts are Terminus_ (Multicolor, Powerarrow, Powerarrow Dark), Tamzen_ (Copland), Roboto_ (Holo, Vertex) and Tamsyn_ (other ones).
 
 Every theme has a colorscheme_.
 
@@ -151,7 +151,7 @@ Blackburn and Dremora use Icons_, Vertex uses FontAwesome_: be sure to have bitm
 
 Additional default software used: ::
 
-    unclutter firefox scrot mpd mpc dmenu xsel xlock
+    unclutter firefox scrot mpd mpc dmenu xsel slock
 
 .. _BY-NC-SA: http://creativecommons.org/licenses/by-nc-sa/4.0
 .. _b0ab0d7: https://github.com/lcpz/awesome-copycats/tree/b0ab0d7837987be81b9195a36631df773113d491
