@@ -1,7 +1,7 @@
 
 --[[
 
-     Rainbow Awesome WM config 2.0
+     BarbUk Awesome WM config 2.0
      github.com/copycat-killer
 
 --]]
