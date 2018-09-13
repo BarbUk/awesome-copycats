@@ -123,7 +123,7 @@ local local_flag  = wibox.widget.imagebox(beautiful.local_flag, true)
 
 -- Text
 local clockfr = wibox.widget.textclock(markup(white, "%H:%M"), 30, "Europe/Paris")
-local clock = wibox.widget.textclock(markup(white, "%H:%M "), 30)
+local clock = wibox.widget.textclock(markup(white, "%H:%M "), 30, "Indian/Mauritius")
 
 -- Calendar
 local helpers      = require("lain.helpers")
