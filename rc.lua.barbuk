@@ -932,13 +932,13 @@ end)
 
 -- Enable sloppy focus, so that focus follows mouse.
 function sloppy_focus(c)
-    -- Skip focusing the client if the mouse wasn't moved.
-    if sloppyfocus_last.c and c ~= sloppyfocus_last.c then
-      c:emit_signal("request::activate", "mouse_enter", {raise = true})
-      sloppyfocus_last.c = c
-    else
-      sloppyfocus_last.c = true
-    end
+  -- Skip focusing the client if the mouse wasn't moved.
+  if sloppyfocus_last.c and c ~= sloppyfocus_last.c then
+    c:emit_signal("request::activate", "mouse_enter", {raise = false})
+    sloppyfocus_last.c = c
+  else
+    sloppyfocus_last.c = true
+  end
 end
 
 -- No border and and no gap for maximized clients
