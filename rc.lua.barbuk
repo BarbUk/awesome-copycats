@@ -127,10 +127,9 @@ local clock = wibox.widget.textclock(markup(white, "%H:%M "), 30, "Indian/Maurit
 
 -- Calendar
 local helpers      = require("lain.helpers")
-lain.widget.calendar({
+lain.widget.cal({
   attach_to = { clock },
-  cal       = '/usr/bin/cal -3 --week --monday --color=always',
-  icons     = helpers.icons_dir .. "cal/" .. beautiful.iconcolor .. "/",
+  three     = true,
   followtag = true,
   notification_preset = {
     font = 'PragmataPro Nerd Font 10',
