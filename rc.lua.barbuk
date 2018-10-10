@@ -28,7 +28,7 @@ naughty.config.icon_formats           = { "png" }
 naughty.config.defaults.icon_size     = 40
 naughty.config.defaults.border_width  = 3
 naughty.config.defaults.timeout       = 7
-naughty.config.defaults.hover_timeout = 3
+naughty.config.defaults.hover_timeout = 1
 
 -- Limit notification width
 naughty.config.notify_callback = function(args)
