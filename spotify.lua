@@ -28,7 +28,8 @@ local function worker(args)
         helpers.async({shell, "-c", spotify.cmd}, function(output)
             spotify_now = {
                 artist = string.match(output, "artist|(.-)[\n]") or "not_running",
-                title  = string.match(output, "title|(.-)[\n]") or "not_running"
+                title  = string.match(output, "title|(.-)[\n]") or "not_running",
+                state  = string.match(output, "state|(.-)[\n]") or "not_running"
             }
 
             widget = spotify.widget

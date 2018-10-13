@@ -13,7 +13,7 @@ local spotify       = require("spotify")
 
 -- beautiful init
 local chosen_theme = "barbuk"
-beautiful.init(string.format(gears.filesystem.get_configuration_dir() .. "/themes/%s/theme.lua", chosen_theme))
+beautiful.init(string.format(gears.filesystem.get_configuration_dir() .. "themes/%s/theme.lua", chosen_theme))
 local sloppyfocus_last = { c = true }
 
 local noti = {}
@@ -141,20 +141,44 @@ lain.widget.cal({
 local mpd = lain.widget.mpd({
   settings = function()
     music_dir = "~/Zik/"
-    if mpd_now.state == "play" then
-        widget:set_markup(markup(beautiful.nord7, " ") .. markup(white, mpd_now.artist) .. " - " .. markup(white, mpd_now.title) .. " ")
+    if mpd_now.state ~= "N/A" then
+      state = "  "
+      if mpd_now.state == "play" then
+        state = markup(beautiful.nord7, "  ")
+      else
+        state = markup(beautiful.nord7, "  ")
+      end
+        widget:set_markup(state .. markup(white, mpd_now.artist) .. " - " .. markup(white, mpd_now.title) .. " ")
     else
         widget:set_markup("")
     end
   end
 })
 
+mpd.widget:connect_signal("button::press", function(_, _, _, button)
+    if (button == 4) then
+      awful.util.spawn_with_shell("mpc next", false)
+    elseif (button == 5) then
+      awful.util.spawn_with_shell("mpc prev", false)
+    elseif (button == 1) then
+      awful.util.spawn_with_shell("mpc toggle", false)
+    end
+    mpd.update()
+  end
+)
+
 -- Spotify
 local spotify = spotify({
   cmd = scriptdir .. "spotify_info",
   settings = function()
-    if spotify_now.artist ~= "not_running" then
-      widget:set_markup(markup(beautiful.nord7, " ") .. markup(white, spotify_now.artist) .. " - " .. markup(white, spotify_now.title) .. " ")
+    if spotify_now.state ~= "not_running" then
+      state = "  "
+      if spotify_now.state == "Playing" then
+        state = markup(beautiful.nord7, "  ")
+      else
+        state = markup(beautiful.nord7, "  ")
+      end
+      widget:set_markup(state .. markup(white, spotify_now.artist) .. " - " .. markup(white, spotify_now.title) .. " ")
     else
       widget:set_markup("")
     end
@@ -162,9 +186,12 @@ local spotify = spotify({
 })
 
 spotify.widget:connect_signal("button::press", function(_, _, _, button)
-    if (button == 4) then awful.util.spawn_with_shell("playerctl next", false)
-    elseif (button == 5) then awful.util.spawn_with_shell("playerctl previous", false)
-    elseif (button == 1) then awful.util.spawn_with_shell("playerctl play-pause", false)
+    if (button == 4) then
+      awful.util.spawn_with_shell("playerctl next", false)
+    elseif (button == 5) then
+      awful.util.spawn_with_shell("playerctl previous", false)
+    elseif (button == 1) then
+      awful.util.spawn_with_shell("playerctl play-pause", false)
     end
     spotify.update()
   end
