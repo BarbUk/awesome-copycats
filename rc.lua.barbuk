@@ -915,6 +915,7 @@ awful.rules.rules = {
         "Toggl Desktop",
         "Wine",
         "copyq",
+        "Zoiper",
       },
       type = {
         "dialog"
@@ -924,7 +925,8 @@ awful.rules.rules = {
         "Unlock Keyring",
       },
       role = {
-        "GtkFileChooserDialog"
+        "GtkFileChooserDialog",
+        "pop-up"
       },
     },
     properties = {
