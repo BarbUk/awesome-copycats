@@ -215,7 +215,7 @@ local fsroot = lain.widget.fs({
 
 -- Battery
 local baticon = wibox.widget.textbox("")
-local bat = lain.widget.contrib.tpbat({
+local bat = lain.widget.contrib.smapi({
   bat_critical_perc = 5,
   bat_low_perc = 10,
   settings = function()
