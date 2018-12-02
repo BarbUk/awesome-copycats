@@ -215,28 +215,33 @@ local fsroot = lain.widget.fs({
 
 -- Battery
 local baticon = wibox.widget.textbox("")
-local bat = lain.widget.contrib.smapi({
+local tp_smapi = lain.widget.contrib.tp_smapi('/sys/devices/platform/smapi')
+local bat = tp_smapi.create_widget({
   bat_critical_perc = 5,
   bat_low_perc = 10,
+  battery = "BAT0",
   settings = function()
-    if bat_now.status == "discharging" then
-      if bat_now.perc and tonumber(bat_now.perc) <= 5 then
-        baticon:set_markup_silently(markup(beautiful.nord11, ""))
-      elseif bat_now.perc and tonumber(bat_now.perc) <= 25 then
-        baticon:set_markup_silently(markup(beautiful.nord12, ""))
-      elseif bat_now.perc and tonumber(bat_now.perc) <= 55 then
-        baticon:set_markup_silently(markup(beautiful.nord13, ""))
-      elseif bat_now.perc and tonumber(bat_now.perc) <= 75 then
-        baticon:set_markup_silently(markup(beautiful.nord14, ""))
-      else
-        baticon:set_markup_silently(markup(beautiful.nord15, ""))
-      end
+  if tpbat_now.n_status[1] == "discharging" then
+    if tpbat_now.n_perc[1] and tonumber(tpbat_now.n_perc[1]) <= 5 then
+      baticon:set_markup_silently(markup(beautiful.nord11, ""))
+    elseif tpbat_now.n_perc[1] and tonumber(tpbat_now.n_perc[1]) <= 25 then
+      baticon:set_markup_silently(markup(beautiful.nord12, ""))
+    elseif tpbat_now.n_perc[1] and tonumber(tpbat_now.n_perc[1]) <= 55 then
+      baticon:set_markup_silently(markup(beautiful.nord13, ""))
+    elseif tpbat_now.n_perc[1] and tonumber(tpbat_now.n_perc[1]) <= 75 then
+      baticon:set_markup_silently(markup(beautiful.nord14, ""))
     else
-      baticon:set_markup_silently(markup(beautiful.nord15, ""))
+      baticon:set_markup_silently(markup(beautiful.nord15, ""))
     end
-    widget:set_markup(" " .. bat_now.perc .. "%")
+  else
+    baticon:set_markup_silently(markup(beautiful.nord15, ""))
+  end
+  widget:set_markup(" " .. tpbat_now.n_perc[1] .. "%")
   end
 })
+
+bat.widget:connect_signal('mouse::enter', function () tp_smapi.show('BAT0') end)
+bat.widget:connect_signal('mouse::leave', function () tp_smapi.hide() end)
 
 local volumeicon = markup(beautiful.nord9, " ")
 local volicon = wibox.widget.textbox(volumeicon)
