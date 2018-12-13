@@ -127,7 +127,7 @@ local clock = wibox.widget.textclock(markup(white, "%H:%M "), 30, "Indian/Maurit
 
 -- Calendar
 local helpers      = require("lain.helpers")
-lain.widget.cal({
+local calendar = lain.widget.cal({
   attach_to = { clock },
   three     = true,
   followtag = true,
@@ -617,8 +617,8 @@ globalkeys = gears.table.join(
   {description = "restore minimized", group = "client"}),
 
   -- Widgets popups
-  awful.key({ altkey, }, "c", function () lain.widget.calendar.show(7) end),
-  awful.key({ altkey, }, "h", function () fshome.show(7, awful.screen.focused()) end),
+  awful.key({ altkey, }, "c", function () calendar.show(7) end),
+  awful.key({ altkey, }, "h", function () fsroot.show(7, awful.screen.focused()) end),
 
   -- Volume control
   awful.key({ }, "XF86AudioRaiseVolume", function ()
