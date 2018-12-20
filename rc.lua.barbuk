@@ -22,7 +22,7 @@ function noti:notify (msg)
   self.id = naughty.notify({ text = msg, timeout = 5, replaces_id = self.id}).id
 end
 
-naughty.config.defaults.font          = "PragmataPro Nerd Font 11"
+naughty.config.defaults.font          = "PragmataPro Liga 11"
 naughty.config.icon_dirs              = { "/usr/share/icons/Papirus/16x16/apps/", "/usr/share/pixmaps/" }
 naughty.config.icon_formats           = { "png" }
 naughty.config.defaults.icon_size     = 40
@@ -132,7 +132,7 @@ local calendar = lain.widget.cal({
   three     = true,
   followtag = true,
   notification_preset = {
-    font = 'PragmataPro Nerd Font 10',
+    font = 'PragmataPro Liga 10',
     fg   = beautiful.fg_normal,
     bg   = beautiful.bg_normal
 }})
