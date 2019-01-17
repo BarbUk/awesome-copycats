@@ -44,7 +44,8 @@ end
 
 local scriptdir   = os.getenv("HOME") .. "/.dotfiles/bin/"
 
-local pulse_sink      = "$(pacmd list-sinks | awk '/* index/ {print $3}')"
+-- local pulse_sink      = "$(pacmd list-sinks | awk '/* index/ {print $3}')"
+local pulse_sink      = "@DEFAULT_SINK@"
 local pulse_step      = 5
 local volume_up_cmd   = "pamixer --increase " .. pulse_step .. " --sink " .. pulse_sink
 local volume_down_cmd = "pamixer --decrease " .. pulse_step .. " --sink " .. pulse_sink
