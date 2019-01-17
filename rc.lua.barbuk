@@ -83,6 +83,7 @@ local browser       = "google-chrome-stable"
 local gui_editor    = "subl"
 local graphics      = "gimp"
 local file_explorer = "pcmanfm"
+local screen_locker = "slock"
 awful.util.terminal = terminal
 
 -- table of layouts to cover with awful.layout.inc, order matters.
@@ -690,11 +691,11 @@ globalkeys = gears.table.join(
   end),
 
   awful.key({ modkey }, "l", function ()
-      awful.spawn("slock", false )
+      awful.spawn(screen_locker, false )
   end),
 
   awful.key({ }, "XF86ScreenSaver", function ()
-      awful.spawn("slock", false )
+      awful.spawn(screen_locker, false )
   end),
 
   awful.key({ }, "XF86Display", function ()
