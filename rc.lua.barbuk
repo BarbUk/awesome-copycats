@@ -117,7 +117,7 @@ local gray   = beautiful.fg_focus
 
 -- Separators
 local spl   = wibox.widget.textbox(markup(white, markup.bold('  ')))
-local spc   = wibox.widget.textbox(markup(white, markup.bold(' ')))
+local spc   = wibox.widget.textbox(markup(white, ' '))
 local spr   = wibox.widget.textbox(markup(white, markup.bold('  ')))
 
 local fr_flag     = wibox.widget.imagebox(beautiful.fr_flag, true)
