@@ -14,12 +14,21 @@ local spotify       = require("spotify")
 -- beautiful init
 local chosen_theme = "barbuk"
 beautiful.init(string.format(gears.filesystem.get_configuration_dir() .. "themes/%s/theme.lua", chosen_theme))
+
 local sloppyfocus_last = { c = true }
 
 local noti = {}
-noti.id = nil
-function noti:notify (msg)
-  self.id = naughty.notify({ text = msg, timeout = 5, replaces_id = self.id}).id
+noti.notification = nil
+
+function noti:notify (message)
+  if self.notification and not self.notification.is_expired then
+    self.notification.message = message
+  else
+    self.notification = naughty.notification {
+        message = message,
+        timeout = 5
+    }
+  end
 end
 
 naughty.config.defaults.font          = "PragmataPro Liga 11"
@@ -28,12 +37,13 @@ naughty.config.icon_formats           = { "png" }
 naughty.config.defaults.icon_size     = 40
 naughty.config.defaults.border_width  = 3
 naughty.config.defaults.timeout       = 7
-naughty.config.defaults.hover_timeout = 1
+naughty.config.defaults.hover_timeout = 0.5
+naughty.config.defaults.hover_timeout = 0.5
 
 -- Limit notification width
 naughty.config.notify_callback = function(args)
-  if args.text then
-    for line in string.gmatch(args.text, "[%S ]+") do
+  if args.message then
+    for line in string.gmatch(args.message, "[%S ]+") do
       if string.len(line) > 120 then
         args.width = 720
       end
