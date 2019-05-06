@@ -369,6 +369,18 @@ end
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
+-- No borders when rearranging only 1 non-floating or maximized client
+screen.connect_signal("arrange", function (s)
+    local only_one = #s.tiled_clients == 1
+    for _, c in pairs(s.clients) do
+        if only_one and not c.floating or c.maximized then
+            c.border_width = 0
+        else
+            c.border_width = beautiful.border_width
+        end
+    end
+end)
+
 local function update_txt_layoutbox(s)
     -- Writes a string representation of the current layout in a textbox widget
     local txt_l = beautiful["layout_txt_" .. awful.layout.getname(awful.layout.get(s))] or ""
