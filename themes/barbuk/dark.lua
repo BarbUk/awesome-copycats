@@ -27,6 +27,6 @@ theme.nord13     = "#EBCB8B"
 theme.nord14     = "#A3BE8C"
 theme.nord15     = "#B48EAD"
 
-theme.iconcolor  = "black"
+theme.iconcolor  = "white"
 
 return theme
