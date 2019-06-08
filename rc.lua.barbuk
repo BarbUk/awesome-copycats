@@ -57,22 +57,29 @@ local sloppyfocus_last = { c = true }
 local noti = {}
 noti.notification = nil
 
-function noti:notify (message)
+function noti:notify (message, preset)
   if self.notification and not self.notification.is_expired then
     self.notification.message = message
   else
+    if not preset then
+      preset = naughty.config.presets.low
+    end
     self.notification = naughty.notification {
-        preset = naughty.config.presets.low,
+        preset = preset,
         message = message,
-        timeout = 5
     }
   end
 end
 
 -- Icon size
 naughty.config.defaults['icon_size']  = beautiful.notification_icon_size
-naughty.config.icon_dirs              = { "/usr/share/icons/Papirus/48x48/apps/", "/usr/share/pixmaps/" }
-naughty.config.icon_formats           = { "png" }
+naughty.config.icon_dirs              = {
+  "/usr/share/icons/Papirus/48x48/apps/",
+  "/usr/share/icons/Papirus/48x48/devices/",
+  "/usr/share/icons/Papirus/48x48/status/",
+  "/usr/share/pixmaps/"
+}
+naughty.config.icon_formats           = { "png", "svg"}
 
 -- Timeouts
 naughty.config.defaults.timeout = 10
@@ -275,25 +282,24 @@ local fsroot = lain.widget.fs({
 local baticon = wibox.widget.textbox("")
 local tp_smapi = lain.widget.contrib.tp_smapi('/sys/devices/platform/smapi')
 local bat = tp_smapi.create_widget({
-  bat_critical_perc = 5,
-  bat_low_perc = 10,
   battery = "BAT0",
   settings = function()
-  if tpbat_now.n_status[1] == "discharging" then
-    if tpbat_now.n_perc[1] and tonumber(tpbat_now.n_perc[1]) <= 5 then
-      baticon:set_markup_silently(markup(beautiful.nord11, ""))
-    elseif tpbat_now.n_perc[1] and tonumber(tpbat_now.n_perc[1]) <= 25 then
-      baticon:set_markup_silently(markup(beautiful.nord12, ""))
-    elseif tpbat_now.n_perc[1] and tonumber(tpbat_now.n_perc[1]) <= 55 then
-      baticon:set_markup_silently(markup(beautiful.nord13, ""))
-    elseif tpbat_now.n_perc[1] and tonumber(tpbat_now.n_perc[1]) <= 75 then
-      baticon:set_markup_silently(markup(beautiful.nord14, ""))
+    if tpbat_now.n_status[1] == "discharging" then
+      if tpbat_now.n_perc[1] and tonumber(tpbat_now.n_perc[1]) <= 10 then
+        baticon:set_markup_silently(markup(beautiful.nord11, ""))
+        noti:notify("Battery is low", naughty.config.presets.critical)
+      elseif tpbat_now.n_perc[1] and tonumber(tpbat_now.n_perc[1]) <= 25 then
+        baticon:set_markup_silently(markup(beautiful.nord12, ""))
+      elseif tpbat_now.n_perc[1] and tonumber(tpbat_now.n_perc[1]) <= 55 then
+        baticon:set_markup_silently(markup(beautiful.nord13, ""))
+      elseif tpbat_now.n_perc[1] and tonumber(tpbat_now.n_perc[1]) <= 75 then
+        baticon:set_markup_silently(markup(beautiful.nord14, ""))
+      else
+        baticon:set_markup_silently(markup(beautiful.nord15, ""))
+      end
     else
-      baticon:set_markup_silently(markup(beautiful.nord15, ""))
+      baticon:set_markup_silently(markup(beautiful.nord15, ""))
     end
-  else
-    baticon:set_markup_silently(markup(beautiful.nord15, ""))
-  end
   widget:set_markup(" " .. tpbat_now.n_perc[1] .. "%")
   end
 })
@@ -959,7 +965,18 @@ awful.rules.rules = {
       c.maximized, c.maximized_vertical, c.maximized_horizontal = false, false, false
     end
   },
-
+  -- Jetbrains
+  {
+      rule = {
+          class = "jetbrains-.*",
+      }, properties = { focus = true }
+  },
+  {
+      rule = {
+          class = "jetbrains-.*",
+          name = "win.*"
+      }, properties = { titlebars_enabled = false, focusable = false, focus = true, floating = true, placement = awful.placement.restore }
+  },
   -- clients that should stay on their tag
   { rule = { class = "Spotify" }, properties = { screen = 1, tag = awful.util.tagnames[1].names[6] } },
   -- { rule = { class = "Slack" }, properties = { screen = 1, tag = awful.util.tagnames[1].names[1] } },
