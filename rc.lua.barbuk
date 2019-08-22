@@ -1011,6 +1011,7 @@ awful.rules.rules = {
         "Zoiper",
         "mpv",
         "MPlayer",
+        "sun-awt-X11-XDialogPeer",
       },
       type = {
         "dialog"
