@@ -240,7 +240,7 @@ local spotify = spotify({
       state = "  "
       if spotify_now.state == "Playing" then
         state = markup(beautiful.nord7, "  ")
-      else
+      elseif spotify_now.state == "Paused" then
         state = markup(beautiful.nord7, "  ")
       end
       widget:set_markup(state .. markup(white, spotify_now.artist) .. " - " .. markup(white, spotify_now.title) .. " ")
