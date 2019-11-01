@@ -994,19 +994,6 @@ awful.rules.rules = {
   },
   -- clients that should stay on their tag
   { rule = { class = "Spotify" }, properties = { screen = 1, tag = awful.util.tagnames[1].names[6] } },
-  -- { rule = { class = "Slack" }, properties = { screen = 1, tag = awful.util.tagnames[1].names[1] } },
-  -- clients that should float
-  {
-    rule_any = {
-      class = {
-        "sun-awt-X11-XDialogPeer",
-        "com-sun-javaws-Main"
-      }
-    },
-    properties = {
-      floating = true
-    }
-  },
   -- clients that should float centered
   {
     rule_any = {
@@ -1017,6 +1004,7 @@ awful.rules.rules = {
         "Lxsession-default-apps",
         "Pinentry",
         "Pavucontrol",
+        "Paprefs",
         "center",
         "albert",
         "Peek",
@@ -1027,6 +1015,7 @@ awful.rules.rules = {
         "mpv",
         "MPlayer",
         "sun-awt-X11-XDialogPeer",
+        "sun-awt-X11-XWindowPeer",
       },
       type = {
         "dialog"
