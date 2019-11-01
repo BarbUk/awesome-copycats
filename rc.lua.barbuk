@@ -141,6 +141,7 @@ local volume_mute_cmd = "pamixer --toggle-mute --sink " .. pulse_sink
 local modkey     = "Mod4"
 local altkey     = "Mod1"
 local terminal   = "termite"
+local terminal2  = "alacritty"
 local editor     = "vim"
 
 -- user defined
@@ -787,6 +788,8 @@ globalkeys = gears.table.join(
   -- User programs
   awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
     {description = "open a terminal", group = "launcher"}),
+  awful.key({ modkey, "Shift" }, "Return", function () awful.spawn(terminal2) end,
+    {description = "open a alt terminal", group = "launcher"}),
   awful.key({ modkey }, "s", function () awful.spawn(gui_editor) end,
     {description = "open " .. gui_editor, group = "launcher"}),
   awful.key({ modkey }, "g", function () awful.spawn(graphics) end,
@@ -794,10 +797,9 @@ globalkeys = gears.table.join(
   awful.key({ modkey }, "d", function () awful.spawn(file_explorer) end,
     {description = "open " .. file_explorer, group = "launcher"}),
 
-  awful.key({ modkey, "Shift"   }, "Return", function ()
-    sloppyfocus_last.c = false
-    awful.spawn(scriptdir .. "dmenu_ssh")
-  end, {description = "launch ssh session", group = "launcher"}),
+  -- awful.key({ modkey, "Shift"   }, "Return", function ()
+  --   awful.spawn(scriptdir .. "dmenu_ssh")
+  -- end, {description = "launch ssh session", group = "launcher"}),
   awful.key({ modkey, "Control" }, "Return", function ()
     awful.spawn(scriptdir .. "dmenu_raise")
   end, {description = "launch window selection", group = "launcher"}),
