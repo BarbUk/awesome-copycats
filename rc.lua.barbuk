@@ -47,7 +47,9 @@ end
 -- }}}
 
 -- beautiful init
-local theme_path = string.format(gears.filesystem.get_configuration_dir() .. "themes/barbuk/base.lua")
+local chosen_theme= "barbuk"
+local theme_path = string.format("%s/themes/%s/base.lua", gears.filesystem.get_configuration_dir(), chosen_theme)
+-- local theme_path = string.format("%s/themes/%s/theme.lua", gears.filesystem.get_configuration_dir(), chosen_theme)
 beautiful.init(theme_path)
 
 hotkeys_popup.widget.default_widget.labels = beautiful.hotkeys_popup_labels
