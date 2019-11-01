@@ -14,4 +14,8 @@ helpers.rrect = function(radius)
     end
 end
 
+function helpers.colorize_text(txt, fg)
+    return "<span foreground='" .. fg .."'>" .. txt .. "</span>"
+end
+
 return helpers
