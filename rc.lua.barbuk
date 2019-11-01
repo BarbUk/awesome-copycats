@@ -811,6 +811,8 @@ globalkeys = gears.table.join(
     {description = "open " .. graphics, group = "launcher"}),
   awful.key({ modkey }, "d", function () awful.spawn(file_explorer) end,
     {description = "open " .. file_explorer, group = "launcher"}),
+  awful.key({ modkey, "Shift" }, "d", function () awful.spawn(scriptdir .. "open_sftp") end,
+    {description = "open " .. file_explorer, group = "launcher"}),
 
   -- awful.key({ modkey, "Shift"   }, "Return", function ()
   --   awful.spawn(scriptdir .. "dmenu_ssh")
