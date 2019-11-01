@@ -10,6 +10,7 @@ local wibox         = require("wibox")
 local beautiful     = require("beautiful")
 local naughty       = require("naughty")
 local lain          = require("lain")
+local helpers       = require("lain.helpers")
 local spotify       = require("utils.spotify")
 local hotkeys_popup = require("awful.hotkeys_popup")
 -- Enable hotkeys help widget for VIM and other apps
@@ -192,7 +193,6 @@ local clockfr = wibox.widget.textclock(markup(white, "%H:%M"), 30, "Europe/Paris
 local clock = wibox.widget.textclock(markup(white, "%H:%M "), 30, "Indian/Mauritius")
 
 -- Calendar
-local helpers      = require("lain.helpers")
 local calendar = lain.widget.cal({
   attach_to = { clock, clockfr },
   three     = true,
