@@ -55,7 +55,7 @@ beautiful.init(theme_path)
 
 hotkeys_popup.widget.default_widget.labels = beautiful.hotkeys_popup_labels
 
-local sloppyfocus_last = {c=nil, x=nil, y=nil}
+local sloppyfocus_last = {c=nil, x=nil, y=nil, focus=true}
 
 local noti = {}
 noti.notification = nil
@@ -582,14 +582,17 @@ globalkeys = gears.table.join(
   end, { description="take a screenshot accessible from clipboard", group="awesome" }),
 
   awful.key({ modkey,           }, "p", function ()
+    sloppyfocus_last.focus = false
     awful.spawn("rofi -combi-modi 'clipboard:greenclip print,chrome:" .. scriptdir .. "chrome_history,window,drun' -show combi -modi combi")
   end, { description="Rofi launcher", group="awesome" }),
 
   awful.key({ modkey,           }, "=", function ()
+    sloppyfocus_last.focus = false
     awful.spawn("=")
   end, { description="calculator", group="awesome" }),
 
   awful.key({ modkey,           }, "-", function ()
+    sloppyfocus_last.focus = false
     awful.spawn("/usr/local/bin/splatmoji/splatmoji type")
   end, { description="emoji", group="awesome" }),
 
@@ -827,6 +830,7 @@ globalkeys = gears.table.join(
     awful.spawn(scriptdir .. "dmenu_monitoring")
   end, {description = "launch monitoring menu", group = "launcher"}),
   awful.key({ modkey, "Shift"   }, "p",      function ()
+    sloppyfocus_last.focus = false
     awful.spawn(scriptdir .. "snippy")
   end, {description = "snippets", group = "launcher"}),
   awful.key({ modkey, "Shift"   }, "m",
@@ -1063,9 +1067,11 @@ end)
 function sloppy_focus(c)
   -- Skip focusing the client if the mouse wasn't moved.
   local mcoords = mouse.coords()
-  if c ~= sloppyfocus_last.c and (mcoords.x ~= sloppyfocus_last.x or mcoords.y ~= sloppyfocus_last.y) then
+  if sloppyfocus_last.focus and c ~= sloppyfocus_last.c and (mcoords.x ~= sloppyfocus_last.x or mcoords.y ~= sloppyfocus_last.y) then
     c:emit_signal("request::activate", "mouse_enter", {raise = false})
     sloppyfocus_last = {c = c, x = mcoords.x, mcoords.y}
+  else
+    sloppyfocus_last.focus = true
   end
 end
 
